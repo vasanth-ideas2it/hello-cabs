@@ -7,6 +7,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class HelloCabsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(HelloCabsApplication.class, args);
+
+		try {
+			SpringApplication.run(HelloCabsApplication.class, args);
+
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+
 	}
 }

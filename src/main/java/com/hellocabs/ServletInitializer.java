@@ -1,5 +1,6 @@
 package com.hellocabs;
 
+import com.hellocabs.HelloCabsApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
