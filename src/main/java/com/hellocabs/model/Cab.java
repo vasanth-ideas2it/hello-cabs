@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -57,18 +58,15 @@ public class Cab {
     @Column(name = "cab_status")
     private String cabStatus;
 
-    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = Ride.class)
-    @Column(name = "ride_id")
+    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "cab_id")
     private List<Ride> rides;
 
     @Column(name = "car_model")
     private String carModel;
 
-    @Column(name = "Current_location")
+    @Column(name = "current_location")
     private String currentLocation;
 
-    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = CabCategory.class)
-    @Column(name = "cab_category_id")
-    private List<CabCategory> cabCategories;
 
 }

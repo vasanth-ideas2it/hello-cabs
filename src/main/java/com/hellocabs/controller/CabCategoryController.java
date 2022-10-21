@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/cabcategory")
 public class CabCategoryController {
+
     CabCategoryService cabCategoryService;
     CabCategoryController(CabCategoryService cabCategoryService) {
         this.cabCategoryService = cabCategoryService;

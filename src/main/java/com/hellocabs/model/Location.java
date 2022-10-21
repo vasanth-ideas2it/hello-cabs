@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "cabCategory")
+@Table(name = "location")
 public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -14,6 +14,6 @@ public class Location {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "locationName")
+    @Column(name = "location_name")
     private String locationName;
 }

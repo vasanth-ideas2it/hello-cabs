@@ -13,7 +13,6 @@ public class CabMapper {
         Cab cab = new Cab();
         cab.setCabNumber(cabDto.getCabNumber());
         cab.setCabStatus(cabDto.getCabStatus());
-        cab.setCabCategories(cabDto.getCabCategories());
         cab.setCarModel(cabDto.getCarModel());
         cab.setCurrentLocation(cabDto.getCurrentLocation());
         cab.setDriverName(cabDto.getDriverName());
@@ -29,8 +28,7 @@ public class CabMapper {
     public static CabDto convertCabToCabDto(Cab cab) {
 
         CabDto cabDto = new CabDto();
-        cabDto.setCabNumber(cabDto.getCabNumber());
-        cabDto.setCabCategories(cab.getCabCategories());
+        cabDto.setCabNumber(cab.getCabNumber());
         cabDto.setCabStatus(cab.getCabStatus());
         cabDto.setCarModel(cab.getCarModel());
         cabDto.setDriverName(cab.getDriverName());

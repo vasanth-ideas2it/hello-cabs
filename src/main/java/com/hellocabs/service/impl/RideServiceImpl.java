@@ -7,6 +7,8 @@ package com.hellocabs.service.impl;
 
 import com.hellocabs.dto.RideDto;
 import com.hellocabs.mapper.RideMapper;
+import com.hellocabs.model.Cab;
+import com.hellocabs.model.Location;
 import com.hellocabs.model.Ride;
 import com.hellocabs.repository.RideRepository;
 import com.hellocabs.service.RideService;
@@ -75,6 +77,10 @@ public class RideServiceImpl implements RideService {
                 .map(RideMapper::convertRideIntoRideDto)
                 .collect(Collectors.toSet());
     }
+
+    /*public Set<Cab> findCabsByLocation(int pickupLocation) {
+        return rideRepository.findCabsByLocation(pickupLocation);
+    }*/
 
     /**
      *

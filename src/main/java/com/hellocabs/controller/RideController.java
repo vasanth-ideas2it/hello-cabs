@@ -6,7 +6,9 @@
 package com.hellocabs.controller;
 
 import com.hellocabs.dto.RideDto;
+import com.hellocabs.logger.LoggerConfiguration;
 import com.hellocabs.service.RideService;
+import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,6 +36,7 @@ import java.util.Set;
 public class RideController {
 
     private RideService rideService;
+    private Logger logger = LoggerConfiguration.getInstance("RideController.class");
 
     public RideController(RideService rideService) {
         this.rideService = rideService;

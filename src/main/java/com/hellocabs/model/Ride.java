@@ -13,15 +13,15 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.Data;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.springframework.boot.autoconfigure.domain.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.time.*;
@@ -49,11 +49,11 @@ public class Ride {
     private long passengerMobileNumber;
     private double rating;
     private String rideStatus;
-    @OneToOne(targetEntity = Location.class)
-    @Cascade(CascadeType.SAVE_UPDATE)
+    @OneToOne(targetEntity = Location.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "pickup_location")
     private Location pickupLocation;
-    @OneToOne(targetEntity = Location.class)
-    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @OneToOne(targetEntity = Location.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "drop_location")
     private  Location dropLocation;
 
 }

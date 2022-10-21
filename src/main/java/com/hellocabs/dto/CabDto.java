@@ -1,5 +1,7 @@
 package com.hellocabs.dto;
 
+import com.hellocabs.model.CabCategory;
+import com.hellocabs.model.Ride;
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 

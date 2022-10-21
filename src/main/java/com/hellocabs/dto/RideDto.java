@@ -7,6 +7,7 @@
 package com.hellocabs.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.hellocabs.model.Location;
 import lombok.Data;
 import java.time.LocalDateTime;
 
@@ -28,7 +29,7 @@ public class RideDto {
     private long passengerMobileNumber;
     private double rating;
     private String rideStatus;
-    private Location  pickupLocation;
+    private Location pickupLocation;
     private Location  dropLocation;
 
     public String toString() {
