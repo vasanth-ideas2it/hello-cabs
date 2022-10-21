@@ -1,9 +1,12 @@
 /*
  * All copyrights reserved.
  */
-package com.hellocabs.Dto;
+package com.hellocabs.dto;
 
+import com.hellocabs.model.Ride;
 import lombok.Data;
+
+import java.util.Set;
 
 /**
  * <p>
@@ -15,8 +18,10 @@ import lombok.Data;
  */
 @Data
 public class CustomerDto {
-    private int CustomerId;
-    private String CustomerName;
-    private long CustomerMobileNumber;
-    private String CustomerEmail;
+
+    private int customerId;
+    private String customerName;
+    private long customerMobileNumber;
+    private String customerEmail;
+    private Set<RideDto> rides;
 }

@@ -4,8 +4,11 @@
 package com.hellocabs.model;
 
 import lombok.Data;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * <p>
@@ -22,11 +25,15 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int CustomerId;
+    private int customerId;
     @Column(name = "name")
-    private String CustomerName;
+    private String customerName;
     @Column(name = "mobile_number")
-    private long CustomerMobileNumber;
+    private long customerMobileNumber;
     @Column(name = "email")
-    private String CustomerEmail;
+    private String customerEmail;
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JoinColumn(name = "ride_id")
+    private Set<Ride> rides;
 }

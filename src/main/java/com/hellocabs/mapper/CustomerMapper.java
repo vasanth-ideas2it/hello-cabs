@@ -3,8 +3,11 @@
  */
 package com.hellocabs.mapper;
 
-import com.hellocabs.Dto.CustomerDto;
+import com.hellocabs.dto.CustomerDto;
 import com.hellocabs.model.Customer;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * <p>
@@ -49,5 +52,14 @@ public class CustomerMapper {
         customerDto.setCustomerMobileNumber(customer.getCustomerMobileNumber());
         customerDto.setCustomerEmail(customer.getCustomerEmail());
         return customerDto;
+    }
+
+    public static List<CustomerDto> convertCustomersToCustomerDtos(List<Customer> customers) {
+        List<CustomerDto> customerDtos = new LinkedList<CustomerDto>();
+        for (Customer customer : customers) {
+            CustomerDto customerDto = CustomerMapper.covertCustomerToCustomerDto(customer);
+            customerDtos.add(customerDto);
+        }
+        return customerDtos;
     }
 }

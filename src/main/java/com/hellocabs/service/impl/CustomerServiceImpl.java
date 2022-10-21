@@ -3,13 +3,16 @@
  */
 package com.hellocabs.service.impl;
 
-import com.hellocabs.Dto.CustomerDto;
+import com.hellocabs.dto.CustomerDto;
 import com.hellocabs.mapper.CustomerMapper;
 import com.hellocabs.model.Customer;
 import com.hellocabs.repository.CustomerRepository;
 import com.hellocabs.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * <p>
@@ -28,7 +31,7 @@ public class CustomerServiceImpl implements CustomerService {
      * create customer.
      * </p>
      *
-     * @param customerDto.
+     * @param customerDto
      * @return customerId.
      */
     @Override
@@ -42,7 +45,7 @@ public class CustomerServiceImpl implements CustomerService {
      * display customer.
      * </p>
      *
-     * @param customerId.
+     * @param customerId
      * @return customerDto.
      */
     @Override
@@ -60,7 +63,7 @@ public class CustomerServiceImpl implements CustomerService {
      * update details of an existing customer.
      * </p>
      *
-     * @param customerDto.
+     * @param customerDto
      * @return updatedCustomer.
      */
     @Override
@@ -74,7 +77,7 @@ public class CustomerServiceImpl implements CustomerService {
      *   delete customer by id.
      * </p>
      *
-     * @param customerId.
+     * @param customerId
      * @return boolean.
      */
     @Override
@@ -85,5 +88,10 @@ public class CustomerServiceImpl implements CustomerService {
             return true;
         }
          return false;
+    }
+
+    @Override
+    public List<CustomerDto> retrieveCustomers() {
+        return CustomerMapper.convertCustomersToCustomerDtos(customerRepository.findAll());
     }
 }

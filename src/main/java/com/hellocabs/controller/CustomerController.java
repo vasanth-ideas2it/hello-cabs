@@ -3,13 +3,17 @@
  */
 package com.hellocabs.controller;
 
-import com.hellocabs.Dto.CustomerDto;
+import com.hellocabs.dto.CustomerDto;
+import com.hellocabs.dto.RideDto;
 import com.hellocabs.model.Customer;
 import com.hellocabs.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -32,6 +36,8 @@ public class CustomerController {
      */
     @PostMapping("create")
     public ResponseEntity<Integer> createCustomerDetails(@RequestBody CustomerDto customerDto) {
+        System.out.println("mil        " + customerDto.getCustomerEmail());
+        System.out.println("name----------" + customerDto.getCustomerName());
         int customerId = customerService.createCustomerDetails(customerDto).getCustomerId();
         return new ResponseEntity<>(customerId, HttpStatus.CREATED);
     }
@@ -59,6 +65,11 @@ public class CustomerController {
             return new ResponseEntity<>("CustomerId" + customerDto.getCustomerId() + "is deleted", HttpStatus.OK);
         }
         return new ResponseEntity<>("CustomerId" + customerDto.getCustomerId() + "is not deleted", HttpStatus.NOT_FOUND);
+    }
+    @GetMapping("customers")
+    public ResponseEntity<List<CustomerDto>> retriveAllCustomers() {
+        List<CustomerDto> customerDtos = customerService.retrieveCustomers();
+        return new ResponseEntity<>(customerDtos, HttpStatus.FOUND);
     }
 
 }

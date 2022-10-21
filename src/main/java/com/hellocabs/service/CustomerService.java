@@ -3,8 +3,11 @@
  */
 package com.hellocabs.service;
 
-import com.hellocabs.Dto.CustomerDto;
+import com.hellocabs.dto.CustomerDto;
 import com.hellocabs.model.Customer;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -19,4 +22,5 @@ public interface CustomerService {
     CustomerDto viewCustomerById(int customerId);
     Customer updateCustomerById(CustomerDto customerDto);
     boolean deleteCustomerById(int customerId);
+    List<CustomerDto> retrieveCustomers();
 }
