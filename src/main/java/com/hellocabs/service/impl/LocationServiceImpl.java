@@ -1,15 +1,13 @@
 package com.hellocabs.service.impl;
 
-import com.hellocabs.dto.CabCategoryDto;
 import com.hellocabs.dto.LocationDto;
-import com.hellocabs.mapper.CabCategoryMapper;
 import com.hellocabs.mapper.LocationMapper;
-import com.hellocabs.model.CabCategory;
 import com.hellocabs.model.Location;
 import com.hellocabs.repository.LocationRepository;
 import com.hellocabs.service.LocationService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -38,6 +36,11 @@ public class LocationServiceImpl implements LocationService {
         }
     }
 
+    public LocationDto updateLocation(LocationDto locationDto) {
+        Location location = LocationMapper.LocationDtoToLocation(locationDto);
+
+        return LocationMapper.LocationToLocationDto(locationRepository.save(location));
+    }
     public boolean deleteLocationById(int id) {
         Optional<Location> location = locationRepository.findById(id);
 
@@ -48,4 +51,8 @@ public class LocationServiceImpl implements LocationService {
             return true;
         }
     }
+    public List<LocationDto> retrieveAllLocations() {
+        return LocationMapper.locationsToLocationDtos(locationRepository.findAll());
+    }
 }
+

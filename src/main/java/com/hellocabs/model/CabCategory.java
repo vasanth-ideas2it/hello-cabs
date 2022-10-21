@@ -1,28 +1,36 @@
 package com.hellocabs.model;
 
 import lombok.Data;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
-@Table(name = "cabCategory")
+@Table(name = "cab_category")
 public class CabCategory {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @Column(name = "id")
     private int id;
 
-    @Column(name = "cabType")
+    @Column(name = "cab_type")
     private String cabType;
 
-    @Column(name = "initialFare")
+    @Column(name = "initial_fare")
     private double initialFare;
 
-    @Column(name = "extraKmFare")
+    @Column(name = "extra_km_Fare")
     private double extraKmFare;
 
-    @Column(name = "additionalFare")
+    @Column(name = "additional_fare")
     private double additionalFare;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
+            @JoinColumn(name = "cab_category_id")
+    List<Cab> cabs;
 }

@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/location")
 public class LocationController {
@@ -32,6 +34,11 @@ public class LocationController {
         }
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<LocationDto> updateLocation(@RequestBody LocationDto locationDto) {
+        locationService.updateLocation(locationDto);
+        return new ResponseEntity<>(locationDto, HttpStatus.OK);
+    }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteLocationById(@PathVariable int id) {
         if (locationService.deleteLocationById(id)) {
@@ -39,5 +46,11 @@ public class LocationController {
         } else {
             return new ResponseEntity<>("Cab category is not found for given id", HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/locations")
+    public ResponseEntity<List<LocationDto>> getAllLocations() {
+        List<LocationDto> locationDtos = locationService.retrieveAllLocations();
+        return new ResponseEntity<>(locationDtos, HttpStatus.OK);
     }
 }

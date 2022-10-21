@@ -7,6 +7,7 @@ import com.hellocabs.repository.CabCategoryRepository;
 import com.hellocabs.service.CabCategoryService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,6 +35,11 @@ public class CabCategoryServiceImpl implements CabCategoryService {
         }
     }
 
+    public CabCategoryDto updateCabCategory(CabCategoryDto cabCategoryDto) {
+        CabCategory cabCategory = CabCategoryMapper.CabCategoryDtoToCabCategory(cabCategoryDto);
+
+        return CabCategoryMapper.CabCategoryToCabCategoryDto(cabCategoryRepository.save(cabCategory));
+    }
     public boolean deleteCabCategoryById(int id) {
         Optional<CabCategory> cabCategory = cabCategoryRepository.findById(id);
 
@@ -43,5 +49,8 @@ public class CabCategoryServiceImpl implements CabCategoryService {
             cabCategoryRepository.deleteById(id);
             return true;
         }
+    }
+    public List<CabCategoryDto> retrieveAllCabCategories() {
+        return CabCategoryMapper.CabCategoriesToCabCategoryDtos(cabCategoryRepository.findAll());
     }
 }
