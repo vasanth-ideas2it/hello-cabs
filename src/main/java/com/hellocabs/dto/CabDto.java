@@ -1,12 +1,10 @@
 package com.hellocabs.dto;
 
-import com.hellocabs.model.CabCategory;
-import com.hellocabs.model.Ride;
+import java.util.List;
+import javax.validation.constraints.NotNull;
+
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
-
-import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Data
 @Validated
@@ -36,14 +34,12 @@ public class CabDto {
     @NotNull(message = "Cab Status Not to be Empty :: Please Enter The Cab Status")
     private String cabStatus;
 
-    private List<Ride> rides;
+    private List<RideDto> rides;
 
     @NotNull(message = "CarModel Not to be Empty :: Please Enter The CarModel")
     private String carModel;
 
     private String currentLocation;
 
-    @NotNull(message = "Cad Categories wnat to select :: please Select the Category")
-    private List<CabCategory> cabCategories;
 
 }

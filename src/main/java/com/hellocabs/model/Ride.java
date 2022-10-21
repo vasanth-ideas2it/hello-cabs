@@ -13,8 +13,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.Data;
-import org.springframework.boot.autoconfigure.domain.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;

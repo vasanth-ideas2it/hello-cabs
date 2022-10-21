@@ -1,8 +1,11 @@
 package com.hellocabs.mapper;
 
 import com.hellocabs.dto.CabDto;
+import com.hellocabs.dto.RideDto;
 import com.hellocabs.model.Cab;
+import com.hellocabs.model.Ride;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,9 +25,17 @@ public class CabMapper {
         cab.setId(cabDto.getId());
         cab.setLicenseNumber(cabDto.getLicenseNumber());
         cab.setMobileNumber(cabDto.getMobileNumber());
-        cab.setRides(cabDto.getRides());
+        List<RideDto> rideDtos= cabDto.getRides();
+        List<Ride> rides;
+
+        if (null != rideDtos) {
+            rides = rideDtos.stream().map(RideMapper :: convertRideDtoIntoRide).toList();
+            cab.setRides(rides);
+        }
         return cab;
     }
+
+
     public static CabDto convertCabToCabDto(Cab cab) {
 
         CabDto cabDto = new CabDto();
@@ -39,7 +50,13 @@ public class CabMapper {
         cabDto.setCurrentLocation(cab.getCurrentLocation());
         cabDto.setLicenseNumber(cab.getLicenseNumber());
         cabDto.setMobileNumber(cab.getMobileNumber());
-        cabDto.setRides(cab.getRides());
+        List<Ride> rides= cab.getRides();
+        List<RideDto> rideDtos;
+
+        if (null != rides) {
+            rideDtos = rides.stream().map(RideMapper :: convertRideIntoRideDto).toList();
+            cabDto.setRides(rideDtos);
+        }
         return cabDto;
     }
 

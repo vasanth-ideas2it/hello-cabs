@@ -4,6 +4,7 @@ package com.hellocabs.model;
 import lombok.Data;
 
 import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -58,7 +59,7 @@ public class Cab {
     @Column(name = "cab_status")
     private String cabStatus;
 
-    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "cab_id")
     private List<Ride> rides;
 

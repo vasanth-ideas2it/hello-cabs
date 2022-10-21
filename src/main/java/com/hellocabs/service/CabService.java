@@ -4,7 +4,16 @@ import com.hellocabs.dto.CabDto;
 import com.hellocabs.model.Cab;
 
 import java.util.List;
-
+/**
+ * <h> CabService </h>
+ * <p>
+ * Interface is used to implement the abstract methods for the cab details
+ *
+ * </p>
+ *
+ * @version 1.0
+ * @author Jaganathan R
+ */
 public interface CabService {
 
     /**
@@ -19,7 +28,7 @@ public interface CabService {
      * @param {@link CabDto}cabDto object with required details
      * @return {@link String}returns Status of the cab details
      */
-    String updateCabDetailsById(CabDto cabDto);
+    String updateCabDetailsById(int id, CabDto cabDto);
 
     /**
      * Method used to get Cab  details by using CabId
@@ -39,7 +48,7 @@ public interface CabService {
     /**
      * Method used to get All Cab details by using CabId
      * @param {noValue}
-     *  @return {@link List<Cab>}returns All Cab Details
+     *  @return {@link List<CabDto>}returns All Cab Details
      */
     List<CabDto> showAllCabDetails();
 }

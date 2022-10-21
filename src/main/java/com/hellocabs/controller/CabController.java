@@ -9,6 +9,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * <h> CabController </h>
+ * <p>
+ * Class is used to Access or Controller the cab details and
+ * to perform the CRUD operations of cab details
+ * </p>
+ *
+ * @version 1.0
+ * @author Jaganathan R
+ */
 @RestController
 @Validated
 @RequestMapping("cab")
@@ -43,7 +53,8 @@ public class CabController {
     public String updateCabDetails(@RequestBody CabDto cabDto) {
         String message = " Failed :: Not Inserted ";
         if (null != cabDto) {
-            return cabService.updateCabDetailsById(cabDto);
+            int id = cabDto.getId();
+            return cabService.updateCabDetailsById(id,cabDto);
         } else{
             return message;
         }
@@ -52,7 +63,7 @@ public class CabController {
     /**
      * Method used to get trainee details  from server
      * @param {no param}
-     * @return {@link List<Cab>}returns all the trainee details
+     * @return {@link List<CabDto>}returns all the trainee details
      */
     @GetMapping("cabs")
     public List<CabDto> getAllCabsDetails()  {
