@@ -8,12 +8,6 @@ public class HelloCabsApplication {
 
 	public static void main(String[] args) {
 
-		try {
-			SpringApplication.run(HelloCabsApplication.class, args);
-
-		} catch (Exception exception) {
-			exception.printStackTrace();
-		}
-
+		SpringApplication.run(HelloCabsApplication.class, args);
 	}
 }
