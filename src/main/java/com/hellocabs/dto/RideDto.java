@@ -9,8 +9,6 @@ package com.hellocabs.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hellocabs.model.Location;
 import lombok.Data;
-
-import javax.xml.stream.Location;
 import java.time.LocalDateTime;
 
 /**

@@ -55,7 +55,7 @@ public class RideMapper {
         rideDto.setPassengerMobileNumber(ride.getPassengerMobileNumber());
         rideDto.setRating(ride.getRating());
         rideDto.setRideStatus(ride.getRideStatus());
-      //  rideDto.setPickupLocation(ride.getPickupLocation());
+       // rideDto.setPickupLocation(ride.getPickupLocation());
         //rideDto.setDropLocation(ride.getDropLocation());
         return rideDto;
     }

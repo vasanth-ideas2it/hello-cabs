@@ -1,9 +1,8 @@
 package com.hellocabs.model;
 
-
 import lombok.Data;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -61,7 +60,7 @@ public class Cab {
 
     @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "cab_id")
-    private List<Ride> rides;
+    private Set<Ride> rides;
 
     @Column(name = "car_model")
     private String carModel;

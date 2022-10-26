@@ -1,7 +1,10 @@
 package com.hellocabs.dto;
 
-import java.util.List;
+import java.util.Set;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
@@ -12,34 +15,42 @@ public class CabDto {
 
 
     private int id;
-    @NotNull(message = "Driver Name Not to be Empty :: Please Enter The Name")
+    @NotBlank(message = "Driver Name Not to be Empty :: Please Enter The Name")
+    @Size(min = 2, max = 30)
     private String driverName;
 
-    @NotNull(message = "Cab Number Not to be Empty :: Please Enter The Cab Number")
+    @NotBlank(message = "Cab Number Not to be Empty :: Please Enter The Cab Number")
+    @Size(min = 5, max = 15)
     private String cabNumber;
 
-    @NotNull(message = "Gender Not to be Empty :: Please Enter The Name")
+    @NotBlank(message = "Gender Not to be Empty :: Please Enter The Name")
+    @Size(min = 4, max = 10)
     private String gender;
 
-    @NotNull(message = "mobile Number Not to be Empty :: Please Enter The Number")
+    //@NotBlank(message = "mobile Number Not to be Empty :: Please Enter The Number")
     private long mobileNumber;
 
+    @Email(message = " Enter the valid Mail")
+    @Size(min = 10, max = 30)
     private String email;
 
-    @NotNull(message = "License Number Not to be Empty :: Please Enter The License Number")
+    @NotBlank(message = "License Number Not to be Empty :: Please Enter The License Number")
+    @Size(min = 15, max = 30)
     private String licenseNumber;
 
     private double driverRating;
 
-    @NotNull(message = "Cab Status Not to be Empty :: Please Enter The Cab Status")
+    @NotBlank(message = "Cab Status Not to be Empty :: Please Enter The Cab Status")
+    @Size(min = 5, max = 20)
     private String cabStatus;
 
-    private List<RideDto> rides;
+    private Set<RideDto> rides;
 
-    @NotNull(message = "CarModel Not to be Empty :: Please Enter The CarModel")
+    @NotBlank(message = "CarModel Not to be Empty :: Please Enter The CarModel")
+    @Size(min = 5, max = 20, message = " CarModel Should be in 5 to 20 characters")
     private String carModel;
 
+    @Size(min = 5, max = 15, message = "Current Location Should be in between 10 to 15 Characters")
     private String currentLocation;
-
 
 }
