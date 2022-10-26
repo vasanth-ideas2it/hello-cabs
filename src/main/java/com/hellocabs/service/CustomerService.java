@@ -10,17 +10,19 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ *  <h> customerService </h>
  * <p>
- *   CustomerService interface has abstract methods.
+ *   CustomerService interface has abstract methods of customers.
  * </p>
  *
  *  @author gautam.
  *  @version 1.0.
  */
 public interface CustomerService {
+
     Customer createCustomerDetails(CustomerDto customerDto);
     CustomerDto viewCustomerById(int customerId);
-    Customer updateCustomerById(CustomerDto customerDto);
+    Customer updateCustomer(CustomerDto customerDto);
     boolean deleteCustomerById(int customerId);
     List<CustomerDto> retrieveCustomers();
 }

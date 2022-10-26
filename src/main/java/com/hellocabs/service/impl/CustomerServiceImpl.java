@@ -9,14 +9,15 @@ import com.hellocabs.model.Customer;
 import com.hellocabs.repository.CustomerRepository;
 import com.hellocabs.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * <h> customerServiceImpl </h>
  * <p>
- *   CustomerServiceImpl .
+ *   CustomerServiceImpl implements CRUD operations .
  * </p>
  *
  *  @author gautam.
@@ -27,12 +28,14 @@ public class CustomerServiceImpl implements CustomerService {
      @Autowired
      CustomerRepository customerRepository;
     /**
+     * <h> customerServiceImpl </h>
      * <p>
-     * create customer.
+     *   This method convert customerDto to customer and
+     *   add into repository.
      * </p>
      *
-     * @param customerDto
-     * @return customerId.
+     * @param {@link CustomerDto}customerDto contains customer details.
+     * @return  {@link Customer}returns createdCustomer.
      */
     @Override
     public Customer createCustomerDetails(CustomerDto customerDto) {
@@ -42,11 +45,12 @@ public class CustomerServiceImpl implements CustomerService {
     }
     /**
      * <p>
-     * display customer.
+     *   This method is used to search customer by its id and
+     *   converts customer to customerDto.
      * </p>
      *
-     * @param customerId
-     * @return customerDto.
+     * @param {@link int}customerId.
+     * @return {@link CustomerDto} returns customerDto object.
      */
     @Override
     public CustomerDto viewCustomerById(int customerId) {
@@ -60,36 +64,45 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * <p>
-     * update details of an existing customer.
+     *   This method update existing customers and convert
+     *   customerDto to customer and add into repository.
      * </p>
      *
-     * @param customerDto
-     * @return updatedCustomer.
+     * @param {@link CustomerDto}customerDto contains updatedCustomer details.
+     * @return  {@link Customer}returns updatedCustomer.
      */
     @Override
-    public Customer updateCustomerById(CustomerDto customerDto) {
+    public Customer updateCustomer(CustomerDto customerDto) {
         Customer customer = CustomerMapper.convertCustomerDtoToCustomer(customerDto);
         Customer updatedCustomer = customerRepository.save(customer);
         return updatedCustomer;
     }
+
     /**
      * <p>
-     *   delete customer by id.
+     *    This Method is used to delete customer by its id.
      * </p>
      *
-     * @param customerId
-     * @return boolean.
+     * @param {@link int}customerId.
+     * @return {@link ResponseEntity<String>}returns true or false.
      */
     @Override
     public boolean deleteCustomerById(int customerId) {
         Customer customer = customerRepository.findById(customerId).orElse(null);
         if(null != customer) {
-            customerRepository.deleteById(customerId);
+            customerRepository.delete(customer);
             return true;
         }
          return false;
     }
 
+    /**
+     * <p>
+     *    This Method is used to display all customers and convert
+     *    customer into customerDto.
+     * </p>
+     * @return {@link ResponseEntity<String>}returns all customers.
+     */
     @Override
     public List<CustomerDto> retrieveCustomers() {
         return CustomerMapper.convertCustomersToCustomerDtos(customerRepository.findAll());
