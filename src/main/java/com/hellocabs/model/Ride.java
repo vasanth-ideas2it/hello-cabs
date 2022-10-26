@@ -8,13 +8,10 @@ package com.hellocabs.model;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.Data;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -47,10 +44,12 @@ public class Ride {
     private long passengerMobileNumber;
     private double rating;
     private String rideStatus;
-    @OneToOne(targetEntity = Location.class, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Location.class)
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinColumn(name = "pickup_location")
     private Location pickupLocation;
-    @OneToOne(targetEntity = Location.class, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Location.class)
+    @Cascade(CascadeType.SAVE_UPDATE)
     @JoinColumn(name = "drop_location")
     private  Location dropLocation;
 

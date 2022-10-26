@@ -78,10 +78,6 @@ public class RideServiceImpl implements RideService {
                 .collect(Collectors.toSet());
     }
 
-    /*public Set<Cab> findCabsByLocation(int pickupLocation) {
-        return rideRepository.findCabsByLocation(pickupLocation);
-    }*/
-
     /**
      *
      * Update a ride by using additional information

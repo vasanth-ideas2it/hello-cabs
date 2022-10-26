@@ -1,9 +1,11 @@
 package com.hellocabs.dto;
 
+import com.hellocabs.model.Cab;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * <p>
@@ -31,4 +33,5 @@ public class CabCategoryDto {
 
     @NotNull(message = "Additional fare must not be null")
     private double additionalFare;
+    private List<CabDto> cabDtos;
 }

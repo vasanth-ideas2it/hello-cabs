@@ -34,8 +34,10 @@ public class RideMapper {
         ride.setPassengerMobileNumber(rideDto.getPassengerMobileNumber());
         ride.setRating(rideDto.getRating());
         ride.setRideStatus(rideDto.getRideStatus());
-        //ride.setPickupLocation(rideDto.getPickupLocation());
-       // ride.setDropLocation(rideDto.getDropLocation());
+        ride.setPickupLocation(LocationMapper
+                .locationDtoToLocation(rideDto.getPickupLocation()));
+        ride.setDropLocation(LocationMapper
+                .locationDtoToLocation(rideDto.getDropLocation()));
         return ride;
     }
 
@@ -55,8 +57,10 @@ public class RideMapper {
         rideDto.setPassengerMobileNumber(ride.getPassengerMobileNumber());
         rideDto.setRating(ride.getRating());
         rideDto.setRideStatus(ride.getRideStatus());
-       // rideDto.setPickupLocation(ride.getPickupLocation());
-        //rideDto.setDropLocation(ride.getDropLocation());
+        rideDto.setPickupLocation(LocationMapper
+                .locationToLocationDto(ride.getPickupLocation()));
+        rideDto.setDropLocation(LocationMapper
+                .locationToLocationDto(ride.getDropLocation()));
         return rideDto;
     }
 }

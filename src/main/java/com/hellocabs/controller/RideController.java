@@ -5,8 +5,13 @@
  */
 package com.hellocabs.controller;
 
+import com.hellocabs.dto.CabCategoryDto;
+import com.hellocabs.dto.CabDto;
+import com.hellocabs.dto.LocationDto;
 import com.hellocabs.dto.RideDto;
 import com.hellocabs.logger.LoggerConfiguration;
+import com.hellocabs.service.CabCategoryService;
+import com.hellocabs.service.CabService;
 import com.hellocabs.service.RideService;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -20,7 +25,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -36,10 +45,15 @@ import java.util.Set;
 public class RideController {
 
     private RideService rideService;
+    private CabService cabService;
+    private CabCategoryService cabCategoryService;
     private Logger logger = LoggerConfiguration.getInstance("RideController.class");
 
-    public RideController(RideService rideService) {
+    public RideController(RideService rideService, CabService cabService,
+                          CabCategoryService cabCategoryService) {
         this.rideService = rideService;
+        this.cabService = cabService;
+        this.cabCategoryService = cabCategoryService;
     }
 
     /**
@@ -51,10 +65,9 @@ public class RideController {
      *
      */
     @PostMapping("create")
-    public ResponseEntity<String> createRide(@RequestBody RideDto rideDto) {
+    public String createRide(@RequestBody RideDto rideDto) {
         int id = rideService.createRide(rideDto);
-        return new ResponseEntity<>("Ride " + id
-                + " Created Successfully", HttpStatus.CREATED);
+        return "Ride " + id + " Created Successfully";
     }
 
     /**
@@ -66,9 +79,8 @@ public class RideController {
      *
      */
     @GetMapping("search/{id}")
-    public ResponseEntity<RideDto> searchRideById(@PathVariable int id) {
-        RideDto rideDto = rideService.searchRideById(id);
-        return new ResponseEntity<>(rideDto, HttpStatus.FOUND);
+    public RideDto searchRideById(@PathVariable int id) {
+        return rideService.searchRideById(id);
     }
 
     /**
@@ -79,9 +91,8 @@ public class RideController {
      *
      */
     @GetMapping("rides")
-    public ResponseEntity<Set<RideDto>> retrieveRides() {
-        Set<RideDto> rideDtos = rideService.retrieveRides();
-        return new ResponseEntity<>(rideDtos, HttpStatus.FOUND);
+    public Set<RideDto> retrieveRides() {
+        return rideService.retrieveRides();
     }
 
 
@@ -95,10 +106,12 @@ public class RideController {
      *
      */
     @PutMapping("update")
-    public ResponseEntity<String> updateRide(@RequestBody RideDto rideDto){
-        RideDto rideDto1 = rideService.updateRide(rideDto);
-        return new ResponseEntity<>("Ride " + rideDto1.getId()
-                + " Updated Successfully", HttpStatus.OK);
+    public String updateRide(@RequestBody RideDto rideDto){
+
+        if (null != rideService.updateRide(rideDto)) {
+            return "Ride " + rideDto.getId() + " Updated Successfully";
+        }
+        return "Couldn't update ride";
     }
 
     /**
@@ -109,13 +122,74 @@ public class RideController {
      * @return {@link ResponseEntity<String>} deleted ride's id
      */
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<String> deleteRideById(@PathVariable int id){
+    public String deleteRideById(@PathVariable int id){
         boolean isDeleted = rideService.deleteRideById(id);
-
         return isDeleted
-                ? new ResponseEntity<>("Ride " + id
-                        + " Deleted Successfully", HttpStatus.OK)
-                : new ResponseEntity<>("Ride " + id
-                        + " couldn't delete selected ride", HttpStatus.NOT_FOUND);
+                ? "Ride " + id + " Deleted Successfully"
+                : "Ride " + id + " couldn't delete selected ride";
     }
+
+    /**
+     *
+     * Book ride for a customer
+     *
+     * @param rideDto {@link RideDto} ride details of a customer
+     * @return cabDtos {@link Set<CabDto>} list of cab that are
+     * available on particular location
+     *
+     */
+    @PostMapping("book")
+    public Set<CabDto> bookRide(@RequestBody RideDto rideDto) {
+        LocationDto pickupPoint = rideDto.getPickupLocation();
+        LocationDto dropPoint = rideDto.getDropLocation();
+        logger.info(rideDto);
+        logger.info(pickupPoint);
+        logger.info(pickupPoint.getLocationName());
+        int id = rideService.createRide(rideDto);
+        Set<CabDto> cabDtos = new HashSet<>();
+        cabCategoryService.retrieveAllCabCategories()
+                .forEach(cabCategoryDto -> cabCategoryDto.getCabDtos()
+                .stream().filter(cabDto -> pickupPoint.getLocationName()
+                .equals(cabDto.getCurrentLocation()) && (("Available")
+                .equalsIgnoreCase(cabDto.getCabStatus())))
+                .forEach(cabDtos :: add));
+        return cabDtos;
+
+        /*Set<CabCategoryDto> cabCategoryDtos = new HashSet<>();
+        cabCategoryService.retrieveAllCabCategories()
+                .forEach(cabCategoryDto -> cabCategoryDto.getCabDtos()
+                        .stream().filter(cabDto -> pickupPoint.getLocationName()
+                                .equals(cabDto.getCurrentLocation()) && (("Available")
+                                .equalsIgnoreCase(cabDto.getCabStatus()))).collect(Collectors.toSet()));
+        return cabCategoryDtos;*/
+    }
+
+    /**
+     *
+     * Choose suitable cab category for the ride
+     *
+     * @param id {@link int} category id
+     * @return {@link Double} base fare based on the category that
+     */
+    @GetMapping("chooseCategory/{id}")
+    public Double chooseCategory(@PathVariable int id) {
+        CabCategoryDto cabCategoryDto = cabCategoryService.getCabCategoryById(id);
+        return cabCategoryDto.getInitialFare();
+    }
+
+    /**
+     * After display the ride fare and if ride is booked
+     * @param rideDto {@link RideDto}
+     * @return rideDto {@link RideDto} updated rideDto
+     */
+    @PostMapping("confirm")
+    public RideDto confirmRide(@RequestBody RideDto rideDto) {
+        rideDto.setRideStatus("Waiting for cab to accept");
+        rideService.updateRide(rideDto);
+        return rideDto;
+    }
+
+
+
+
 }
