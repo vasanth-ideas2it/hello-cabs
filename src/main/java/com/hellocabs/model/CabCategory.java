@@ -7,6 +7,17 @@ import org.hibernate.annotations.LazyCollectionOption;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * <p>
+ * CabCategory class has the getters and setters for
+ * CabCategory
+ *</p>
+ *
+ * @author Divya
+ *
+ * @version 1.0 Oct-26-2022
+ *
+ */
 @Data
 @Entity
 @Table(name = "cab_category")

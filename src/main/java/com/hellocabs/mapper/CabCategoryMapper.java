@@ -1,9 +1,7 @@
 package com.hellocabs.mapper;
 
 import com.hellocabs.dto.CabCategoryDto;
-import com.hellocabs.dto.LocationDto;
 import com.hellocabs.model.CabCategory;
-import com.hellocabs.model.Location;
 
 import java.util.ArrayList;
 import java.util.List;

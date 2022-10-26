@@ -18,12 +18,35 @@ public class CabCategoryServiceImpl implements CabCategoryService {
         this.cabCategoryRepository = cabCategoryRepository;
     }
 
+    /**
+     * <p>
+     * This method is to add cab category Details.
+     * </p>
+     *
+     * @param cabCategoryDto
+     *        for which the cab category to be added is given
+     * @return int
+     *         inserted cab category id is returned
+     */
     public int createCabCategory(CabCategoryDto cabCategoryDto) {
         CabCategory cabCategory = CabCategoryMapper.CabCategoryDtoToCabCategory(cabCategoryDto);
         int id = CabCategoryMapper.CabCategoryToCabCategoryDto(cabCategoryRepository.save(cabCategory)).getId();
+
         return id;
     }
 
+    /**
+     * <p>
+     * This method is to search cab category Details.
+     * </p>
+     *
+     * @param id
+     *        for which the id of the cab category need to
+     *        be searched is given
+     * @return CabCategoryDto
+     *         searched cab category is returned if present
+     *         otherwise null
+     */
     public CabCategoryDto getCabCategoryById(int id) {
         Optional<CabCategory> cabCategory = cabCategoryRepository.findById(id);
 
@@ -35,11 +58,34 @@ public class CabCategoryServiceImpl implements CabCategoryService {
         }
     }
 
+    /**
+     * <p>
+     * This method is to update cab category Details.
+     * </p>
+     *
+     * @param cabCategoryDto
+     *        for which the cab category to be updated is given
+     * @return CabCategoryDto
+     *         updated cab category is returned
+     */
     public CabCategoryDto updateCabCategory(CabCategoryDto cabCategoryDto) {
         CabCategory cabCategory = CabCategoryMapper.CabCategoryDtoToCabCategory(cabCategoryDto);
 
         return CabCategoryMapper.CabCategoryToCabCategoryDto(cabCategoryRepository.save(cabCategory));
     }
+
+    /**
+     * <p>
+     * This method is to delete cab category Details.
+     * </p>
+     *
+     * @param id
+     *        for which the id of the cab category need to
+     *        be deleted is given
+     * @return boolean
+     *         returns true if the cab category of given id is deleted
+     *         otherwise false
+     */
     public boolean deleteCabCategoryById(int id) {
         Optional<CabCategory> cabCategory = cabCategoryRepository.findById(id);
 
@@ -50,6 +96,15 @@ public class CabCategoryServiceImpl implements CabCategoryService {
             return true;
         }
     }
+
+    /**
+     * <p>
+     * This method is to display all cab category Details.
+     * </p>
+     *
+     * @return List<CabCategoryDto>
+     *         retrieves all the cab categories
+     */
     public List<CabCategoryDto> retrieveAllCabCategories() {
         return CabCategoryMapper.CabCategoriesToCabCategoryDtos(cabCategoryRepository.findAll());
     }

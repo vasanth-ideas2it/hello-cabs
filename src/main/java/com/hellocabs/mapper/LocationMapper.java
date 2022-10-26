@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LocationMapper {
-    public static LocationDto LocationToLocationDto(Location location) {
+    public static LocationDto locationToLocationDto(Location location) {
         LocationDto locationDto = new LocationDto();
 
         locationDto.setId(location.getId());
@@ -15,7 +15,7 @@ public class LocationMapper {
         return locationDto;
     }
 
-    public static Location LocationDtoToLocation(LocationDto locationDto) {
+    public static Location locationDtoToLocation(LocationDto locationDto) {
         Location location = new Location();
 
         location.setId(locationDto.getId());
@@ -27,7 +27,7 @@ public class LocationMapper {
         List<LocationDto> locationDtos = new ArrayList<LocationDto>();
 
         for (Location location: locations) {
-            locationDtos.add(LocationToLocationDto(location));
+            locationDtos.add(locationToLocationDto(location));
         }
         return locationDtos;
     }
