@@ -5,15 +5,23 @@
  */
 package com.hellocabs.service.impl;
 
+import com.hellocabs.dto.CabCategoryDto;
+import com.hellocabs.dto.CabDto;
+import com.hellocabs.dto.LocationDto;
 import com.hellocabs.dto.RideDto;
+import com.hellocabs.logger.LoggerConfiguration;
 import com.hellocabs.mapper.RideMapper;
-import com.hellocabs.model.Cab;
-import com.hellocabs.model.Location;
 import com.hellocabs.model.Ride;
 import com.hellocabs.repository.RideRepository;
+import com.hellocabs.service.CabCategoryService;
+import com.hellocabs.service.CabService;
+import com.hellocabs.service.LocationService;
 import com.hellocabs.service.RideService;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -30,9 +38,19 @@ import java.util.stream.Collectors;
 public class RideServiceImpl implements RideService {
 
     private RideRepository rideRepository;
+    private CabService cabService;
+    private CabCategoryService cabCategoryService;
+    private LocationService locationService;
+    private final Logger logger = LoggerConfiguration
+            .getInstance("RideController.class");
 
-    public RideServiceImpl(RideRepository rideRepository) {
+    public RideServiceImpl(RideRepository rideRepository,
+            CabService cabService, CabCategoryService cabCategoryService,
+            LocationService locationService) {
         this.rideRepository = rideRepository;
+        this.cabService = cabService;
+        this.cabCategoryService = cabCategoryService;
+        this.locationService = locationService;
     }
 
     /**
@@ -107,5 +125,100 @@ public class RideServiceImpl implements RideService {
             return true;
         }
         return false;
+    }
+
+    /**
+     *
+     * After display the ride fare and if ride is booked
+     *
+     * @param rideId {@link int}
+     * @return rideDto {@link RideDto} updated rideDto
+     */
+    public String confirmRide(int rideId) {
+        RideDto rideDto = searchRideById(rideId);
+
+        if ((5 < (LocalDateTime.now().getMinute())
+                - rideDto.getRideTime().getMinute())
+                && ("Booked").equalsIgnoreCase(rideDto.getRideStatus())) {
+            deleteRideById(rideId);
+            return "Ride cancelled due to unavailability \n Please try again";
+        }
+        return "Looking for cabs nearby";
+    }
+
+    /**
+     *
+     * Often change the status of the ride and cab
+     *
+     * @param rideId {@link int} ride id
+     * @param cabId {@link int} cab id to be assigned
+     * @param rideStatus {@link String} ride status
+     * @param cabStatus {@link String} cab status
+     * @return {@link CabDto}assigned cab details
+     */
+    public CabDto updateStatus(int rideId, int cabId, String rideStatus, String cabStatus) {
+        RideDto rideDto = searchRideById(rideId);
+
+        if (null != rideDto) {
+            rideDto.setRideStatus(rideStatus);
+            CabDto cabDto = cabService.displayCabDetailsById(cabId);
+            cabDto.setCabStatus(cabStatus);
+
+            if ("Dropped".equalsIgnoreCase(rideStatus)) {
+                Set<RideDto> rideDtos = cabDto.getRides();
+                rideDtos.add(rideDto);
+                cabDto.setRides(rideDtos);
+                cabDto.setCurrentLocation(rideDto.getDropLocation()
+                        .getLocationName());
+            }
+            cabService.updateCabDetailsById(cabId, cabDto);
+            logger.info(" updated cabDto");
+            return cabDto;
+        }
+        return new CabDto();
+    }
+
+    /**
+     *
+     * Book ride for a customer
+     *
+     * @param rideDto {@link RideDto} ride details of a customer
+     * @return cabDtos {@link Set<CabDto>} list of cab that are
+     * available on particular location
+     *
+     */
+    public String bookRide(RideDto rideDto, int categoryId) {
+        LocationDto pickupPoint = locationService
+                .getLocationById(rideDto.getPickupLocation().getId());
+        CabCategoryDto cabCategoryDto = cabCategoryService
+                .getCabCategoryById(categoryId);
+        cabCategoryDto.getCabDtos()
+                .stream().filter(cabDto -> pickupPoint.getLocationName()
+                        .equals(cabDto.getCurrentLocation()) && (("Available")
+                        .equalsIgnoreCase(cabDto.getCabStatus())));
+        rideDto.setRideStatus("Booked");
+        rideDto.setRideTime(LocalDateTime.now());
+        int id = createRide(rideDto);
+        return "Ride booked with id " + id + " waiting for driver to accept";
+    }
+
+    /**
+     *
+     * Shows all available locations that are provided by the cab service
+     *
+     * @return {@link Set<LocationDto>}all available locations
+     */
+    public Set<LocationDto> displayAllLocations() {
+        return new HashSet<>(locationService.retrieveAllLocations());
+    }
+
+    /**
+     *
+     * Shows all cab categories that are provided by the cab service
+     *
+     * @return {@link Set<CabCategoryDto>}all available categories
+     */
+    public Set<CabCategoryDto> displayAllCabCategories() {
+        return new HashSet<>(cabCategoryService.retrieveAllCabCategories());
     }
 }

@@ -6,6 +6,9 @@
 
 package com.hellocabs.service;
 
+import com.hellocabs.dto.CabCategoryDto;
+import com.hellocabs.dto.CabDto;
+import com.hellocabs.dto.LocationDto;
 import com.hellocabs.dto.RideDto;
 
 import java.util.Set;
@@ -69,4 +72,52 @@ public interface RideService {
      *
      */
     boolean deleteRideById(int id);
+
+    /**
+     *
+     * After display the ride fare and if ride is booked
+     *
+     * @param rideId {@link int}
+     * @return rideDto {@link RideDto} updated rideDto
+     */
+    String confirmRide(int rideId);
+
+    /**
+     *
+     * Often change the status of the ride and cab
+     *
+     * @param rideId {@link int} ride id
+     * @param cabId {@link int} cab id to be assigned
+     * @param rideStatus {@link String} ride status
+     * @param cabStatus {@link String} cab status
+     * @return {@link CabDto}assigned cab details
+     */
+    CabDto updateStatus(int rideId, int cabId, String rideStatus, String cabStatus);
+
+    /**
+     *
+     * Book ride for a customer
+     *
+     * @param rideDto {@link RideDto} ride details of a customer
+     * @return cabDtos {@link Set<CabDto>} list of cab that are
+     * available on particular location
+     *
+     */
+    String bookRide(RideDto rideDto, int categoryId);
+
+    /**
+     *
+     * Shows all available locations that are provided by the cab service
+     *
+     * @return {@link Set<LocationDto>}all available locations
+     */
+    Set<LocationDto> displayAllLocations();
+
+    /**
+     *
+     * Shows all cab categories that are provided by the cab service
+     *
+     * @return {@link Set<CabCategoryDto>}all available categories
+     */
+    Set<CabCategoryDto> displayAllCabCategories();
 }

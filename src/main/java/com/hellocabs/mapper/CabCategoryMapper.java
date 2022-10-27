@@ -5,6 +5,7 @@ import com.hellocabs.model.CabCategory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CabCategoryMapper {
     public static CabCategoryDto CabCategoryToCabCategoryDto(CabCategory cabCategory){
@@ -15,6 +16,10 @@ public class CabCategoryMapper {
         cabCategoryDto.setInitialFare(cabCategory.getInitialFare());
         cabCategoryDto.setExtraKmFare(cabCategory.getExtraKmFare());
         cabCategoryDto.setAdditionalFare(cabCategory.getAdditionalFare());
+        cabCategoryDto.setCabDtos(cabCategory.getCabs()
+                .stream().map(CabMapper::convertCabToCabDto)
+                .collect(Collectors.toList()));
+
 
         return cabCategoryDto;
     }
@@ -27,6 +32,9 @@ public class CabCategoryMapper {
         cabCategory.setInitialFare(cabCategory.getInitialFare());
         cabCategory.setExtraKmFare(cabCategoryDto.getExtraKmFare());
         cabCategory.setAdditionalFare(cabCategoryDto.getAdditionalFare());
+        cabCategory.setCabs(cabCategoryDto.getCabDtos()
+                .stream().map(CabMapper::convertCabDtoToCab)
+                .collect(Collectors.toList()));
 
         return cabCategory;
     }
