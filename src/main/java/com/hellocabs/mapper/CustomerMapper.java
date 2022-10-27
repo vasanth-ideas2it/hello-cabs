@@ -34,6 +34,7 @@ public class CustomerMapper {
         customer.setCustomerName(customerDto.getCustomerName());
         customer.setCustomerMobileNumber(customerDto.getCustomerMobileNumber());
         customer.setCustomerEmail(customerDto.getCustomerEmail());
+        customer.setPassword(customerDto.getPassword());
         return customer;
     }
 
@@ -51,14 +52,22 @@ public class CustomerMapper {
         customerDto.setCustomerName(customer.getCustomerName());
         customerDto.setCustomerMobileNumber(customer.getCustomerMobileNumber());
         customerDto.setCustomerEmail(customer.getCustomerEmail());
+        customerDto.setPassword(customer.getPassword());
         return customerDto;
     }
-
+    /**
+     * <p>
+     *     Converting customers to customerDtos.
+     * </p>
+     *
+     * @param customers
+     * @return converted customerDtos.
+     */
     public static List<CustomerDto> convertCustomersToCustomerDtos(List<Customer> customers) {
         List<CustomerDto> customerDtos = new LinkedList<CustomerDto>();
         for (Customer customer : customers) {
             CustomerDto customerDto = CustomerMapper.covertCustomerToCustomerDto(customer);
-            customerDtos.add(customerDto);
+            customerDtos.add(customerDto);  
         }
         return customerDtos;
     }

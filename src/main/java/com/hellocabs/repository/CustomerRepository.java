@@ -6,5 +6,5 @@ import com.hellocabs.model.Customer;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer,Integer> {
-
+    Customer findByCustomerMobileNumberAndPassword(long number ,String pass);
 }

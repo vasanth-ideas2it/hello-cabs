@@ -11,7 +11,6 @@ import com.hellocabs.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 /**
@@ -101,10 +100,22 @@ public class CustomerServiceImpl implements CustomerService {
      *    This Method is used to display all customers and convert
      *    customer into customerDto.
      * </p>
-     * @return {@link ResponseEntity<String>}returns all customers.
+     * @return {@link List<CustomerDto> }returns all customers.
      */
     @Override
     public List<CustomerDto> retrieveCustomers() {
         return CustomerMapper.convertCustomersToCustomerDtos(customerRepository.findAll());
+    }
+    @Override
+    public String verifyCustomerDetails(CustomerDto customerDto) {
+        System.out.println("service incoming");
+        Customer customer = CustomerMapper.convertCustomerDtoToCustomer(customerDto);
+        long number = customer.getCustomerMobileNumber();
+        String pass = customer.getPassword();
+        Customer value =  customerRepository.findByCustomerMobileNumberAndPassword(number,pass);
+        if(null != value) {
+            return "Successfully login";
+        }
+        return "Invalid credentials or not a registered user";
     }
 }

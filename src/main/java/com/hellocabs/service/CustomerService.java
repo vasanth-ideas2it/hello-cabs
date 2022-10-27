@@ -4,10 +4,9 @@
 package com.hellocabs.service;
 
 import com.hellocabs.dto.CustomerDto;
+import com.hellocabs.dto.LoginDto;
 import com.hellocabs.model.Customer;
-
 import java.util.List;
-import java.util.Set;
 
 /**
  *  <h> customerService </h>
@@ -25,4 +24,5 @@ public interface CustomerService {
     Customer updateCustomer(CustomerDto customerDto);
     boolean deleteCustomerById(int customerId);
     List<CustomerDto> retrieveCustomers();
+    String verifyCustomerDetails(CustomerDto customerDto);
 }

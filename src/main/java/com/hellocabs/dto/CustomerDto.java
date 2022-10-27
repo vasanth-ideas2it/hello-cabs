@@ -23,5 +23,6 @@ public class CustomerDto {
     private String customerName;
     private long customerMobileNumber;
     private String customerEmail;
+    private String password;
     private Set<RideDto> rides;
 }
