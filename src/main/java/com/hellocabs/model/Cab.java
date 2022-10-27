@@ -1,6 +1,8 @@
 package com.hellocabs.model;
 
 import lombok.Data;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import java.util.Set;
 
@@ -59,6 +61,7 @@ public class Cab {
     private String cabStatus;
 
     @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name = "cab_id")
     private Set<Ride> rides;
 

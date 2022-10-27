@@ -51,4 +51,6 @@ public interface CabService {
      *  @return {@link List<CabDto>}returns All Cab Details
      */
     List<CabDto> showAllCabDetails();
+
+    String updateCabStatus(int id, String cabStatus);
 }

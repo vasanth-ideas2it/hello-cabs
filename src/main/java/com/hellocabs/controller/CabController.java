@@ -1,5 +1,24 @@
 package com.hellocabs.controller;
 
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
+import javax.validation.Valid;
+
+import org.apache.log4j.Logger;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+
 import com.hellocabs.dto.CabDto;
 import com.hellocabs.dto.RideDto;
 import com.hellocabs.logger.LoggerConfiguration;
@@ -7,16 +26,6 @@ import com.hellocabs.model.Cab;
 import com.hellocabs.model.CabCategory;
 import com.hellocabs.service.CabService;
 import com.hellocabs.service.RideService;
-import org.apache.log4j.Logger;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
 
 /**
  * <h> CabController </h>
@@ -36,13 +45,13 @@ public class CabController {
     public CabController(CabService cabService) {
         this.cabService = cabService;
     }
-    private CabService cabService;
+    private final CabService cabService;
     private RideService rideService;
 
     private Logger logger = LoggerConfiguration.getInstance("CabController.class");
     /**
      * Method used to post Cab details
-     * @param {@link @RequestBody CabDto}cabDto object with required details
+     * @param {@link RequestBody CabDto}cabDto object with required details
      * @return {@link String}returns the status of the given details
      */
     @PostMapping("create")
@@ -60,7 +69,7 @@ public class CabController {
      * @param {@link @RequestBody CabDto}cabDto object with required details
      * @return {@link String}returns the status of the given details
      */
-    @PutMapping("update")
+    @PutMapping("updateCab")
     public String updateCabDetails(@Valid @RequestBody CabDto cabDto) {
         String message = " Failed :: Not Inserted ";
         if (null != cabDto) {
@@ -141,19 +150,28 @@ public class CabController {
      * @param {@link RideDto, CabDto, CabCategory}rideDto, cabDto, cabCategory Object
      * @return {@link Double}returns RidePrice by Time Of Travel
      */
-    public Double calculateTravelFare(RideDto rideDto, CabDto cabDto, CabCategory cabCategory) {
-        rideDto.setRideStatus("Dropped");
-        cabDto.setCabStatus("Available");
-        cabService.updateCabDetailsById(cabDto.getId(), cabDto);
-        int timeDifference = (rideDto.getRideTime().getHour()) - (LocalDateTime.now().getHour());
-        rideDto.setPrice((timeDifference) * (cabCategory.getInitialFare()));
-        rideService.updateRide(rideDto);
-        return rideDto.getPrice();
+    public String calculateTravelFare(RideDto rideDto, CabDto cabDto, CabCategory cabCategory) {
+        String rideStatus = rideDto.getRideStatus();
+        if (("Dropped").equalsIgnoreCase(rideStatus)) {
+            cabDto.setCabStatus("Available");
+            cabService.updateCabDetailsById(cabDto.getId(), cabDto);
+            LocalDateTime time = rideDto.getRideTime();
+            int timeDifference = (rideDto.getRideTime().getHour()) - (LocalDateTime.now().getHour());
+            rideDto.setPrice((timeDifference) * (cabCategory.getInitialFare()));
+            rideService.updateRide(rideDto);
+
+            return "The PRICE AMOUNT : " + rideDto.getPrice() + " Rupees Only";
+        } else {
+            return " THE CUSTOMER NOT TO BE DROPPED YET :: Please check the ride status";
+        }
+
     }
 
     /**
-     * Method used to show the  exception which is handle by NullListException
+     * <p>
+     * Method used to show the  exception which is handle by MethodArgumentNotValidException
      * with the help of exception handler method
+     * </p>
      *
      * @param {@link MethodArgumentNotValidException}exception
      * @return {@link String}return the exception with message
@@ -164,13 +182,24 @@ public class CabController {
         exception.getBindingResult().getFieldErrors().forEach(error -> {
             errors.put(error.getField(), error.getDefaultMessage());
         });
-        return " INVALID Entry " + errors;
+        return " INVALID ENTRY " + errors;
     }
 
     @ExceptionHandler(value = RuntimeException.class)
     public String exceptionHandler(RuntimeException exception) {
-
         return "Exception " + exception.getMessage();
     }
 
+    @PutMapping("update/{id}/{cabStatus}")
+    public String updateCabStatus(@PathVariable int id, @PathVariable String cabStatus) {
+        return cabService.updateCabStatus(id, cabStatus);
+       /*CabDto cabDto = cabService.displayCabDetailsById(id);
+        String message = " Failed :: THERE IS NO CAB ID To Update ";
+        if (null != cabDto) {
+            cabDto.setCabStatus(cabStatus);
+            message = cabService.updateCabDetailsById(id,cabDto);
+             return message + cabStatus + " \n Status Updated Successfully ";
+        }
+        return message; */
+    }
 }

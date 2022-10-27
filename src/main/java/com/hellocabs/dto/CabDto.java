@@ -1,12 +1,10 @@
 package com.hellocabs.dto;
 
 import java.util.Set;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.validation.annotation.Validated;
 
 @Data
@@ -23,11 +21,13 @@ public class CabDto {
     @Size(min = 5, max = 15)
     private String cabNumber;
 
-    @NotBlank(message = "Gender Not to be Empty :: Please Enter The Name")
+    @NotBlank(message = "Gender Not to be Empty :: Please Enter The Gender")
     @Size(min = 4, max = 10)
     private String gender;
 
     //@NotBlank(message = "mobile Number Not to be Empty :: Please Enter The Number")
+   // @Min(10)
+    @Digits(integer = 10, fraction = 0)
     private long mobileNumber;
 
     @Email(message = " Enter the valid Mail")

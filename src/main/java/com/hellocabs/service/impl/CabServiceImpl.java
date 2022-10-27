@@ -58,7 +58,8 @@ public class CabServiceImpl implements CabService {
 
         if (null != cab) {
             Cab cabDetails = cabRepository.save(cab);
-            message = "Successfully :: The CabId :" + id + " Updated ";
+            int cabId = cabDetails.getId();
+            message = "Successfully :: The CabId :" + cabId + " Updated ";
         }
         return message;
     }
@@ -104,4 +105,10 @@ public class CabServiceImpl implements CabService {
     public List<CabDto> showAllCabDetails() {
          return cabRepository.findAll().stream().map(CabMapper :: convertCabToCabDto).collect(Collectors.toList());
     }
+
+    @Override
+    public String updateCabStatus(int id, String cabStatus) {
+        return null;
+    }
+
 }
