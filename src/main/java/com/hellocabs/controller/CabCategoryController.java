@@ -1,22 +1,28 @@
 package com.hellocabs.controller;
 
-import com.hellocabs.dto.CabCategoryDto;
-import com.hellocabs.service.CabCategoryService;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.apache.log4j.Logger;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 import javax.validation.Valid;
-import java.util.List;
+
+import com.hellocabs.dto.CabCategoryDto;
+import com.hellocabs.logger.LoggerConfiguration;
+import com.hellocabs.service.CabCategoryService;
 
 @RestController
 @RequestMapping("/cabcategory")
 public class CabCategoryController {
+    private Logger logger = LoggerConfiguration.getInstance("CabCategory.class");
     CabCategoryService cabCategoryService;
     CabCategoryController(CabCategoryService cabCategoryService) {
         this.cabCategoryService = cabCategoryService;
@@ -35,6 +41,7 @@ public class CabCategoryController {
     @PostMapping("/create")
     public int addCabCategory(@Valid @RequestBody CabCategoryDto cabCategoryDto) {
         int id = cabCategoryService.createCabCategory(cabCategoryDto);
+        logger.info("Id :" + id);
         return  id;
     }
 
@@ -54,6 +61,7 @@ public class CabCategoryController {
         CabCategoryDto cabCategoryDto = cabCategoryService.getCabCategoryById(id);
 
         if (cabCategoryDto == null) {
+            logger.info("No cab category found for given id");
             return null;
         } else {
             return cabCategoryDto;
@@ -91,8 +99,10 @@ public class CabCategoryController {
     @DeleteMapping("/delete/{id}")
     public String deleteCabCategoryById(@PathVariable int id) {
         if (cabCategoryService.deleteCabCategoryById(id)) {
+            logger.info("Cab category is deleted for given id");
             return "Cab category is deleted for given id";
         } else {
+            logger.info("Cab category is not found for given id");
             return "Cab category is not found for given id";
         }
     }

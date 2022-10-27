@@ -20,7 +20,7 @@ import javax.validation.constraints.Size;
 public class LocationDto {
     private int id;
 
-    @NotBlank(message = "Location name must not be Empty and null")
+    @NotBlank(message = "Location name must not be Empty or null")
     @Size(min=3, message="Location name should have atleast 3 characters")
     private String locationName;
 }
