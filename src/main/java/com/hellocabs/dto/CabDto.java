@@ -4,9 +4,17 @@ import java.util.Set;
 import javax.validation.constraints.*;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.validation.annotation.Validated;
-
+/**
+ * <h> CabDto </h>
+ * <p>
+ * Class is an Dto class which is define the possible field with respect to cab
+ * and validate the user data by using validated annotation respectively
+ * </p>
+ *
+ * @version 1.0
+ * @author Jaganathan R
+ */
 @Data
 @Validated
 public class CabDto {
@@ -25,8 +33,6 @@ public class CabDto {
     @Size(min = 4, max = 10)
     private String gender;
 
-    //@NotBlank(message = "mobile Number Not to be Empty :: Please Enter The Number")
-   // @Min(10)
     @Digits(integer = 10, fraction = 0)
     private long mobileNumber;
 
@@ -52,5 +58,7 @@ public class CabDto {
 
     @Size(min = 5, max = 15, message = "Current Location Should be in between 10 to 15 Characters")
     private String currentLocation;
+
+    private CabCategoryDto cabCategoryDto ;
 
 }

@@ -6,21 +6,13 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * <h> Cab </h>
  * <p>
- * Class is used to define the cab details and their types
+ * Class is used to define the cab details and their types by using
+ * Entity object with possible information and connect to database
  * </p>
  *
  * @version 1.0
@@ -71,5 +63,9 @@ public class Cab {
     @Column(name = "current_location")
     private String currentLocation;
 
+    @JoinColumn(name = "cab_category_id")
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private CabCategory cabCategory;
 
 }

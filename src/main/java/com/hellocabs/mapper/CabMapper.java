@@ -1,15 +1,36 @@
 package com.hellocabs.mapper;
 
+import com.hellocabs.dto.CabCategoryDto;
 import com.hellocabs.dto.CabDto;
 import com.hellocabs.dto.RideDto;
 import com.hellocabs.model.Cab;
+import com.hellocabs.model.CabCategory;
 import com.hellocabs.model.Ride;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * <h> CabMapper </h>
+ * <p>
+ * Class is used to convert the cabDto object to cab object and
+ * cab object to cabDto object respectively and returns to respected classes
+ * </p>
+ *
+ * @version 1.0
+ * @author Jaganathan R
+ */
 public class CabMapper {
 
+    /**
+     * <p>
+     * Method used to change the cabDto object into cab with the help
+     * of cab entity object and return to respective method
+     * </p>
+     *
+     * @param cabDto{@link CabDto}get valid information from user
+     * @return {Cab}returns the cab object
+     */
     public static Cab convertCabDtoToCab(CabDto cabDto) {
 
         Cab cab = new Cab();
@@ -34,7 +55,15 @@ public class CabMapper {
         return cab;
     }
 
-
+    /**
+     * <p>
+     * Method used to change the cab object into cabDto with the help
+     * of cabDto entity object and return to respective method
+     * </p>
+     *
+     * @param cab{@link Cab}get valid information from user
+     * @return {CabDto}returns the cabDto object
+     */
     public static CabDto convertCabToCabDto(Cab cab) {
 
         CabDto cabDto = new CabDto();

@@ -29,7 +29,7 @@ public class CabCategoryMapper {
 
         cabCategory.setId(cabCategoryDto.getId());
         cabCategory.setCabType(cabCategoryDto.getCabType());
-        cabCategory.setInitialFare(cabCategory.getInitialFare());
+        cabCategory.setInitialFare(cabCategoryDto.getInitialFare());
         cabCategory.setExtraKmFare(cabCategoryDto.getExtraKmFare());
         cabCategory.setAdditionalFare(cabCategoryDto.getAdditionalFare());
         cabCategory.setCabs(cabCategoryDto.getCabDtos()

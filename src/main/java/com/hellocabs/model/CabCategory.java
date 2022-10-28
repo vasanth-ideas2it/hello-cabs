@@ -1,6 +1,7 @@
 package com.hellocabs.model;
 
 import lombok.Data;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -49,7 +50,8 @@ public class CabCategory {
     @Column(name = "additional_fare")
     private double additionalFare;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @LazyCollection(LazyCollectionOption.FALSE)
             @JoinColumn(name = "cab_category_id")
     List<Cab> cabs;

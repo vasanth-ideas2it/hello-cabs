@@ -12,6 +12,16 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * <h> HelloCabsAdvisor </h>
+ * <p>
+ * Class which is to handle the exceptions from all over the
+ * application by using ControllerAdvice and ExceptionHandler
+ * </p>
+ *
+ * @version 1.0
+ * @author Jaganathan R
+ */
 @RestControllerAdvice
 public class HelloCabsAdvisor {
 
