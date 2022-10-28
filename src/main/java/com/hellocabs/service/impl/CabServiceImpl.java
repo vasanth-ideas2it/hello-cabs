@@ -3,6 +3,7 @@ package com.hellocabs.service.impl;
 import com.hellocabs.dto.CabDto;
 import com.hellocabs.mapper.CabMapper;
 import com.hellocabs.model.Cab;
+import com.hellocabs.model.Customer;
 import com.hellocabs.repository.CabRepository;
 import com.hellocabs.service.CabService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,6 +114,18 @@ public class CabServiceImpl implements CabService {
         return message;
     }
 
+    @Override
+    public String verifyCabDetails(CabDto cabDto) {
+        Cab cab = CabMapper.convertCabDtoToCab(cabDto);
+        long number = cab.getMobileNumber();
+        String pass = cab.getPassword();
+        Cab value =  cabRepository.findByMobileNumberAndPassword(number,pass);
+        if(null != value) {
+            return "Successfully login";
+        }
+        return "Invalid credentials or not a registered user";
+    }
+
     /**
      * <p>
      * Method used to get All Cab details  from server which is
@@ -148,5 +161,6 @@ public class CabServiceImpl implements CabService {
         }
         return message;
     }
+
 
 }

@@ -45,6 +45,7 @@ public class CabMapper {
         cab.setId(cabDto.getId());
         cab.setLicenseNumber(cabDto.getLicenseNumber());
         cab.setMobileNumber(cabDto.getMobileNumber());
+        cab.setPassword(cabDto.getPassword());
         Set<RideDto> rideDtos= cabDto.getRides();
         Set<Ride> rides;
 
@@ -78,6 +79,7 @@ public class CabMapper {
         cabDto.setCurrentLocation(cab.getCurrentLocation());
         cabDto.setLicenseNumber(cab.getLicenseNumber());
         cabDto.setMobileNumber(cab.getMobileNumber());
+        cabDto.setPassword(cab.getPassword());
         Set<Ride> rides= cab.getRides();
         Set<RideDto> rideDtos;
 

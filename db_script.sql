@@ -14,6 +14,6 @@ alter table ride add constraint fk_location_idd foreign key(drop_location) refer
 alter table ride add constraint fk_cab_id foreign key(cab_id) references cab(id);
 alter table ride add constraint fk_customer_id foreign key(customer_id) references customer(id);
 
-create table cab(id int primary key auto_increment,driver_name varchar(30),cab_number varchar(15),gender varchar(10),mobile_number bigint,email varchar(30),license_number varchar(30),car_model varchar(20),current_location varchar(15),cab_status varchar(20),driver_rating double, cab_category_id int);
+create table cab(id int primary key auto_increment,driver_name varchar(30),cab_number varchar(15),gender varchar(10),mobile_number bigint,email varchar(30),license_number varchar(30),car_model varchar(20),current_location varchar(15),cab_status varchar(20),driver_rating double, cab_category_id int, password varchar(20));
 alter table cab add constraint fk_cab_category_id foreign key(cab_category_id) references cab_category(id);
 

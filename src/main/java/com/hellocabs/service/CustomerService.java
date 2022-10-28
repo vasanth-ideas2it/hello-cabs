@@ -3,8 +3,8 @@
  */
 package com.hellocabs.service;
 
+import com.hellocabs.dto.CabDto;
 import com.hellocabs.dto.CustomerDto;
-import com.hellocabs.dto.LoginDto;
 import com.hellocabs.model.Customer;
 import java.util.List;
 

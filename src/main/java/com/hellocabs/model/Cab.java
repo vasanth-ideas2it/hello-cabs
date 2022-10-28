@@ -68,4 +68,7 @@ public class Cab {
     @LazyCollection(LazyCollectionOption.FALSE)
     private CabCategory cabCategory;
 
+    @Column(name = "password")
+    private String password;
+
 }

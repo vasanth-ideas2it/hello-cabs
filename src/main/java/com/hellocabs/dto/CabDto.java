@@ -61,4 +61,6 @@ public class CabDto {
 
     private CabCategoryDto cabCategoryDto ;
 
+    private String password;
+
 }

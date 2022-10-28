@@ -47,7 +47,7 @@ public class Customer {
     @NotBlank(message = "email is mandatory")
     private String customerEmail;
     @Column(name = "password",length = 20)
-    @NotBlank(message = "password is mandatory")
+   // @NotBlank(message = "password is mandatory")
     private String password;
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @LazyCollection(LazyCollectionOption.FALSE)

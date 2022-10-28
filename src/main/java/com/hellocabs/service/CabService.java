@@ -61,6 +61,8 @@ public interface CabService {
      */
     String deleteCabDetailsById(int id);
 
+    String verifyCabDetails(CabDto cabDto);
+
     /**
      * <p>
      * Method used to get All Cab details  from server which is

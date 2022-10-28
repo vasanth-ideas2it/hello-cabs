@@ -16,5 +16,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface CabRepository  extends JpaRepository<Cab, Integer> {
-
+    Cab findByMobileNumberAndPassword(long number, String pass);
 }

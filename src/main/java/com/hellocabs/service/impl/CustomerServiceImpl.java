@@ -3,8 +3,11 @@
  */
 package com.hellocabs.service.impl;
 
+import com.hellocabs.dto.CabDto;
 import com.hellocabs.dto.CustomerDto;
+import com.hellocabs.mapper.CabMapper;
 import com.hellocabs.mapper.CustomerMapper;
+import com.hellocabs.model.Cab;
 import com.hellocabs.model.Customer;
 import com.hellocabs.repository.CustomerRepository;
 import com.hellocabs.service.CustomerService;
@@ -106,9 +109,15 @@ public class CustomerServiceImpl implements CustomerService {
     public List<CustomerDto> retrieveCustomers() {
         return CustomerMapper.convertCustomersToCustomerDtos(customerRepository.findAll());
     }
+    /**
+     * <p>
+     *    This Method is used to display all customers and convert
+     *    customer into customerDto.
+     * </p>
+     * @return {@link List<CustomerDto> }returns all customers.
+     */
     @Override
     public String verifyCustomerDetails(CustomerDto customerDto) {
-        System.out.println("service incoming");
         Customer customer = CustomerMapper.convertCustomerDtoToCustomer(customerDto);
         long number = customer.getCustomerMobileNumber();
         String pass = customer.getPassword();
