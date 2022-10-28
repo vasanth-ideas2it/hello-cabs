@@ -8,7 +8,6 @@ package com.hellocabs.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.Digits;
@@ -16,11 +15,16 @@ import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 /**
- * Contains all possible information that are related
- * to ride of a customer
+ * <p>
+ *   A Dto object which is responsible for collect and display
+ *   all possible information regarding to a ride from user through
+ *   controller and further convert to Entity object through
+ *   service using mapper classes
+ * </p>
  *
- * This file is created on 20/10/2022
  * @author : Pradeep
+ * created on 20/10/2022
+ * @version 1.0
  *
  */
 @Data
@@ -28,6 +32,7 @@ import java.time.LocalDateTime;
 public class RideDto {
 
     private int id;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime rideTime;
 
@@ -35,7 +40,9 @@ public class RideDto {
 
     @Digits(integer = 10, fraction = 0)
     private long passengerMobileNumber;
+
     private double rating;
+
     private String rideStatus;
 
     @NotBlank(message = "Please Enter pickup location")
@@ -43,6 +50,5 @@ public class RideDto {
 
     @NotBlank(message = "Please Enter drop location")
     private LocationDto  dropLocation;
-
 }
 

@@ -14,7 +14,6 @@ import com.hellocabs.logger.LoggerConfiguration;
 import com.hellocabs.service.RideService;
 
 import org.apache.log4j.Logger;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,11 +27,15 @@ import javax.validation.Valid;
 import java.util.Set;
 
 /**
+ * <p>
+ *   Implemented this class whenever a customer books a ride,
+ *   to fetch particular ride, to show all ride history,
+ *   to delete a ride while booking is not complete etc.,
+ * </p>
  *
- * Implemented to create a new ride or search, update, and delete
- * existing ride
- * This file is created on 20/10/2022
  * @author : Pradeep
+ * created on 20/10/2022
+ * @version 1.0
  *
  */
 @RestController
@@ -48,11 +51,13 @@ public class RideController {
     }
 
     /**
+     * <p>
+     *   Used this method to fetch a particular ride using id
+     *   if ride exists return ride else return a new ride object
+     * </p>
      *
-     * Search particular ride by using id
-     *
-     * @param id {@link int} ride details to be searched
-     * @return {@link RideDto} ride details to be displayed
+     * @param id {@link int} ride's id to be searched
+     * @return {@link RideDto} searched ride object
      *
      */
     @GetMapping("search/{id}")
@@ -61,8 +66,11 @@ public class RideController {
     }
 
     /**
-     *
-     * retrieve all rides
+     * <p>
+     *   Used this method to retrieve all rides
+     *   irrespective of id
+     *   Returns empty set when no rides available
+     * </p>
      *
      * @return {@link Set<RideDto>} set of all rides
      *

@@ -80,7 +80,7 @@ public class RideServiceImpl implements RideService {
         Ride ride = rideRepository.findById(id).orElse(null);
         return (ride != null)
                 ? RideMapper.convertRideIntoRideDto(ride)
-                :null;
+                : null;
     }
 
     /**

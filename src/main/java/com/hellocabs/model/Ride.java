@@ -23,11 +23,15 @@ import javax.persistence.OneToOne;
 import java.time.LocalDateTime;
 
 /**
- * Contains all possible information that are related
- * to ride of a customer
+ * <p>
+ *   Entity object which contains all possible information that
+ *   are related to a ride and used to connect with database
+ *   through service
+ * </p>
  *
- * This file is created on 20/10/2022
  * @author : Pradeep
+ * created on 20/10/2022
+ * @version 1.0
  *
  */
 @Entity
