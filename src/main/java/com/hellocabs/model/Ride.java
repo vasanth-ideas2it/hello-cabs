@@ -59,6 +59,8 @@ public class Ride {
 
     private String rideStatus;
 
+    private boolean isCancelled;
+
     @OneToOne(targetEntity = Location.class)
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinColumn(name = "pickup_location")
@@ -68,4 +70,12 @@ public class Ride {
     @Cascade(CascadeType.SAVE_UPDATE)
     @JoinColumn(name = "drop_location")
     private  Location dropLocation;
+
+    public void setIsCancelled(boolean isCancelled) {
+        this.isCancelled = isCancelled;
+    }
+
+    public boolean getIsCancelled() {
+        return isCancelled;
+    }
 }

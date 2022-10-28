@@ -50,8 +50,18 @@ public class RideDto {
 
     private String rideStatus;
 
+    private boolean isCancelled;
+
     private LocationDto pickupLocation;
 
     private LocationDto  dropLocation;
+
+    public void setIsCancelled(boolean isCancelled) {
+        this.isCancelled = isCancelled;
+    }
+
+    public boolean getIsCancelled() {
+        return isCancelled;
+    }
 }
 

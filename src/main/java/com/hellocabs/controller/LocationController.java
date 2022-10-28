@@ -118,7 +118,6 @@ public class LocationController {
      */
     @GetMapping("/locations")
     public List<LocationDto> getAllLocations() {
-        List<LocationDto> locationDtos = locationService.retrieveAllLocations();
-        return locationDtos;
+        return locationService.retrieveAllLocations();
     }
 }

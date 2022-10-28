@@ -6,13 +6,12 @@
 
 package com.hellocabs.controller;
 
-import com.hellocabs.dto.CabCategoryDto;
+import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.CabDto;
-import com.hellocabs.dto.LocationDto;
 import com.hellocabs.dto.RideDto;
 import com.hellocabs.dto.StatusDto;
+import com.hellocabs.exception.HelloCabsException;
 import com.hellocabs.logger.LoggerConfiguration;
-import com.hellocabs.model.CabCategory;
 import com.hellocabs.service.RideService;
 
 import org.apache.log4j.Logger;
@@ -26,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
@@ -66,7 +64,6 @@ public class RideController {
      */
     @GetMapping("search/{id}")
     public RideDto searchRideById(@PathVariable int id) {
-        logger.info("id " + id);
         return rideService.searchRideById(id);
     }
 
@@ -98,9 +95,9 @@ public class RideController {
     public String updateRide(@RequestBody @Valid RideDto rideDto) {
 
         if (null != rideService.updateRide(rideDto)) {
-            return "Ride " + rideDto.getId() + " Updated Successfully";
+            return HelloCabsConstants.RIDE_UPDATED + rideDto.getId();
         }
-        return "Couldn't update ride";
+        throw new HelloCabsException(HelloCabsConstants.RIDE_NOT_UPDATED);
     }
 
     /**
@@ -111,7 +108,7 @@ public class RideController {
      * </p>
      *
      * @param rideDto {@link RideDto} ride details of a customer
-     * @return cabDtos {@link Set<CabDto>} list of cab that are
+     * @return cabs {@link Set<CabDto>} list of cab that are
      *              available on particular location
      *
      */
@@ -166,9 +163,6 @@ public class RideController {
      */
     @DeleteMapping("cancel/{id}")
     public String deleteRideById(@PathVariable int id){
-        boolean isDeleted = rideService.deleteRideById(id);
-        return isDeleted
-                ? "Ride " + id + " Canceled Successfully"
-                : "Ride " + id + " couldn't cancel selected ride";
+        return rideService.deleteRideById(id);
     }
 }

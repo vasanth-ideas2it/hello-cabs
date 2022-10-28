@@ -46,16 +46,16 @@ public class HelloCabsAdvisor {
      * Method used to show the  exception which is handle by RuntimeException
      * with the help of exception handler method
      *
-     * @param {@link RuntimeException}exception
+     * @param helloCabsException {@link HelloCabsException} exception
      * @return {@link String}return the exception with message
      */
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(value = RuntimeException.class)
-    public Map<String, Object> exceptionHandler(RuntimeException runtimeException) {
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(value = HelloCabsException.class)
+    public Map<String, Object> exceptionHandler(HelloCabsException helloCabsException) {
         Map<String, Object> errors = new LinkedHashMap<>();
 
         errors.put("timestamp", LocalDateTime.now());
-        errors.put("message", runtimeException.getMessage());
+        errors.put("message", helloCabsException.getMessage());
         return errors;
     }
 }

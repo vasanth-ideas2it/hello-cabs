@@ -6,14 +6,14 @@
 
 package com.hellocabs.service.impl;
 
+import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.CabCategoryDto;
 import com.hellocabs.dto.CabDto;
-import com.hellocabs.dto.LocationDto;
 import com.hellocabs.dto.RideDto;
 import com.hellocabs.dto.StatusDto;
+import com.hellocabs.exception.HelloCabsException;
 import com.hellocabs.logger.LoggerConfiguration;
 import com.hellocabs.mapper.RideMapper;
-import com.hellocabs.model.CabCategory;
 import com.hellocabs.model.Ride;
 import com.hellocabs.repository.RideRepository;
 import com.hellocabs.service.CabCategoryService;
@@ -24,7 +24,6 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -48,6 +47,7 @@ public class RideServiceImpl implements RideService {
     private LocationService locationService;
     private final Logger logger = LoggerConfiguration
             .getInstance("RideController.class");
+    private static final int MAXIMUM_WAITING_TIME = 5;
 
     public RideServiceImpl(RideRepository rideRepository,
             CabService cabService, CabCategoryService cabCategoryService,
@@ -70,9 +70,10 @@ public class RideServiceImpl implements RideService {
      * @return {@link int} created ride id
      *
      */
-    public int createRide(RideDto rideDto) {
+    private int createRide(RideDto rideDto) {
         Ride ride = rideRepository
                 .save(RideMapper.convertRideDtoIntoRide(rideDto));
+        logger.info(HelloCabsConstants.RIDE_CREATED + ride.getId());
         return ride.getId();
     }
 
@@ -88,9 +89,13 @@ public class RideServiceImpl implements RideService {
      */
     public RideDto searchRideById(int id) {
         Ride ride = rideRepository.findById(id).orElse(null);
-        return (ride != null)
-                ? RideMapper.convertRideIntoRideDto(ride)
-                : null;
+
+        if (ride != null) {
+            logger.info(HelloCabsConstants.RIDE_FOUND + ride);
+            return RideMapper.convertRideIntoRideDto(ride);
+        }
+        logger.error(HelloCabsConstants.RIDE_NOT_FOUND);
+        throw new HelloCabsException(HelloCabsConstants.RIDE_NOT_FOUND);
     }
 
     /**
@@ -124,9 +129,9 @@ public class RideServiceImpl implements RideService {
     public RideDto updateRide(RideDto rideDto) {
         Ride ride = rideRepository.save(RideMapper
                 .convertRideDtoIntoRide(rideDto));
+        logger.info(HelloCabsConstants.RIDE_UPDATED + ride);
         return RideMapper.convertRideIntoRideDto(ride);
     }
-
 
     /**
      * <p>
@@ -139,14 +144,18 @@ public class RideServiceImpl implements RideService {
      * @return {@link String} reason for ride cancellation
      *
      */
-    public boolean deleteRideById(int id) {
+    public String deleteRideById(int id) {
         Ride ride = rideRepository.findById(id).orElse(null);
 
         if (ride != null) {
-            rideRepository.delete(ride);
-            return true;
+            ride.setIsCancelled(true);
+            ride.setRideStatus("Cancelled");
+            updateRide(RideMapper.convertRideIntoRideDto(ride));
+            logger.info(HelloCabsConstants.RIDE_CANCELLED);
+            return HelloCabsConstants.RIDE_CANCELLED;
         }
-        return false;
+        logger.error(HelloCabsConstants.RIDE_NOT_FOUND);
+        return HelloCabsConstants.RIDE_NOT_FOUND;
     }
 
     /**
@@ -166,18 +175,12 @@ public class RideServiceImpl implements RideService {
      *
      */
     public String bookRide(RideDto rideDto, int categoryId) {
-        LocationDto pickupPoint = locationService
-                .getLocationById(rideDto.getPickupLocation().getId());
         CabCategoryDto cabCategoryDto = cabCategoryService
                 .getCabCategoryById(categoryId);
-        cabCategoryDto.getCabDtos()
-                .stream().filter(cabDto -> pickupPoint.getLocationName()
-                        .equals(cabDto.getCurrentLocation()) && (("Available")
-                        .equalsIgnoreCase(cabDto.getCabStatus())));
         rideDto.setRideStatus("Booked");
         rideDto.setRideBookedTime(LocalDateTime.now());
-        int id = createRide(rideDto);
-        return "Ride booked with id " + id + " waiting for driver to accept";
+        return HelloCabsConstants.RIDE_CREATED + createRide(rideDto)
+                + HelloCabsConstants.WAITING_STATUS;
     }
 
     /**
@@ -196,14 +199,13 @@ public class RideServiceImpl implements RideService {
     public String confirmRide(int rideId) {
         RideDto rideDto = searchRideById(rideId);
 
-        if ((5 < (LocalDateTime.now().getMinute())
+        if ((MAXIMUM_WAITING_TIME < (LocalDateTime.now().getMinute())
                 - rideDto.getRideBookedTime().getMinute())
                 && ("Booked").equalsIgnoreCase(rideDto.getRideStatus())) {
             deleteRideById(rideId);
-            return "Ride cancelled due to unavailability "
-                    + "\n Please try again";
+            return HelloCabsConstants.CANCELLED_DUE_TO_UNAVAILABILITY;
         }
-        return "Looking for cabs nearby";
+        return HelloCabsConstants.SEARCHING_CABS;
     }
 
     /**
@@ -223,13 +225,14 @@ public class RideServiceImpl implements RideService {
         String rideStatus = statusDto.getRideStatus();
         RideDto rideDto = searchRideById(rideId);
         
-        if (null != rideDto) {            
+        if (null != rideDto) {
+            logger.info(HelloCabsConstants.RIDE_FOUND + rideDto);
             rideDto.setRideStatus(rideStatus);
             CabDto cabDto = cabService.displayCabDetailsById(cabId);
             cabDto.setCabStatus(statusDto.getCabStatus());
             return updateStatusInfo(rideStatus, rideDto, cabDto);
         }
-        return new CabDto();
+        throw new HelloCabsException(HelloCabsConstants.RIDE_NOT_FOUND);
     }
 
     /**
@@ -253,6 +256,7 @@ public class RideServiceImpl implements RideService {
                 break;
 
             case "dropped" :
+                rideDto.setRideDroppedTime(LocalDateTime.now());
                 rideDto.setRideStatus(rideStatus);
                 cabDto.setCabStatus("Available");
                 Set<RideDto> rideDtos = cabDto.getRides();

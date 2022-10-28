@@ -46,6 +46,7 @@ public class RideMapper {
         Location location = new Location();
         location.setId(rideDto.getPickupLocation().getId());
         ride.setPickupLocation(location);
+        ride.setIsCancelled(rideDto.getIsCancelled());
         ride.setDropLocation(LocationMapper
                 .locationDtoToLocation(rideDto.getDropLocation()));
         return ride;
@@ -71,6 +72,7 @@ public class RideMapper {
         rideDto.setPassengerMobileNumber(ride.getPassengerMobileNumber());
         rideDto.setRating(ride.getRating());
         rideDto.setRideStatus(ride.getRideStatus());
+        rideDto.setIsCancelled(ride.getIsCancelled());
         rideDto.setPickupLocation(LocationMapper
                 .locationToLocationDto(ride.getPickupLocation()));
         rideDto.setDropLocation(LocationMapper

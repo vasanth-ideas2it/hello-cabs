@@ -29,20 +29,6 @@ public interface RideService {
 
     /**
      * <p>
-     *   An abstract method to get the Dto object
-     *   and convert to entity object through mapper class
-     *   then send the entity to repository layer to store
-     *   in database
-     * </p>
-     *
-     * @param rideDto {@link RideDto} ride details to be created
-     * @return id {@link int} created ride id
-     *
-     */
-    int createRide(RideDto rideDto);
-
-    /**
-     * <p>
      *   An abstract method to fetch a particular ride using id
      *   if ride exists return ride else return a new ride object
      * </p>
@@ -90,7 +76,7 @@ public interface RideService {
      * @return {@link String} reason for ride cancellation
      *
      */
-    boolean deleteRideById(int id);
+    String deleteRideById(int id);
 
     /**
      * <p>

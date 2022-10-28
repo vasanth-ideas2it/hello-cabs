@@ -101,7 +101,7 @@ public class CustomerController {
      */
     @GetMapping("customers")
     public List<CustomerDto> retriveAllCustomers() {
-        List<CustomerDto> customerDtos = customerService.retrieveCustomers();
-        return(customerDtos);
+        return customerService.retrieveCustomers();
+
     }
 }
