@@ -3,14 +3,17 @@
  *   Copyright (c) All rights reserved Ideas2IT
  * </p>
  */
+
 package com.hellocabs.service.impl;
 
 import com.hellocabs.dto.CabCategoryDto;
 import com.hellocabs.dto.CabDto;
 import com.hellocabs.dto.LocationDto;
 import com.hellocabs.dto.RideDto;
+import com.hellocabs.dto.StatusDto;
 import com.hellocabs.logger.LoggerConfiguration;
 import com.hellocabs.mapper.RideMapper;
+import com.hellocabs.model.CabCategory;
 import com.hellocabs.model.Ride;
 import com.hellocabs.repository.RideRepository;
 import com.hellocabs.service.CabCategoryService;
@@ -26,12 +29,14 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
+ * <p>
+ *   Class that provides implementation to all abstract
+ *   methods that are available on ride service interface
+ * </p>
  *
- * Implementation to save new ride or search,
- * update, and delete existing ride details
- *
- * This file is created on 20/10/2022
  * @author : Pradeep
+ * created on 20/10/2022
+ * @version 1.0
  *
  */
 @Service
@@ -54,12 +59,15 @@ public class RideServiceImpl implements RideService {
     }
 
     /**
-     *
-     * Add a ride into repository by
-     * converting the dto to model
+     * <p>
+     *   Implement this method to get the Dto object
+     *   and convert to entity object through mapper class
+     *   then send the entity to repository layer to store
+     *   in database
+     * </p>
      *
      * @param rideDto {@link RideDto} ride details to be created
-     * @return id {@link int} created ride id
+     * @return {@link int} created ride id
      *
      */
     public int createRide(RideDto rideDto) {
@@ -69,11 +77,13 @@ public class RideServiceImpl implements RideService {
     }
 
     /**
+     * <p>
+     *   Implement this method to fetch a particular ride using id
+     *   if ride exists return ride else return a new ride object
+     * </p>
      *
-     * Search a ride by using id
-     *
-     * @param id {@link int} id to be searched
-     * @return rideDto {@link RideDto} searched ride details
+     * @param id {@link int} ride's id to be searched
+     * @return {@link RideDto} searched ride object
      *
      */
     public RideDto searchRideById(int id) {
@@ -84,8 +94,11 @@ public class RideServiceImpl implements RideService {
     }
 
     /**
-     *
-     * Retrieve all rides
+     * <p>
+     *   Implement this method to retrieve all rides
+     *   irrespective of id
+     *   Returns empty set when no rides available
+     * </p>
      *
      * @return {@link Set<RideDto>} set of all rides
      *
@@ -97,24 +110,33 @@ public class RideServiceImpl implements RideService {
     }
 
     /**
+     * <p>
+     *   Implement this method to update particular ride
+     *   First update the required fields also enter the id
+     *   then only existing object updated else if no id mentioned
+     *   a new object will be created
+     * </p>
      *
-     * Update a ride by using additional information
-     *
-     * @param rideDto {@link RideDto} ride object to be updated
-     * @return rideDto {@link RideDto} updated object
+     * @param rideDto {@link RideDto} ride details to be updated
+     * @return {@link String} updated ride
      *
      */
     public RideDto updateRide(RideDto rideDto) {
-        Ride ride = rideRepository.save(RideMapper.convertRideDtoIntoRide(rideDto));
+        Ride ride = rideRepository.save(RideMapper
+                .convertRideDtoIntoRide(rideDto));
         return RideMapper.convertRideIntoRideDto(ride);
     }
 
+
     /**
+     * <p>
+     *   Implement this method whenever a user wants to cancel
+     *   the ride for some reason, also get the reason for cancel
+     *   the ride from user
+     * </p>
      *
-     * Delete a ride by using id
-     *
-     * @param id {@link int} ride to be deleted
-     * @return true/false {@link boolean} deleted ride's id
+     * @param id {@link int} ride details to be updated
+     * @return {@link String} reason for ride cancellation
      *
      */
     public boolean deleteRideById(int id) {
@@ -128,63 +150,19 @@ public class RideServiceImpl implements RideService {
     }
 
     /**
-     *
-     * After display the ride fare and if ride is booked
-     *
-     * @param rideId {@link int}
-     * @return rideDto {@link RideDto} updated rideDto
-     */
-    public String confirmRide(int rideId) {
-        RideDto rideDto = searchRideById(rideId);
-
-        if ((5 < (LocalDateTime.now().getMinute())
-                - rideDto.getRideTime().getMinute())
-                && ("Booked").equalsIgnoreCase(rideDto.getRideStatus())) {
-            deleteRideById(rideId);
-            return "Ride cancelled due to unavailability \n Please try again";
-        }
-        return "Looking for cabs nearby";
-    }
-
-    /**
-     *
-     * Often change the status of the ride and cab
-     *
-     * @param rideId {@link int} ride id
-     * @param cabId {@link int} cab id to be assigned
-     * @param rideStatus {@link String} ride status
-     * @param cabStatus {@link String} cab status
-     * @return {@link CabDto}assigned cab details
-     */
-    public CabDto updateStatus(int rideId, int cabId, String rideStatus, String cabStatus) {
-        RideDto rideDto = searchRideById(rideId);
-
-        if (null != rideDto) {
-            rideDto.setRideStatus(rideStatus);
-            CabDto cabDto = cabService.displayCabDetailsById(cabId);
-            cabDto.setCabStatus(cabStatus);
-
-            if ("Dropped".equalsIgnoreCase(rideStatus)) {
-                Set<RideDto> rideDtos = cabDto.getRides();
-                rideDtos.add(rideDto);
-                cabDto.setRides(rideDtos);
-                cabDto.setCurrentLocation(rideDto.getDropLocation()
-                        .getLocationName());
-            }
-            cabService.updateCabDetailsById(cabId, cabDto);
-            logger.info(" updated cabDto");
-            return cabDto;
-        }
-        return new CabDto();
-    }
-
-    /**
-     *
-     * Book ride for a customer
+     * <p>
+     *   Implement this method whenever a customer books a ride
+     *   and choose category by using category id and also
+     *   ride details like locations, time, etc.,
+     *   It show locations and category details from which
+     *   customer have to select location and category and
+     *   then the ride is created also ride status changed
+     *   to booked
+     * </p>
      *
      * @param rideDto {@link RideDto} ride details of a customer
      * @return cabDtos {@link Set<CabDto>} list of cab that are
-     * available on particular location
+     *              available on particular location
      *
      */
     public String bookRide(RideDto rideDto, int categoryId) {
@@ -197,28 +175,132 @@ public class RideServiceImpl implements RideService {
                         .equals(cabDto.getCurrentLocation()) && (("Available")
                         .equalsIgnoreCase(cabDto.getCabStatus())));
         rideDto.setRideStatus("Booked");
-        rideDto.setRideTime(LocalDateTime.now());
+        rideDto.setRideBookedTime(LocalDateTime.now());
         int id = createRide(rideDto);
         return "Ride booked with id " + id + " waiting for driver to accept";
     }
 
     /**
+     * <p>
+     *   Implement this method is used when ride is booked, no
+     *   cab categories were found on that location or
+     *   no cab driver was accept this ride for
+     *   some time, ride will be cancelled automatically
+     *   and shows user a message to choose another cab category
+     * </p>
      *
-     * Shows all available locations that are provided by the cab service
+     * @param rideId {@link int}
+     * @return rideDto {@link RideDto} updated rideDto
      *
-     * @return {@link Set<LocationDto>}all available locations
      */
-    public Set<LocationDto> displayAllLocations() {
-        return new HashSet<>(locationService.retrieveAllLocations());
+    public String confirmRide(int rideId) {
+        RideDto rideDto = searchRideById(rideId);
+
+        if ((5 < (LocalDateTime.now().getMinute())
+                - rideDto.getRideBookedTime().getMinute())
+                && ("Booked").equalsIgnoreCase(rideDto.getRideStatus())) {
+            deleteRideById(rideId);
+            return "Ride cancelled due to unavailability "
+                    + "\n Please try again";
+        }
+        return "Looking for cabs nearby";
     }
 
     /**
+     * <p>
+     *   Implement this method is often used to change the status of both
+     *   ride and cab by passing the user input as an object
+     * </p>
      *
-     * Shows all cab categories that are provided by the cab service
+     * @param statusDto {@link StatusDto} contains information
+     *                          about ride status
+     * @return {@link CabDto} assigned cab details
      *
-     * @return {@link Set<CabCategoryDto>}all available categories
      */
-    public Set<CabCategoryDto> displayAllCabCategories() {
-        return new HashSet<>(cabCategoryService.retrieveAllCabCategories());
+    public CabDto updateStatus(StatusDto statusDto) {        
+        int rideId = statusDto.getRideId();        
+        int cabId = statusDto.getCabId();
+        String rideStatus = statusDto.getRideStatus();
+        RideDto rideDto = searchRideById(rideId);
+        
+        if (null != rideDto) {            
+            rideDto.setRideStatus(rideStatus);
+            CabDto cabDto = cabService.displayCabDetailsById(cabId);
+            cabDto.setCabStatus(statusDto.getCabStatus());
+            return updateStatusInfo(rideStatus, rideDto, cabDto);
+        }
+        return new CabDto();
+    }
+
+    /**
+     * <p>
+     *   Implement this method is often used to change the status of both
+     *   ride and cab by passing the rideStatus, and respective objects
+     * </p>
+     *
+     * @param rideStatus {@link String} status of ride
+     * @param rideDto {@link RideDto} change ride's ride status
+     * @param cabDto {@link CabDto} change cab's cab status
+     * @return {@link CabDto} updated cabDto
+     *
+     */
+    private CabDto updateStatusInfo(String rideStatus, RideDto rideDto, CabDto cabDto) {
+        switch (rideStatus.toLowerCase()) {
+            case "picked" :
+                rideDto.setRidePickedTime(LocalDateTime.now());
+                rideDto.setRideStatus(rideStatus);
+                cabDto.setCabStatus("On ride");
+                break;
+
+            case "dropped" :
+                rideDto.setRideStatus(rideStatus);
+                cabDto.setCabStatus("Available");
+                Set<RideDto> rideDtos = cabDto.getRides();
+                rideDtos.add(rideDto);
+                cabDto.setRides(rideDtos);
+                cabDto.setCurrentLocation(rideDto.getDropLocation()
+                        .getLocationName());
+                break;
+
+            case "cancelled" :
+                rideDto.setRideStatus(rideStatus);
+                cabDto.setCabStatus("Available");
+                break;
+
+            default:
+                cabDto.setCabStatus("UnAvailable");
+        }
+        cabService.updateCabDetailsById(cabDto.getId(), cabDto);
+        updateRide(rideDto);
+        return cabDto;
+    }
+
+    /**
+     * Method used to Calculate TravelFare by using PickUpTime And DropTime
+     * @param rideDto {@link RideDto, CabDto, CabCategory}rideDto, cabDto, cabCategory Object
+     * @param cabDto {@link CabDto}
+     * @param cabCategoryDto {@link CabCategoryDto}
+     * @return {@link Double}returns RidePrice by Time Of Travel
+     */
+    public String calculateTravelFare(RideDto rideDto, CabDto cabDto, CabCategoryDto cabCategoryDto) {
+        String rideStatus = rideDto.getRideStatus();
+        if (("Dropped").equalsIgnoreCase(rideStatus)) {
+            cabDto.setCabStatus("Available");
+            cabService.updateCabDetailsById(cabDto.getId(), cabDto);
+            rideDto.setRideDroppedTime(LocalDateTime.now());
+            LocalDateTime pickTime = rideDto.getRidePickedTime();           
+            int timeDifference = (pickTime.getHour() - rideDto.getRideDroppedTime().getHour());
+            String hour = Integer.toString(pickTime.getHour());
+
+            if (hour.matches("0?[8-9]|1[089]|2[0-1]")) {
+             
+            }
+
+            rideDto.setPrice((timeDifference) * (cabCategoryDto.getInitialFare()));
+            updateRide(rideDto);
+
+            return "The PRICE AMOUNT : " + rideDto.getPrice() + " Rupees Only";
+        }
+        return " THE CUSTOMER NOT TO BE DROPPED YET :: Please check the ride status";
     }
 }

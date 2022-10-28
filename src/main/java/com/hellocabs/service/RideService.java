@@ -10,23 +10,30 @@ import com.hellocabs.dto.CabCategoryDto;
 import com.hellocabs.dto.CabDto;
 import com.hellocabs.dto.LocationDto;
 import com.hellocabs.dto.RideDto;
+import com.hellocabs.dto.StatusDto;
 
 import java.util.Set;
 
 /**
- * Interface that contains abstract and static methods
- * create, search, update and delete a ride
+ * <p>
+ *   Interface that contains abstract and static methods
+ *   create, search, update and delete a ride
+ * </p>
  *
- * This file is created on 20/10/2022
  * @author : Pradeep
+ * created on 20/10/2022
+ * @version 1.0
  *
  */
 public interface RideService {
 
     /**
-     *
-     * Add a ride into repository by
-     * converting the dto to model
+     * <p>
+     *   An abstract method to get the Dto object
+     *   and convert to entity object through mapper class
+     *   then send the entity to repository layer to store
+     *   in database
+     * </p>
      *
      * @param rideDto {@link RideDto} ride details to be created
      * @return id {@link int} created ride id
@@ -35,18 +42,23 @@ public interface RideService {
     int createRide(RideDto rideDto);
 
     /**
+     * <p>
+     *   An abstract method to fetch a particular ride using id
+     *   if ride exists return ride else return a new ride object
+     * </p>
      *
-     * Search a ride by using id
-     *
-     * @param id {@link int} id to be searched
-     * @return rideDto {@link RideDto} searched ride details
+     * @param id {@link int} ride's id to be searched
+     * @return {@link RideDto} searched ride object
      *
      */
     RideDto searchRideById(int id);
 
     /**
-     *
-     * Retrieve all rides
+     * <p>
+     *   An abstract method to retrieve all rides
+     *   irrespective of id
+     *   Returns empty set when no rides available
+     * </p>
      *
      * @return {@link Set<RideDto>} set of all rides
      *
@@ -54,70 +66,74 @@ public interface RideService {
     Set<RideDto> retrieveRides();
 
     /**
+     * <p>
+     *   An abstract method to update particular ride
+     *   First update the required fields also enter the id
+     *   then only existing object updated else if no id mentioned
+     *   a new object will be created
+     * </p>
      *
-     * Update a ride by using additional information
-     *
-     * @param rideDto {@link RideDto} ride object to be updated
-     * @return rideDto {@link RideDto} updated object
+     * @param rideDto {@link RideDto} ride details to be updated
+     * @return {@link String} updated ride
      *
      */
     RideDto updateRide(RideDto rideDto);
 
     /**
+     * <p>
+     *   An abstract method whenever a user wants to cancel
+     *   the ride for some reason, also get the reason for cancel
+     *   the ride from user
+     * </p>
      *
-     * Delete a ride by using id
-     *
-     * @param id {@link int} ride to be deleted
-     * @return true/false {@link boolean} deleted ride's id
+     * @param id {@link int} ride details to be updated
+     * @return {@link String} reason for ride cancellation
      *
      */
     boolean deleteRideById(int id);
 
     /**
-     *
-     * After display the ride fare and if ride is booked
+     * <p>
+     *   An abstract method which is used when ride is booked, no
+     *   cab categories were found on that location or
+     *   no cab driver was accept this ride for
+     *   some time, ride will be cancelled automatically
+     *   and shows user a message to choose another cab category
+     * </p>
      *
      * @param rideId {@link int}
      * @return rideDto {@link RideDto} updated rideDto
+     *
      */
     String confirmRide(int rideId);
 
     /**
+     * <p>
+     *   An abstract method which is often used to change the status
+     *   of both ride and cab by passing the user input as an object
+     * </p>
      *
-     * Often change the status of the ride and cab
-     *
-     * @param rideId {@link int} ride id
-     * @param cabId {@link int} cab id to be assigned
-     * @param rideStatus {@link String} ride status
-     * @param cabStatus {@link String} cab status
-     * @return {@link CabDto}assigned cab details
+     * @param statusDto {@link StatusDto} contains information
+     *                          about ride status
+     * @return {@link CabDto} assigned cab details
      */
-    CabDto updateStatus(int rideId, int cabId, String rideStatus, String cabStatus);
+    CabDto updateStatus(StatusDto statusDto);
 
     /**
-     *
-     * Book ride for a customer
+     * <p>
+     *   An abstract method, in which whenever a customer
+     *   books a ride and choose category by using category
+     *   id and also ride details like locations, time, etc.,
+     *   It show locations and category details from which
+     *   customer have to select location and category and
+     *   then the ride is created also ride status changed
+     *   to booked
+     * </p>
      *
      * @param rideDto {@link RideDto} ride details of a customer
      * @return cabDtos {@link Set<CabDto>} list of cab that are
-     * available on particular location
+     *              available on particular location
      *
      */
     String bookRide(RideDto rideDto, int categoryId);
-
-    /**
-     *
-     * Shows all available locations that are provided by the cab service
-     *
-     * @return {@link Set<LocationDto>}all available locations
-     */
-    Set<LocationDto> displayAllLocations();
-
-    /**
-     *
-     * Shows all cab categories that are provided by the cab service
-     *
-     * @return {@link Set<CabCategoryDto>}all available categories
-     */
-    Set<CabCategoryDto> displayAllCabCategories();
 }

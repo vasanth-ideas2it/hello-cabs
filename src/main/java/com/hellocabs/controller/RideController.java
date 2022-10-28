@@ -10,7 +10,9 @@ import com.hellocabs.dto.CabCategoryDto;
 import com.hellocabs.dto.CabDto;
 import com.hellocabs.dto.LocationDto;
 import com.hellocabs.dto.RideDto;
+import com.hellocabs.dto.StatusDto;
 import com.hellocabs.logger.LoggerConfiguration;
+import com.hellocabs.model.CabCategory;
 import com.hellocabs.service.RideService;
 
 import org.apache.log4j.Logger;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
@@ -52,8 +55,8 @@ public class RideController {
 
     /**
      * <p>
-     *   Used this method to fetch a particular ride using id
-     *   if ride exists return ride else return a new ride object
+     *   Used this method to fetch a particular ride
+     *   by passing ride id to service
      * </p>
      *
      * @param id {@link int} ride's id to be searched
@@ -62,6 +65,7 @@ public class RideController {
      */
     @GetMapping("search/{id}")
     public RideDto searchRideById(@PathVariable int id) {
+        logger.info("id " + id);
         return rideService.searchRideById(id);
     }
 
@@ -69,7 +73,6 @@ public class RideController {
      * <p>
      *   Used this method to retrieve all rides
      *   irrespective of id
-     *   Returns empty set when no rides available
      * </p>
      *
      * @return {@link Set<RideDto>} set of all rides
@@ -80,8 +83,11 @@ public class RideController {
     }
 
     /**
-     *
-     * Update particular ride by existing ride
+     * <p>
+     *   Used this method to update particular ride
+     *   by inserting the values of fields and id
+     *   to be updated
+     * </p>
      *
      * @param rideDto {@link RideDto} ride details to be updated
      * @return {@link String} updated ride
@@ -97,34 +103,15 @@ public class RideController {
     }
 
     /**
-     *
-     * Shows all available locations that are provided by the cab service
-     *
-     * @return {@link Set<LocationDto>}all available locations
-     */
-    @GetMapping("location")
-    public Set<LocationDto> displayAllLocations() {
-        return rideService.displayAllLocations();
-    }
-
-    /**
-     *
-     * Shows all cab categories that are provided by the cab service
-     *
-     * @return {@link Set<CabCategoryDto>}all available categories
-     */
-    @GetMapping("categories")
-    public Set<CabCategoryDto> displayAllCabCategories() {
-        return rideService.displayAllCabCategories();
-    }
-
-    /**
-     *
-     * Book ride for a customer
+     * <p>
+     *   Used this method whenever a customer books a ride
+     *   and choose category by using category id and also
+     *   ride details
+     * </p>
      *
      * @param rideDto {@link RideDto} ride details of a customer
      * @return cabDtos {@link Set<CabDto>} list of cab that are
-     * available on particular location
+     *              available on particular location
      *
      */
     @PostMapping("book/{categoryId}")
@@ -134,28 +121,32 @@ public class RideController {
     }
 
     /**
+     * <p>
+     *   This method is often used to change the status of both ride and cab
+     *   by passing the user input as an object
+     * </p>
      *
-     * Often change the status of the ride and cab
+     * @param statusDto {@link StatusDto} contains information
+     *                          about ride status
+     * @return {@link CabDto} assigned cab details
      *
-     * @param rideId {@link int} ride id
-     * @param cabId {@link int} cab id to be assigned
-     * @param rideStatus {@link String} ride status
-     * @param cabStatus {@link String} cab status
-     * @return {@link CabDto}assigned cab details
      */
-    @PutMapping("status/{rideId}/{rideStatus}/{cabId}/{cabStatus}")
-    public CabDto updateStatus(@PathVariable int rideId, @PathVariable int cabId,
-                             @PathVariable String rideStatus,
-                             @PathVariable String cabStatus) {
-        return rideService.updateStatus(rideId, cabId, rideStatus, cabStatus);
+    @PutMapping("status")
+    public CabDto updateStatus(@RequestBody @Valid StatusDto statusDto) {
+        return rideService.updateStatus(statusDto);
     }
 
     /**
-     *
-     * After display the ride fare and if ride is booked
+     * <p>
+     *   This method is used to confirm the ride is booked
+     *   if not accepted by cab for long time, ride will be
+     *   cancelled automatically and shows user a message
+     *   to choose another cab category
+     * </p>
      *
      * @param rideId {@link int}
      * @return rideDto {@link RideDto} updated rideDto
+     *
      */
     @PostMapping("waiting/{rideId}")
     public String confirmRide(@PathVariable int rideId) {
@@ -163,11 +154,14 @@ public class RideController {
     }
 
     /**
-     *
-     * delete existing ride
+     * <p>
+     *   Used this method whenever a user wants to cancel
+     *   the ride for some reason
+     * </p>
      *
      * @param id {@link int} ride details to be updated
-     * @return {@link String} deleted ride's id
+     * @return {@link String} reason for ride cancellation
+     *
      */
     @DeleteMapping("cancel/{id}")
     public String deleteRideById(@PathVariable int id){

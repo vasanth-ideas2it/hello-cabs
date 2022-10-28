@@ -7,14 +7,19 @@
 package com.hellocabs.logger;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
 /**
- * Implementation of custom logger configuration
- * in order to log data
+ * <p>
+ *   Class provide logger configuration to all classes in which
+ *   logging is used in order to log data, so that in future,
+ *   if there is a need to change logging configuration,
+ *   can simply modify this configuration file as per requirement
+ *   instead of modifying all classes which uses logger
+ * </p>
  *
- * This file is created on 21/10/2022
  * @author : Pradeep
+ * created on 20/10/2022
+ * @version 1.0
  *
  */
 public class LoggerConfiguration {
@@ -27,9 +32,6 @@ public class LoggerConfiguration {
      * @return logger {@link Logger} created logger
      */
     public static Logger getInstance(String name ) {
-        /*String log4jPath = "/hello-cabs/src/main/resources/log4j.properties";
-        PropertyConfigurator.configure(log4jPath);
-        */
         return Logger.getLogger(name);
     }
 

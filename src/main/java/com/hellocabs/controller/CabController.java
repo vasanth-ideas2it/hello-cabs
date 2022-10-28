@@ -135,36 +135,13 @@ public class CabController {
 
     /**
      * Method used to get PickUpTime by using Ride Status
-     * @param {@link RideDto}rideDto Object
-     * @return {@link String}returns Status of Ride
+     * @param rideDto {@link RideDto} rideDto Object
      */
     public void getPickedUpTime(RideDto rideDto) {
         rideDto.setRideStatus("picked");
         LocalDateTime pickUpTime = LocalDateTime.now();
-        rideDto.setRideTime(pickUpTime);
+        rideDto.setRidePickedTime(pickUpTime);
         rideService.updateRide(rideDto);
-    }
-
-    /**
-     * Method used to Calculate TravelFare by using PickUpTime And DropTime
-     * @param {@link RideDto, CabDto, CabCategory}rideDto, cabDto, cabCategory Object
-     * @return {@link Double}returns RidePrice by Time Of Travel
-     */
-    public String calculateTravelFare(RideDto rideDto, CabDto cabDto, CabCategory cabCategory) {
-        String rideStatus = rideDto.getRideStatus();
-        if (("Dropped").equalsIgnoreCase(rideStatus)) {
-            cabDto.setCabStatus("Available");
-            cabService.updateCabDetailsById(cabDto.getId(), cabDto);
-            LocalDateTime time = rideDto.getRideTime();
-            int timeDifference = (rideDto.getRideTime().getHour()) - (LocalDateTime.now().getHour());
-            rideDto.setPrice((timeDifference) * (cabCategory.getInitialFare()));
-            rideService.updateRide(rideDto);
-
-            return "The PRICE AMOUNT : " + rideDto.getPrice() + " Rupees Only";
-        } else {
-            return " THE CUSTOMER NOT TO BE DROPPED YET :: Please check the ride status";
-        }
-
     }
 
     /**

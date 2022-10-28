@@ -43,7 +43,13 @@ public class Ride {
     private int id;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime rideTime;
+    private LocalDateTime rideBookedTime;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime ridePickedTime;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime rideDroppedTime;
 
     private double price;
 

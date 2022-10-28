@@ -6,9 +6,9 @@ create table location(id int primary key auto_increment,location_name varchar(50
 
 create table cab_category(id int primary key auto_increment, cab_type varchar(30), initial_fare double, extra_km_fare double, additional_fare double);
 
-CREATE TABLE customer (id int NOT NULL AUTO_INCREMENT,  name varchar(30) DEFAULT NULL,  mobile_numberbigint(20) DEFAULT NULL,  email varchar(20) DEFAULT NULL,  PRIMARY KEY (id));
+CREATE TABLE customer (id int NOT NULL AUTO_INCREMENT,  name varchar(30) DEFAULT NULL,  mobile_number bigint(20) DEFAULT NULL,  email varchar(20) DEFAULT NULL,  PRIMARY KEY (id));
 
-create table ride(id int primary key auto_increment, pickup_location int, drop_location int,ride_time timestamp, price double, passenger_mobile_number bigint, rating double, ride_status varchar(20), customer_id int, cab_id int);
+create table ride(id int primary key auto_increment, pickup_location int, drop_location int, ride_booked_time timestamp, ride_picked_time timestamp, ride_dropped_time timestamp, price double, passenger_mobile_number bigint, rating double, ride_status varchar(20), customer_id int, cab_id int);
 alter table ride add constraint fk_location_id foreign key(pickup_location) references location(id);
 alter table ride add constraint fk_location_idd foreign key(drop_location) references location(id);
 alter table ride add constraint fk_cab_id foreign key(cab_id) references cab(id);

@@ -34,8 +34,13 @@ public class RideDto {
     private int id;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime rideTime;
+    private LocalDateTime rideBookedTime;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime ridePickedTime;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime rideDroppedTime;
     private double price;
 
     @Digits(integer = 10, fraction = 0)
@@ -45,10 +50,8 @@ public class RideDto {
 
     private String rideStatus;
 
-    @NotBlank(message = "Please Enter pickup location")
     private LocationDto pickupLocation;
 
-    @NotBlank(message = "Please Enter drop location")
     private LocationDto  dropLocation;
 }
 
