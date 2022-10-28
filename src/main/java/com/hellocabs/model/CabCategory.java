@@ -43,7 +43,7 @@ public class CabCategory {
     @Column(name = "initial_fare")
     private double initialFare;
 
-    @Column(name = "extra_km_Fare")
+    @Column(name = "extra_km_fare")
     private double extraKmFare;
 
     @Column(name = "additional_fare")

@@ -69,7 +69,11 @@ public class LocationServiceImpl implements LocationService {
     public LocationDto updateLocation(LocationDto locationDto) {
         Location location = LocationMapper.locationDtoToLocation(locationDto);
 
-        return LocationMapper.locationToLocationDto(locationRepository.save(location));
+        if (locationRepository.existsById(location.getId())) {
+            return LocationMapper.locationToLocationDto(locationRepository.save(location));
+        } else {
+            return null;
+        }
     }
 
     /**

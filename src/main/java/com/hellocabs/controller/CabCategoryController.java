@@ -1,5 +1,8 @@
 package com.hellocabs.controller;
 
+import com.hellocabs.constants.HelloCabsConstants;
+import com.hellocabs.exception.HelloCabsException;
+import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,7 +25,7 @@ import com.hellocabs.service.CabCategoryService;
 @RestController
 @RequestMapping("/cabcategory")
 public class CabCategoryController {
-    private Logger logger = LoggerConfiguration.getInstance("CabCategory.class");
+    private Logger logger = LoggerConfiguration.getInstance("CabCategoryController.class");
     CabCategoryService cabCategoryService;
     CabCategoryController(CabCategoryService cabCategoryService) {
         this.cabCategoryService = cabCategoryService;
@@ -41,7 +44,7 @@ public class CabCategoryController {
     @PostMapping("/create")
     public int addCabCategory(@Valid @RequestBody CabCategoryDto cabCategoryDto) {
         int id = cabCategoryService.createCabCategory(cabCategoryDto);
-        logger.info("Id :" + id);
+        logger.info(HelloCabsConstants.CAB_CATEGORY_CREATED + id);
         return  id;
     }
 
@@ -60,12 +63,12 @@ public class CabCategoryController {
     public CabCategoryDto searchCabCategoryById(@PathVariable int id) {
         CabCategoryDto cabCategoryDto = cabCategoryService.getCabCategoryById(id);
 
-        if (cabCategoryDto == null) {
-            logger.info("No cab category found for given id");
-            return null;
-        } else {
-            return cabCategoryDto;
+        if ( null == cabCategoryDto) {
+            logger.info(HelloCabsConstants.CAB_CATEGORY_NOT_FOUND);
+            throw new HelloCabsException(HelloCabsConstants.CAB_CATEGORY_NOT_FOUND);
         }
+        logger.info(HelloCabsConstants.CAB_CATEGORY_FOUND);
+        return cabCategoryDto;
     }
 
     /**
@@ -79,8 +82,14 @@ public class CabCategoryController {
      *         updated cab category is returned
      */
     @PutMapping("/update")
-    public CabCategoryDto updateCabCategory(@Valid @RequestBody CabCategoryDto cabCategoryDto) {
+    public CabCategoryDto updateCabCategory(@Valid @RequestBody CabCategoryDto cabCategoryDto) throws HelloCabsException {
         CabCategoryDto updatedCabCategoryDto = cabCategoryService.updateCabCategory(cabCategoryDto);
+
+        if (null == updatedCabCategoryDto) {
+            logger.error(HelloCabsConstants.CAB_CATEGORY_NOT_FOUND);
+            throw new HelloCabsException(HelloCabsConstants.CAB_CATEGORY_NOT_FOUND);
+        }
+        logger.error(HelloCabsConstants.CAB_CATEGORY_UPDATED);
         return  updatedCabCategoryDto;
     }
 
@@ -99,11 +108,11 @@ public class CabCategoryController {
     @DeleteMapping("/delete/{id}")
     public String deleteCabCategoryById(@PathVariable int id) {
         if (cabCategoryService.deleteCabCategoryById(id)) {
-            logger.info("Cab category is deleted for given id");
-            return "Cab category is deleted for given id";
+            logger.info(HelloCabsConstants.CAB_CATEGORY_DELETED);
+            return HelloCabsConstants.CAB_CATEGORY_DELETED;
         } else {
-            logger.info("Cab category is not found for given id");
-            return "Cab category is not found for given id";
+            logger.info(HelloCabsConstants.CAB_CATEGORY_NOT_FOUND);
+            return HelloCabsConstants.CAB_CATEGORY_NOT_FOUND;
         }
     }
 

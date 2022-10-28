@@ -15,7 +15,7 @@ public class StatusDto {
     private int cabId;
     @NotBlank(message = " CAB Status Should Not be Empty ")
     private String cabStatus;
-    @NotBlank(message = " RIDE Status Should Not be Empty ")
+    @NotBlank(message = "RIDE Status Should Not be Empty ")
     private String rideStatus;
 
 }

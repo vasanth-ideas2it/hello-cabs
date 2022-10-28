@@ -2,6 +2,7 @@ package com.hellocabs.service.impl;
 
 import com.hellocabs.dto.CabCategoryDto;
 import com.hellocabs.mapper.CabCategoryMapper;
+import com.hellocabs.mapper.LocationMapper;
 import com.hellocabs.model.CabCategory;
 import com.hellocabs.repository.CabCategoryRepository;
 import com.hellocabs.service.CabCategoryService;
@@ -71,7 +72,11 @@ public class CabCategoryServiceImpl implements CabCategoryService {
     public CabCategoryDto updateCabCategory(CabCategoryDto cabCategoryDto) {
         CabCategory cabCategory = CabCategoryMapper.CabCategoryDtoToCabCategory(cabCategoryDto);
 
-        return CabCategoryMapper.CabCategoryToCabCategoryDto(cabCategoryRepository.save(cabCategory));
+        if (cabCategoryRepository.existsById(cabCategory.getId())) {
+            return CabCategoryMapper.CabCategoryToCabCategoryDto(cabCategoryRepository.save(cabCategory));
+        } else {
+            return null;
+        }
     }
 
     /**

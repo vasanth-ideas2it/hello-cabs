@@ -47,7 +47,7 @@ public class CabDto {
     private Set<RideDto> rides;
 
     @NotBlank(message = "CarModel Not to be Empty :: Please Enter The CarModel")
-    @Size(min = 5, max = 20, message = " CarModel Should be in 5 to 20 characters")
+    @Size(min = 5, max = 20, message = "CarModel Should be in 5 to 20 characters")
     private String carModel;
 
     @Size(min = 5, max = 15, message = "Current Location Should be in between 10 to 15 Characters")

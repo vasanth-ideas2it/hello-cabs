@@ -1,8 +1,11 @@
 package com.hellocabs.controller;
 
+import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.LocationDto;
+import com.hellocabs.logger.LoggerConfiguration;
 import com.hellocabs.service.LocationService;
 
+import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +22,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/location")
 public class LocationController {
+    private Logger logger = LoggerConfiguration.getInstance("LocationController.class");
     LocationService locationService;
 
     LocationController(LocationService locationService) {
@@ -53,11 +57,11 @@ public class LocationController {
      *         searched location is returned
      */
     @GetMapping("/search/{id}")
-    public LocationDto searchLocationById(@PathVariable int id) {
+    public LocationDto searchLocationById(@PathVariable int id) throws RuntimeException {
         LocationDto locationDto = locationService.getLocationById(id);
 
         if (locationDto == null) {
-            return null;
+            throw new RuntimeException("Id not found");
         } else {
             return locationDto;
         }
@@ -76,6 +80,10 @@ public class LocationController {
     @PutMapping("/update")
     public LocationDto updateLocation(@Valid @RequestBody LocationDto locationDto) {
         LocationDto updatedLocationDto = locationService.updateLocation(locationDto);
+
+        if (null == updatedLocationDto ) {
+            throw new RuntimeException(HelloCabsConstants.LOCATION_NOT_FOUND);
+        }
         return updatedLocationDto;
     }
 
