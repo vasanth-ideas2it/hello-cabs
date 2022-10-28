@@ -34,7 +34,7 @@ public class HelloCabsConstants {
     public static final String CAR_MODEL_SIZE = "CarModel Should be in 5 to 20 characters";
     public static final String CURRENT_LOCATION_SIZE = "Current Location Should be in between 10 to 15 Characters";
     public static final String LOCATION_NOT_BLANK = "Location name must not be Empty or null";
-    public static final String LOCATION_SIZE = "Location name should have atleast 3 characters";
+    public static final String LOCATION_SIZE = "Location name should have at least 3 characters";
     public static final String PICKUP_LOCATION_NOT_LOCATION = "Pickup location name must not be empty or null :: Please enter pickup location";
     public static final String DROP_LOCATION_NOT_LOCATION = "Drop location name must not be empty or null :: Please enter drop location";
     public static final String RIDE_STATUS_NOT_BLANK = "Ride status should not be empty or null";

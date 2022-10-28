@@ -50,7 +50,7 @@ public class HelloCabsAdvisor {
      * @return {@link String}return the exception with message
      */
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(value = HelloCabsException.class)
+    @ExceptionHandler(value = RuntimeException.class)
     public Map<String, Object> exceptionHandler(RuntimeException runtimeException) {
         Map<String, Object> errors = new LinkedHashMap<>();
 

@@ -7,6 +7,7 @@
 package com.hellocabs.mapper;
 
 import com.hellocabs.dto.RideDto;
+import com.hellocabs.model.Location;
 import com.hellocabs.model.Ride;
 
 /**
@@ -42,8 +43,9 @@ public class RideMapper {
         ride.setPassengerMobileNumber(rideDto.getPassengerMobileNumber());
         ride.setRating(rideDto.getRating());
         ride.setRideStatus(rideDto.getRideStatus());
-        ride.setPickupLocation(LocationMapper
-                .locationDtoToLocation(rideDto.getPickupLocation()));
+        Location location = new Location();
+        location.setId(rideDto.getPickupLocation().getId());
+        ride.setPickupLocation(location);
         ride.setDropLocation(LocationMapper
                 .locationDtoToLocation(rideDto.getDropLocation()));
         return ride;

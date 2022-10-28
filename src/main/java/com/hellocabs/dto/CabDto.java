@@ -63,4 +63,6 @@ public class CabDto {
 
     private String password;
 
+    private boolean isActive;
+
 }

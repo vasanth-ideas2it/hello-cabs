@@ -49,6 +49,7 @@ public class RideController {
     private final Logger logger = LoggerConfiguration
             .getInstance("RideController.class");
 
+
     public RideController(RideService rideService) {
         this.rideService = rideService;
     }

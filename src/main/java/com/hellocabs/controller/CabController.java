@@ -1,14 +1,10 @@
 package com.hellocabs.controller;
 
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
 import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,13 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import com.hellocabs.dto.CabDto;
-import com.hellocabs.dto.RideDto;
 import com.hellocabs.logger.LoggerConfiguration;
 import com.hellocabs.model.Cab;
-import com.hellocabs.model.CabCategory;
 import com.hellocabs.service.CabService;
 import com.hellocabs.service.RideService;
 
@@ -112,7 +105,8 @@ public class CabController {
 
     /**
      * <p>
-     * Method used to delete details from server by using id
+     * Method used to delete details from server by using id with help
+     * of DeleteMapping and pathVariable
      * </p>
      * @param {@link int} id
      * @return {@link String>}returns Status of Cab details
@@ -123,6 +117,16 @@ public class CabController {
         return cabService.deleteCabDetailsById(id);
     }
 
+    /**
+     * <p>
+     * Method used to put or update Cab details by using PostMapping with valid
+     * cabDto object and pass to cab Service to update
+     * </p>
+     *
+     * @param id {@link int}to check respective cab or not
+     * @param cabStatus{@link String}to change or update the status of cab
+     * @return {@link String}returns the status of the given details
+     */
     @PutMapping("update/{id}/{cabStatus}")
     public String updateCabStatus(@PathVariable int id, @PathVariable String cabStatus) {
         return cabService.updateCabStatus(id, cabStatus);

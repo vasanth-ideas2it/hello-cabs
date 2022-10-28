@@ -53,6 +53,6 @@ public class CabCategory {
     @OneToMany
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @LazyCollection(LazyCollectionOption.FALSE)
-            @JoinColumn(name = "cab_category_id")
+    @JoinColumn(name = "cab_category_id")
     List<Cab> cabs;
 }

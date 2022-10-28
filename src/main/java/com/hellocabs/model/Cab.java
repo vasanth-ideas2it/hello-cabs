@@ -6,7 +6,16 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * <h> Cab </h>
@@ -63,12 +72,9 @@ public class Cab {
     @Column(name = "current_location")
     private String currentLocation;
 
-    @JoinColumn(name = "cab_category_id")
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private CabCategory cabCategory;
-
     @Column(name = "password")
     private String password;
 
+    @Column(name = "is_active")
+    private boolean isActive;
 }

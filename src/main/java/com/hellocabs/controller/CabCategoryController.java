@@ -82,7 +82,7 @@ public class CabCategoryController {
      *         updated cab category is returned
      */
     @PutMapping("/update")
-    public CabCategoryDto updateCabCategory(@Valid @RequestBody CabCategoryDto cabCategoryDto) throws HelloCabsException {
+    public CabCategoryDto updateCabCategory(@Valid @RequestBody CabCategoryDto cabCategoryDto) {
         CabCategoryDto updatedCabCategoryDto = cabCategoryService.updateCabCategory(cabCategoryDto);
 
         if (null == updatedCabCategoryDto) {
