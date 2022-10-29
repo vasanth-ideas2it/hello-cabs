@@ -1,5 +1,6 @@
 package com.hellocabs.dto;
 
+import com.hellocabs.model.Cab;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -26,7 +27,19 @@ public class CabCategoryDto {
     private String cabType;
 
     private double initialFare;
-    private double extraKmFare;
-    private double additionalFare;
-    private List<CabDto> cabDtos;
+    private double extraFarePerHr;
+    private double peakHrFare;
+    private List<CabDto> cabs;
+
+    public CabCategoryDto() {
+    }
+
+    public CabCategoryDto(int id, String cabType, double initialFare, double extraFarePerHr, double peakHrFare, List<CabDto> cabs) {
+        this.id = id;
+        this.cabType = cabType;
+        this.initialFare = initialFare;
+        this.extraFarePerHr = extraFarePerHr;
+        this.peakHrFare = peakHrFare;
+        this.cabs = cabs;
+    }
 }

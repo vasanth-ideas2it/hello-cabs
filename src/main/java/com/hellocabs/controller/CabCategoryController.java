@@ -110,7 +110,7 @@ public class CabCategoryController {
             logger.info(HelloCabsConstants.CAB_CATEGORY_DELETED);
             return HelloCabsConstants.CAB_CATEGORY_DELETED;
         } else {
-            logger.info(HelloCabsConstants.CAB_CATEGORY_NOT_FOUND);
+            logger.error(HelloCabsConstants.CAB_CATEGORY_NOT_FOUND);
             return HelloCabsConstants.CAB_CATEGORY_NOT_FOUND;
         }
     }

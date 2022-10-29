@@ -46,13 +46,12 @@ public class LocationServiceImpl implements LocationService {
      *         searched location is returned
      */
     public LocationDto getLocationById(int id) {
-        Optional<Location> location = locationRepository.findById(id);
+        Location location = locationRepository.findByIdAndIsDeleted(id, false);
 
-        if (!location.isPresent()) {
-            return null;
+        if (null != location) {
+            return LocationMapper.locationToLocationDto(location);
         } else {
-            LocationDto locationDto = LocationMapper.locationToLocationDto(location.get());
-            return locationDto;
+            return null;
         }
     }
 
@@ -94,7 +93,8 @@ public class LocationServiceImpl implements LocationService {
         if (!location.isPresent()) {
             return false;
         } else {
-            locationRepository.deleteById(id);
+            location.get().setDeleted(true);
+            locationRepository.save(location.get());
             return true;
         }
     }

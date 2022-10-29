@@ -1,6 +1,7 @@
 package com.hellocabs.model;
 
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,4 +33,16 @@ public class Location {
 
     @Column(name = "location_name")
     private String locationName;
+
+    @Column(name = "is_deleted")
+    @Value("false")
+    private boolean isDeleted;
+
+    public Location() {
+    }
+
+    public Location(int id, String locationName) {
+        this.id = id;
+        this.locationName = locationName;
+    }
 }

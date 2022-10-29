@@ -62,7 +62,7 @@ public class LocationController {
     public LocationDto searchLocationById(@PathVariable int id) {
         LocationDto locationDto = locationService.getLocationById(id);
 
-        if (locationDto == null) {
+        if (null == locationDto) {
             logger.error(HelloCabsConstants.LOCATION_NOT_FOUND);
             throw new HelloCabsException(HelloCabsConstants.LOCATION_NOT_FOUND);
         }

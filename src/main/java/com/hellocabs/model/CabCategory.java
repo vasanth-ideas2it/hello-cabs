@@ -1,9 +1,11 @@
 package com.hellocabs.model;
 
+import com.hellocabs.dto.CabDto;
 import lombok.Data;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -44,15 +46,27 @@ public class CabCategory {
     @Column(name = "initial_fare")
     private double initialFare;
 
-    @Column(name = "extra_km_fare")
-    private double extraKmFare;
+    @Column(name = "extra_fare_per_hr")
+    private double extraFarePerHr;
 
-    @Column(name = "additional_fare")
-    private double additionalFare;
+    @Column(name = "peak_hr_fare")
+    private double peakHrFare;
 
     @OneToMany
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name = "cab_category_id")
     List<Cab> cabs;
+
+    public CabCategory() {
+    }
+
+    public CabCategory(int id, String cabType, double initialFare, double extraFarePerHr, double peakHrFare, List<Cab> cabs) {
+        this.id = id;
+        this.cabType = cabType;
+        this.initialFare = initialFare;
+        this.extraFarePerHr = extraFarePerHr;
+        this.peakHrFare = peakHrFare;
+        this.cabs = cabs;
+    }
 }

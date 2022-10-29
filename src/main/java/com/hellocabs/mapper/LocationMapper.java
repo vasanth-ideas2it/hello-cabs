@@ -8,19 +8,11 @@ import java.util.List;
 
 public class LocationMapper {
     public static LocationDto locationToLocationDto(Location location) {
-        LocationDto locationDto = new LocationDto();
-
-        locationDto.setId(location.getId());
-        locationDto.setLocationName(location.getLocationName());
-        return locationDto;
+        return new LocationDto(location.getId(), location.getLocationName());
     }
 
     public static Location locationDtoToLocation(LocationDto locationDto) {
-        Location location = new Location();
-
-        location.setId(locationDto.getId());
-        location.setLocationName(locationDto.getLocationName());
-        return location;
+        return new Location(locationDto.getId(), locationDto.getLocationName());
     }
 
     public static List<LocationDto> locationsToLocationDtos(List<Location> locations) {

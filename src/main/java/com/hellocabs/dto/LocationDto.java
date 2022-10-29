@@ -1,7 +1,9 @@
 package com.hellocabs.dto;
 
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -23,4 +25,9 @@ public class LocationDto {
     @NotBlank(message = "Location name must not be Empty or null")
     @Size(min=3, message="Location name should have atleast 3 characters")
     private String locationName;
+
+    public LocationDto(int id, String locationName) {
+        this.id = id;
+        this.locationName = locationName;
+    }
 }

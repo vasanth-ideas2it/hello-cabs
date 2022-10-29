@@ -34,9 +34,9 @@ public class HelloCabsAdvisor {
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = MethodArgumentNotValidException.class )
-    public Map<String,String> exceptionHandler(MethodArgumentNotValidException exception) {
+    public Map<String,String> exceptionHandler(MethodArgumentNotValidException methodArgNotValidException) {
         Map<String,String> errors = new HashMap<>();
-        exception.getBindingResult().getFieldErrors().forEach(error -> {
+        methodArgNotValidException.getBindingResult().getFieldErrors().forEach(error -> {
             errors.put(error.getField(), error.getDefaultMessage());
         });
         return errors;
