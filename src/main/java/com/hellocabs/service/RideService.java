@@ -117,9 +117,10 @@ public interface RideService {
      * </p>
      *
      * @param rideDto {@link RideDto} ride details of a customer
+     * @param customerId {@link int} customer who booked a cab
      * @return cabDtos {@link Set<CabDto>} list of cab that are
      *              available on particular location
      *
      */
-    String bookRide(RideDto rideDto, int categoryId);
+    String bookRide(RideDto rideDto, int customerId);
 }

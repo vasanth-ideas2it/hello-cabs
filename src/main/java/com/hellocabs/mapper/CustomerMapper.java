@@ -4,10 +4,15 @@
 package com.hellocabs.mapper;
 
 import com.hellocabs.dto.CustomerDto;
+import com.hellocabs.dto.RideDto;
 import com.hellocabs.model.Customer;
+import com.hellocabs.model.Ride;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -35,6 +40,13 @@ public class CustomerMapper {
         customer.setCustomerMobileNumber(customerDto.getCustomerMobileNumber());
         customer.setCustomerEmail(customerDto.getCustomerEmail());
         customer.setPassword(customerDto.getPassword());
+        Set<RideDto> rideDtos = customerDto.getRides();
+
+        if (null != rideDtos) {
+            customer.setRides(rideDtos.stream()
+                    .map(RideMapper::convertRideDtoIntoRide)
+                    .collect(Collectors.toSet()));
+        }
         return customer;
     }
 
@@ -53,6 +65,13 @@ public class CustomerMapper {
         customerDto.setCustomerMobileNumber(customer.getCustomerMobileNumber());
         customerDto.setCustomerEmail(customer.getCustomerEmail());
         customerDto.setPassword(customer.getPassword());
+        Set<Ride> rides = customer.getRides();
+
+        if (null != rides) {
+            customerDto.setRides(rides.stream()
+                    .map(RideMapper::convertRideIntoRideDto)
+                    .collect(Collectors.toSet()));
+        }
         return customerDto;
     }
     /**

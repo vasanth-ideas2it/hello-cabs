@@ -71,7 +71,7 @@ public class CustomerController {
     @PutMapping("update")
     public String updateCustomerById(@RequestBody CustomerDto customerDto) {
         int customerId = customerService.updateCustomer(customerDto).getCustomerId();
-        if(0 != customerId) {
+        if (0 != customerId) {
             return("CustomerId" + customerId + "is Updated"+  HttpStatus.OK);
         }
         return("CustomerId" + customerId + "is not Updated" + HttpStatus.NOT_FOUND);
@@ -87,7 +87,7 @@ public class CustomerController {
     @DeleteMapping("delete/{customerId}")
     public String deleteCustomerById(@PathVariable int customerId) {
         boolean deletedCustomer = customerService.deleteCustomerById(customerId);
-        if(true == deletedCustomer) {
+        if (true == deletedCustomer) {
             return("CustomerId " + customerId + " is deleted" + HttpStatus.OK);
         }
         return("CustomerId " + customerId + " is not deleted" + HttpStatus.NOT_FOUND);

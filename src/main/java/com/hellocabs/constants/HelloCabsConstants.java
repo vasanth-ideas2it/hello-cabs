@@ -45,11 +45,9 @@ public class HelloCabsConstants {
     public static final String RIDE_NOT_UPDATED = "Couldn't update Ride";
 
     //STATUS
-    public static final String WAITING_STATUS = "Waiting for driver to accept ";
-    public static final String CANCELLED_DUE_TO_UNAVAILABILITY
-            = "Ride cancelled due to cabs unavailability ";
-    public static final String SEARCHING_CABS
-            = "Hold on! Looking for cabs nearby";
+    public static final String WAITING_STATUS = " Waiting for driver to accept ";
+    public static final String CANCELLED_DUE_TO_UNAVAILABILITY = "Ride cancelled due to cabs unavailability ";
+    public static final String SEARCHING_CABS = "Hold on! Searching for cabs nearby";
 
     //VALIDATION
 
@@ -68,5 +66,14 @@ public class HelloCabsConstants {
     public static final String PICKUP_LOCATION_NOT_LOCATION = "Pickup location name must not be empty or null :: Please enter pickup location";
     public static final String DROP_LOCATION_NOT_LOCATION = "Drop location name must not be empty or null :: Please enter drop location";
     public static final String RIDE_STATUS_NOT_BLANK = "Ride status should not be empty or null";
+    public static final String CUSTOMER_NOT_DROPPED = " THE CUSTOMER NOT TO BE DROPPED YET :: Please check the ride status";
+    public static final String PEAK_HOUR_REGEX = "0?[8-9]|1[089]|2[0-1]";
+    public static final String TRAVEL_FARE = "The PRICE AMOUNT : ";
+
+    //RIDE STATUS
+    public static final String CAB_ON_RIDE = "On Ride";
+    public static final String CAB_AVAILABLE = "Available";
+    public static final String CAB_UNAVAILABLE = "UnAvailable";
+    public static final String RIDE_BOOKED = "Booked";
 
 }

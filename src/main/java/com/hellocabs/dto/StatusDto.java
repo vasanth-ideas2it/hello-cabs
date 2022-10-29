@@ -9,12 +9,11 @@ import javax.validation.constraints.NotBlank;
 @Validated
 public class StatusDto {
 
-    @NotBlank(message = " RIDE ID Should Not be EMPTY ")
+    //@NotBlank(message = " RIDE ID Should Not be EMPTY ")
     private int rideId;
-    @NotBlank(message = " CAB ID Should Not be EMPTY ")
+    //@NotBlank(message = " CAB ID Should Not be EMPTY ")
     private int cabId;
-    @NotBlank(message = " CAB Status Should Not be Empty ")
-    private String cabStatus;
+    private int categoryId;
     @NotBlank(message = "RIDE Status Should Not be Empty ")
     private String rideStatus;
 

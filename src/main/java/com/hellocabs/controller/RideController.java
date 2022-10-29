@@ -14,6 +14,7 @@ import com.hellocabs.exception.HelloCabsException;
 import com.hellocabs.logger.LoggerConfiguration;
 import com.hellocabs.service.RideService;
 
+import lombok.RequiredArgsConstructor;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,17 +41,13 @@ import java.util.Set;
  *
  */
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("ride")
 public class RideController {
 
     private final RideService rideService;
     private final Logger logger = LoggerConfiguration
             .getInstance("RideController.class");
-
-
-    public RideController(RideService rideService) {
-        this.rideService = rideService;
-    }
 
     /**
      * <p>
@@ -108,14 +105,15 @@ public class RideController {
      * </p>
      *
      * @param rideDto {@link RideDto} ride details of a customer
+     * @param customerId {@link int} customer who booked a cab
      * @return cabs {@link Set<CabDto>} list of cab that are
      *              available on particular location
      *
      */
-    @PostMapping("book/{categoryId}")
+    @PostMapping("book/{categoryId}/{customerId}")
     public String bookRide(@RequestBody @Valid RideDto rideDto,
-                           @PathVariable int categoryId) {
-        return rideService.bookRide(rideDto, categoryId);
+                           @PathVariable int customerId) {
+        return rideService.bookRide(rideDto, customerId);
     }
 
     /**
