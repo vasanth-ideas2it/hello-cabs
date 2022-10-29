@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
     @Autowired
     CustomerService customerService;
+    @Autowired
     CabService cabService;
     /**
      * <p>
@@ -37,7 +38,7 @@ public class LoginController {
     @PostMapping("customer/login")
     public String verifyCustomer(@RequestBody LoginDto loginDto) {
         CustomerDto customerDto = new CustomerDto();
-        customerDto.setCustomerMobileNumber(loginDto.getCustomerMobileNumber());
+        customerDto.setCustomerMobileNumber(loginDto.getMobileNumber());
         customerDto.setPassword(loginDto.getPassword());
         return (customerService.verifyCustomerDetails(customerDto));
     }
@@ -45,7 +46,7 @@ public class LoginController {
     @PostMapping("cab/login")
     public String verifyCab(@RequestBody LoginDto loginDto) {
         CabDto cabDto = new CabDto();
-        cabDto.setMobileNumber(loginDto.getCabMobileNumber());
+        cabDto.setMobileNumber(loginDto.getMobileNumber());
         cabDto.setPassword(loginDto.getPassword());
         return (cabService.verifyCabDetails(cabDto));
     }

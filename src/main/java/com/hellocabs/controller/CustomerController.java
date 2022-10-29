@@ -17,6 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
+import com.hellocabs.constants.HelloCabsConstants;
+
+
+
 /**
  * <h> customerController </h>
  * <p>
@@ -43,9 +47,9 @@ public class CustomerController {
     public String createCustomerDetails(@RequestBody CustomerDto customerDto) {
         int customerId = customerService.createCustomerDetails(customerDto).getCustomerId();
         if(0 != customerId) {
-            return ("Successfully registered " + customerId + HttpStatus.CREATED);
+            return (HelloCabsConstants.CUSTOMER_REGISTERED + customerId + " " + HttpStatus.CREATED);
         }
-        return ("Registration is not successfull");
+        return (HelloCabsConstants.CUSTOMER_NOT_REGISTERED);
     }
 
     /**
@@ -56,8 +60,11 @@ public class CustomerController {
      * @return {@link CustomerDto}returns searched customer details.
      */
     @GetMapping("view/{customerId}")
-    public CustomerDto viewCustomerById(@PathVariable int customerId) {
+    public CustomerDto viewCustomerById(@PathVariable int customerId) throws RuntimeException{
         CustomerDto customerDto = customerService.viewCustomerById(customerId);
+        if(null == customerDto) {
+            throw new RuntimeException(HelloCabsConstants.CUSTOMER_NOT_FOUND);
+        }
         return customerDto;
     }
 
@@ -69,12 +76,12 @@ public class CustomerController {
      * @return {@link String}returns updated customerId .
      */
     @PutMapping("update")
-    public String updateCustomerById(@RequestBody CustomerDto customerDto) {
+    public String updateCustomerById(@RequestBody CustomerDto customerDto) throws RuntimeException{
         int customerId = customerService.updateCustomer(customerDto).getCustomerId();
-        if (0 != customerId) {
-            return("CustomerId" + customerId + "is Updated"+  HttpStatus.OK);
+        if(0 == customerId) {
+            throw new RuntimeException(HelloCabsConstants.CUSTOMER_NOT_UPDATED);
         }
-        return("CustomerId" + customerId + "is not Updated" + HttpStatus.NOT_FOUND);
+        return(HelloCabsConstants.CUSTOMER_UPDATED+ customerId + HttpStatus.NOT_FOUND);
     }
 
     /**
@@ -87,10 +94,10 @@ public class CustomerController {
     @DeleteMapping("delete/{customerId}")
     public String deleteCustomerById(@PathVariable int customerId) {
         boolean deletedCustomer = customerService.deleteCustomerById(customerId);
-        if (true == deletedCustomer) {
-            return("CustomerId " + customerId + " is deleted" + HttpStatus.OK);
+        if(true == deletedCustomer) {
+            return(HelloCabsConstants.CUSTOMER_DELETED + customerId + HttpStatus.OK);
         }
-        return("CustomerId " + customerId + " is not deleted" + HttpStatus.NOT_FOUND);
+        return(HelloCabsConstants.CUSTOMER_NOT_DELETED + customerId + HttpStatus.NOT_FOUND);
     }
 
     /**

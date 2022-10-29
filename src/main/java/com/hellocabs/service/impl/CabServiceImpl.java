@@ -1,5 +1,6 @@
 package com.hellocabs.service.impl;
 
+import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.CabDto;
 import com.hellocabs.mapper.CabMapper;
 import com.hellocabs.model.Cab;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
  * <h> CabServiceImpl </h>
  * <p>
  * Class is used to define the implemented methods from CabService interface
- * and used to maintain the cab Details given by the user with help opf cabDto object
+ * and used to maintain the cab Details given by the user with help of cabDto object
  * </p>
  *
  * @version 1.0
@@ -121,9 +122,9 @@ public class CabServiceImpl implements CabService {
         String pass = cab.getPassword();
         Cab value =  cabRepository.findByMobileNumberAndPassword(number,pass);
         if(null != value) {
-            return "Successfully login";
+            return  HelloCabsConstants.LOGIN_SUCCESSFUL;
         }
-        return "Invalid credentials or not a registered user";
+        return  HelloCabsConstants.LOGIN_NOT_SUCCESSFUL;
     }
 
     /**

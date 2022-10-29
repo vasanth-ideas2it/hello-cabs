@@ -3,7 +3,6 @@
  */
 package com.hellocabs.service;
 
-import com.hellocabs.dto.CabDto;
 import com.hellocabs.dto.CustomerDto;
 import com.hellocabs.model.Customer;
 import java.util.List;
@@ -21,7 +20,7 @@ public interface CustomerService {
 
     Customer createCustomerDetails(CustomerDto customerDto);
     CustomerDto viewCustomerById(int customerId);
-    Customer updateCustomer(CustomerDto customerDto);
+    CustomerDto updateCustomer(CustomerDto customerDto);
     boolean deleteCustomerById(int customerId);
     List<CustomerDto> retrieveCustomers();
     String verifyCustomerDetails(CustomerDto customerDto);

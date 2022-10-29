@@ -16,8 +16,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 /**
@@ -38,16 +36,12 @@ public class Customer {
     @Column(name = "id")
     private int customerId;
     @Column(name = "name",length = 30)
-    @NotBlank(message = "Name is mandatory")
     private String customerName;
     @Column(name = "mobile_number")
-    @NotNull(message = "mobile number is mandatory")
     private long customerMobileNumber;
     @Column(name = "email",length = 20)
-    @NotBlank(message = "email is mandatory")
     private String customerEmail;
     @Column(name = "password",length = 20)
-   // @NotBlank(message = "password is mandatory")
     private String password;
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @LazyCollection(LazyCollectionOption.FALSE)

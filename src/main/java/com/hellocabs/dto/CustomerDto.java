@@ -3,9 +3,13 @@
  */
 package com.hellocabs.dto;
 
-import com.hellocabs.model.Ride;
 import lombok.Data;
-
+import org.springframework.validation.annotation.Validated;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 /**
@@ -17,12 +21,19 @@ import java.util.Set;
  * @version 1.0.
  */
 @Data
+@Validated
 public class CustomerDto {
 
     private int customerId;
+    @NotBlank(message = "Kindly Enter your name")
+    @Size(min = 2, max = 30)
     private String customerName;
+    @NotNull(message = "Kindly Enter your mobile number")
+    @Digits(integer = 10 , fraction = 0)
     private long customerMobileNumber;
+    @Email(message = "Kindly Enter your EmailId")
     private String customerEmail;
+    @NotBlank(message = "set password for your security")
     private String password;
     private Set<RideDto> rides;
 }

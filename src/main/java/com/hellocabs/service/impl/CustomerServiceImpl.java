@@ -3,11 +3,9 @@
  */
 package com.hellocabs.service.impl;
 
-import com.hellocabs.dto.CabDto;
+import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.CustomerDto;
-import com.hellocabs.mapper.CabMapper;
 import com.hellocabs.mapper.CustomerMapper;
-import com.hellocabs.model.Cab;
 import com.hellocabs.model.Customer;
 import com.hellocabs.repository.CustomerRepository;
 import com.hellocabs.service.CustomerService;
@@ -19,7 +17,7 @@ import java.util.List;
 /**
  * <h> customerServiceImpl </h>
  * <p>
- *   CustomerServiceImpl implements CRUD operations .
+ *   This class defines implementation of customerService interface methods.
  * </p>
  *
  *  @author gautam.
@@ -32,8 +30,9 @@ public class CustomerServiceImpl implements CustomerService {
     /**
      * <h> customerServiceImpl </h>
      * <p>
-     *   This method convert customerDto to customer and
-     *   add into repository.
+     *   This method is used to create customer by customerDto
+     *   and convert customerDto to customer and
+     *   pass to repository.
      * </p>
      *
      * @param {@link CustomerDto}customerDto contains customer details.
@@ -66,23 +65,26 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * <p>
-     *   This method update existing customers and convert
-     *   customerDto to customer and add into repository.
+     * This method is used to update existing customers and
+     * convert customerDto to customer and add into repository.
      * </p>
      *
      * @param {@link CustomerDto}customerDto contains updatedCustomer details.
-     * @return  {@link Customer}returns updatedCustomer.
+     * @return {@link CustomerDto}returns updatedCustomer.
      */
     @Override
-    public Customer updateCustomer(CustomerDto customerDto) {
+    public CustomerDto updateCustomer(CustomerDto customerDto) {
         Customer customer = CustomerMapper.convertCustomerDtoToCustomer(customerDto);
-        Customer updatedCustomer = customerRepository.save(customer);
-        return updatedCustomer;
+        if(customerRepository.existsById(customer.getCustomerId())) {
+            return CustomerMapper.covertCustomerToCustomerDto(customerRepository.save(customer));
+        }
+        return null;
     }
 
     /**
      * <p>
-     *    This Method is used to delete customer by its id.
+     *    This Method is used to find customer by its id
+     *    and delete if is exist.
      * </p>
      *
      * @param {@link int}customerId.
@@ -123,8 +125,8 @@ public class CustomerServiceImpl implements CustomerService {
         String pass = customer.getPassword();
         Customer value =  customerRepository.findByCustomerMobileNumberAndPassword(number,pass);
         if(null != value) {
-            return "Successfully login";
+            return HelloCabsConstants.LOGIN_SUCCESSFUL;
         }
-        return "Invalid credentials or not a registered user";
+        return HelloCabsConstants.LOGIN_NOT_SUCCESSFUL;
     }
 }

@@ -1,7 +1,6 @@
 package com.hellocabs.constants;
 
 public class HelloCabsConstants {
-
     //SEARCH NOT FOUND
     public static final String LOCATION_NOT_FOUND = "Location not found for given id";
     public static final String CAB_CATEGORY_NOT_FOUND = "Cab category not found for given id";
@@ -23,13 +22,17 @@ public class HelloCabsConstants {
     public static final String CUSTOMER_DELETED = "Customer deleted for given id";
     public static final String RIDE_CANCELLED = "Ride cancelled successfully";
 
+    //NOT DELETED
+    public static final String CUSTOMER_NOT_DELETED = "Customer is not deleted for given id : ";
     //CREATED
     public static final String LOCATION_CREATED = "Location found for given id";
     public static final String CAB_CATEGORY_CREATED = "Cab category created with ID: ";
     public static final String CAB_CREATED = "Cab created with ID: ";
-    public static final String CUSTOMER_REGISTERED = "Customer registered with ID: ";
     public static final String RIDE_CREATED = "Ride created with ID: ";
+    public static final String CUSTOMER_REGISTERED = "Customer registered successfully with ID: ";
 
+    //NOT CREATED
+    public static final String CUSTOMER_NOT_REGISTERED = "Customer is not registered successfully: ";
     //UPDATED
     public static final String LOCATION_UPDATED = "Location updated ";
     public static final String CAB_CATEGORY_UPDATED = "Cab category updated";
@@ -48,6 +51,10 @@ public class HelloCabsConstants {
     public static final String WAITING_STATUS = " Waiting for driver to accept ";
     public static final String CANCELLED_DUE_TO_UNAVAILABILITY = "Ride cancelled due to cabs unavailability ";
     public static final String SEARCHING_CABS = "Hold on! Searching for cabs nearby";
+    
+    //LOGIN STATUS
+    public static final String LOGIN_SUCCESSFUL = "Successfully login";
+    public static final String LOGIN_NOT_SUCCESSFUL = "Invalid credentials or not a registered user";
 
     //VALIDATION
 

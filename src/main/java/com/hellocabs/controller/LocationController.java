@@ -83,7 +83,6 @@ public class LocationController {
     @PutMapping("/update")
     public LocationDto updateLocation(@Valid @RequestBody LocationDto locationDto) {
         LocationDto updatedLocationDto = locationService.updateLocation(locationDto);
-
         if (null == updatedLocationDto ) {
             logger.error(HelloCabsConstants.LOCATION_NOT_FOUND);
             throw new HelloCabsException(HelloCabsConstants.LOCATION_NOT_FOUND);
