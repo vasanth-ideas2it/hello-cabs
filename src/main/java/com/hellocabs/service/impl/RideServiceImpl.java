@@ -84,9 +84,9 @@ public class RideServiceImpl implements RideService {
      *
      */
     public RideDto searchRideById(int id) {
-        Ride ride = rideRepository.findById(id).orElse(null);
+        Ride ride = rideRepository.findByIdAndIsCancelled(id, false);
 
-        if (ride != null && !ride.getIsCancelled()) {
+        if (ride != null) {
             logger.info(HelloCabsConstants.RIDE_FOUND + ride);
             return RideMapper.convertRideIntoRideDto(ride);
         }

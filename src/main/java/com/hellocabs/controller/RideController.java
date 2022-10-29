@@ -73,6 +73,7 @@ public class RideController {
      * @return {@link Set<RideDto>} set of all rides
      *
      */
+    @GetMapping("rides")
     public Set<RideDto> retrieveRides() {
         return rideService.retrieveRides();
     }

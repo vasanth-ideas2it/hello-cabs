@@ -10,7 +10,7 @@ import com.hellocabs.logger.LoggerConfiguration;
 import com.hellocabs.service.RideService;
 import lombok.RequiredArgsConstructor;
 import org.apache.log4j.Logger;
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Bean;/*
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -20,7 +20,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;*/
 
 /**
  * <p>
@@ -34,23 +34,23 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * @version 1.0
  *
  */
-@Configuration
-@EnableWebSecurity
+//@Configuration
+//@EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
     private static final Logger logger = LoggerConfiguration
             .getInstance("SecurityConfiguration.class");
 
-    private final RideService rideService;
-    private final UserDetailsService userDetailsService;
+    /*private final RideService rideService;
+    //private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final BasicAuthenticationFilter basicAuthenticationFilter;
 
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         logger.info("In config configure(auth)");
-        auth.userDetailsService(userDetailsService)
-                .passwordEncoder(new BCryptPasswordEncoder());
+       // auth.userDetailsService(userDetailsService)
+         //       .passwordEncoder(new BCryptPasswordEncoder());
     }
 
     protected void securityFilterChain(HttpSecurity http) throws Exception {
@@ -73,5 +73,5 @@ public class SecurityConfiguration {
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
        return authenticationManagerBean();
-    }
+    }*/
 }
