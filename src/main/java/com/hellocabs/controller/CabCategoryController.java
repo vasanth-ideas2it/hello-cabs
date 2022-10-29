@@ -1,8 +1,5 @@
 package com.hellocabs.controller;
 
-import com.hellocabs.constants.HelloCabsConstants;
-import com.hellocabs.exception.HelloCabsException;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,7 +15,9 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.CabCategoryDto;
+import com.hellocabs.exception.HelloCabsException;
 import com.hellocabs.logger.LoggerConfiguration;
 import com.hellocabs.service.CabCategoryService;
 

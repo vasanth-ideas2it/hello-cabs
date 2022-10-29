@@ -2,6 +2,7 @@ package com.hellocabs.controller;
 
 import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.LocationDto;
+import com.hellocabs.exception.HelloCabsException;
 import com.hellocabs.logger.LoggerConfiguration;
 import com.hellocabs.service.LocationService;
 
@@ -42,6 +43,7 @@ public class LocationController {
     @PostMapping("/create")
     public int addLocation(@Valid @RequestBody LocationDto locationDto) {
         int id = locationService.createLocation(locationDto);
+        logger.info(HelloCabsConstants.LOCATION_CREATED);
         return  id;
     }
 
@@ -57,14 +59,15 @@ public class LocationController {
      *         searched location is returned
      */
     @GetMapping("/search/{id}")
-    public LocationDto searchLocationById(@PathVariable int id) throws RuntimeException {
+    public LocationDto searchLocationById(@PathVariable int id) {
         LocationDto locationDto = locationService.getLocationById(id);
 
         if (locationDto == null) {
-            throw new RuntimeException("Id not found");
-        } else {
-            return locationDto;
+            logger.error(HelloCabsConstants.LOCATION_NOT_FOUND);
+            throw new HelloCabsException(HelloCabsConstants.LOCATION_NOT_FOUND);
         }
+        logger.info(HelloCabsConstants.LOCATION_FOUND);
+        return locationDto;
     }
 
     /**
@@ -82,8 +85,10 @@ public class LocationController {
         LocationDto updatedLocationDto = locationService.updateLocation(locationDto);
 
         if (null == updatedLocationDto ) {
-            throw new RuntimeException(HelloCabsConstants.LOCATION_NOT_FOUND);
+            logger.error(HelloCabsConstants.LOCATION_NOT_FOUND);
+            throw new HelloCabsException(HelloCabsConstants.LOCATION_NOT_FOUND);
         }
+        logger.info(HelloCabsConstants.LOCATION_UPDATED);
         return updatedLocationDto;
     }
 
@@ -102,9 +107,11 @@ public class LocationController {
     @DeleteMapping("/delete/{id}")
     public String deleteLocationById(@PathVariable int id) {
         if (locationService.deleteLocationById(id)) {
-            return "Location is deleted for given id";
+            logger.info(HelloCabsConstants.LOCATION_DELETED);
+            return HelloCabsConstants.LOCATION_DELETED;
         } else {
-            return "Location is not found for given id";
+            logger.info(HelloCabsConstants.LOCATION_NOT_FOUND);
+            throw new HelloCabsException(HelloCabsConstants.LOCATION_NOT_FOUND);
         }
     }
 
