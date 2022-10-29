@@ -3,6 +3,7 @@ package com.hellocabs.dto;
 import java.util.Set;
 import javax.validation.constraints.*;
 
+import com.hellocabs.constants.HelloCabsConstants;
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 /**
@@ -21,42 +22,42 @@ public class CabDto {
 
 
     private int id;
-    @NotBlank(message = "Driver Name Not to be Empty :: Please Enter The Name")
+    @NotBlank(message = HelloCabsConstants.DRIVER_NAME_NOT_BLANK)
     @Size(min = 2, max = 30)
     private String driverName;
 
-    @NotBlank(message = "Cab Number Not to be Empty :: Please Enter The Cab Number")
+    @NotBlank(message = HelloCabsConstants.CAB_NUMBER_NOT_BLANK)
     @Size(min = 5, max = 15)
     private String cabNumber;
 
-    @NotBlank(message = "Gender Not to be Empty :: Please Enter The Gender")
+    @NotBlank(message = HelloCabsConstants.GENDER_NOT_BLANK)
     @Size(min = 4, max = 10)
     private String gender;
 
     @Digits(integer = 10, fraction = 0)
     private long mobileNumber;
 
-    @Email(message = " Enter the valid Mail")
+    @Email(message = HelloCabsConstants.ENTER_VALID_EMAIL)
     @Size(min = 10, max = 30)
     private String email;
 
-    @NotBlank(message = "License Number Not to be Empty :: Please Enter The License Number")
+    @NotBlank(message = HelloCabsConstants.LICENSE_NOT_BLANK)
     @Size(min = 15, max = 30)
     private String licenseNumber;
 
     private double driverRating;
 
-    @NotBlank(message = "Cab Status Not to be Empty :: Please Enter The Cab Status")
+    @NotBlank(message = HelloCabsConstants.CAB_STATUS_NOT_BLANK)
     @Size(min = 5, max = 20)
     private String cabStatus;
 
     private Set<RideDto> rides;
 
-    @NotBlank(message = "CarModel Not to be Empty :: Please Enter The CarModel")
-    @Size(min = 5, max = 20, message = "CarModel Should be in 5 to 20 characters")
+    @NotBlank(message = HelloCabsConstants.CAR_MODEL_NOT_BLANK)
+    @Size(min = 5, max = 20, message = HelloCabsConstants.CAR_MODEL_SIZE)
     private String carModel;
 
-    @Size(min = 5, max = 15, message = "Current Location Should be in between 10 to 15 Characters")
+    @Size(min = 5, max = 15, message = HelloCabsConstants.CURRENT_LOCATION_SIZE)
     private String currentLocation;
 
     private CabCategoryDto cabCategoryDto ;

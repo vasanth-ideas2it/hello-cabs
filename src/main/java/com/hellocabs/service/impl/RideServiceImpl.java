@@ -238,6 +238,7 @@ public class RideServiceImpl implements RideService {
             rideDto.setRideStatus(statusDto.getRideStatus());
             CabDto cabDto = cabService.displayCabDetailsById(cabId);
             return updateStatusInfo(statusDto, rideDto, cabDto);
+
         }
         throw new HelloCabsException(HelloCabsConstants.RIDE_NOT_FOUND);
     }
@@ -312,8 +313,8 @@ public class RideServiceImpl implements RideService {
         int droppedTime =rideDto.getRideDroppedTime().getHour();
         int timeDifference = (droppedTime - pickTime);
         double initialFare = cabCategoryDto.getInitialFare();
-        double extraHourFare = cabCategoryDto.getExtraKmFare();
-        double additionalFare = cabCategoryDto.getAdditionalFare();
+        double extraHourFare = cabCategoryDto.getExtraFarePerHr();
+        double additionalFare = cabCategoryDto.getPeakHrFare();
         boolean isPeakHour = (Integer.toString(pickTime)
                 .matches(HelloCabsConstants.PEAK_HOUR_REGEX));
         double totalFare = 0;

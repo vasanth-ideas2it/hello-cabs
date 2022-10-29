@@ -83,4 +83,6 @@ public class HelloCabsConstants {
     public static final String CAB_UNAVAILABLE = "UnAvailable";
     public static final String RIDE_BOOKED = "Booked";
 
+    //NOT CREATED
+    public static final String CAB_NOT_CREATED = "Cab Not Created for given Details";
 }

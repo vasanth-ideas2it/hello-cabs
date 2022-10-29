@@ -4,6 +4,8 @@ import com.hellocabs.model.Cab;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * <h> CabRepository </h>
  * <p>
@@ -17,4 +19,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CabRepository  extends JpaRepository<Cab, Integer> {
     Cab findByMobileNumberAndPassword(long number, String pass);
+
+    Cab findByIdAndIsActive(int id, boolean False);
+    List<Cab> findAllByIsActive(boolean False);
 }

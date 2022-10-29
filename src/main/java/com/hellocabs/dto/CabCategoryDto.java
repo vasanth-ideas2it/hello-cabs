@@ -1,11 +1,9 @@
 package com.hellocabs.dto;
 
-import com.hellocabs.model.Cab;
+import com.hellocabs.constants.HelloCabsConstants;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -23,7 +21,7 @@ import java.util.List;
 public class CabCategoryDto {
     private int id;
 
-    @NotBlank(message = "Cab type  must not be Empty or null")
+    @NotBlank(message = HelloCabsConstants.CAB_TYPE_NOT_BLANK)
     private String cabType;
 
     private double initialFare;

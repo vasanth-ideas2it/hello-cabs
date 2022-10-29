@@ -4,10 +4,8 @@ import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.CabDto;
 import com.hellocabs.mapper.CabMapper;
 import com.hellocabs.model.Cab;
-import com.hellocabs.model.Customer;
 import com.hellocabs.repository.CabRepository;
 import com.hellocabs.service.CabService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,13 +42,12 @@ public class CabServiceImpl implements CabService {
     @Override
     public String createCab(CabDto cabDto) {
         Cab cab = CabMapper.convertCabDtoToCab(cabDto);
-        String message = "Failed :: Not Inserted";
         if (null != cab) {
             Cab cabDetails = cabRepository.save(cab);
             int id = cabDetails.getId();
-            message = "Successfully :: The CabId :" + id + " Inserted ";
+            return HelloCabsConstants.CAB_CREATED;
         }
-        return message;
+        return HelloCabsConstants.CAB_NOT_CREATED;
     }
 
     /**
@@ -67,14 +64,13 @@ public class CabServiceImpl implements CabService {
     public String updateCabDetailsById(int id,CabDto cabDto) {
 
         Cab cab = CabMapper.convertCabDtoToCab(cabDto);
-        String message = "Failed :: Not Updated";
 
         if (cabRepository.existsById(id)) {
             Cab cabDetails = cabRepository.save(cab);
             int cabId = cabDetails.getId();
-            message = "Successfully :: The CabId :" + cabId + " Updated ";
+           return HelloCabsConstants.CAB_UPDATED;
         }
-        return message;
+        return HelloCabsConstants.CAB_NOT_UPDATED;
     }
 
     /**
@@ -90,7 +86,7 @@ public class CabServiceImpl implements CabService {
     public CabDto displayCabDetailsById(int id) {
         CabDto cabDto = null;
         if (cabRepository.existsById(id)) {
-            Cab cab = cabRepository.findById(id).orElse(null);
+            Cab cab = cabRepository.findByIdAndIsActive(id,false);
             return CabMapper.convertCabToCabDto(cab);
         }
         return new CabDto();
@@ -107,14 +103,23 @@ public class CabServiceImpl implements CabService {
      */
     @Override
     public String deleteCabDetailsById(int id) {
-        String message = "Failed :: The ID :" + id + " NO Record in Database ";
+
         if (cabRepository.existsById(id)) {
             cabRepository.deleteById(id);
-            return "Successfully :: The ID : " + id + " Deleted ";
+            return HelloCabsConstants.CAB_DELETED;
         }
-        return message;
+        return HelloCabsConstants.CAB_NOT_FOUND;
     }
 
+    /**
+     * <p>
+     * Method used to verify Cab details by using CabId
+     * if it exists returns the status of the cabId or returns the id not found
+     * </p>
+     *
+     * @param cabDto{@link CabDto}used to verify details if exists
+     *  @return {String}returns Status of the login
+     */
     @Override
     public String verifyCabDetails(CabDto cabDto) {
         Cab cab = CabMapper.convertCabDtoToCab(cabDto);
@@ -137,7 +142,7 @@ public class CabServiceImpl implements CabService {
      */
     @Override
     public List<CabDto> showAllCabDetails() {
-         return cabRepository.findAll().stream().map(CabMapper :: convertCabToCabDto).collect(Collectors.toList());
+         return cabRepository.findAllByIsActive(false).stream().map(CabMapper :: convertCabToCabDto).collect(Collectors.toList());
     }
 
     /**
@@ -153,14 +158,12 @@ public class CabServiceImpl implements CabService {
     @Override
     public String updateCabStatus(int id, String cabStatus) {
 
-        String message = " Failed :: THERE IS NO CAB ID To Update ";
         if (cabRepository.existsById(id)) {
             CabDto cabDto = displayCabDetailsById(id);
             cabDto.setCabStatus(cabStatus);
-            message = updateCabDetailsById(id,cabDto);
-            return message + "\n CabStatus : " + cabStatus + " Status Updated Successfully ";
+            return updateCabDetailsById(id,cabDto);
         }
-        return message;
+        return HelloCabsConstants.CAB_NOT_FOUND;
     }
 
 

@@ -17,7 +17,6 @@ import com.hellocabs.dto.CabDto;
 import com.hellocabs.logger.LoggerConfiguration;
 import com.hellocabs.model.Cab;
 import com.hellocabs.service.CabService;
-import com.hellocabs.service.RideService;
 
 /**
  * <h> CabController </h>
@@ -38,7 +37,6 @@ public class CabController {
         this.cabService = cabService;
     }
     private final CabService cabService;
-    private RideService rideService;
 
     private Logger logger = LoggerConfiguration.getInstance("CabController.class");
     /**
@@ -50,10 +48,9 @@ public class CabController {
      * @return {@link String}returns the status of the given details if valid
      */
     @PostMapping("create")
-    public String addCabDetails(@Valid @RequestBody CabDto cabDto) {
+    private String addCabDetails(@Valid @RequestBody CabDto cabDto) {
 
-        return (null != cabDto) ? cabService.createCab(cabDto)
-                         : " Failed :: Not Inserted ";
+        return  cabService.createCab(cabDto);
     }
 
     /**
@@ -66,10 +63,9 @@ public class CabController {
      * @return {@link String}returns the status of the given details
      */
     @PutMapping("updateCab")
-    public String updateCabDetails(@Valid @RequestBody CabDto cabDto) {
+    private String updateCabDetails(@Valid @RequestBody CabDto cabDto) {
         int id = cabDto.getId();
-        return (null != cabDto) ? cabService.updateCabDetailsById(id,cabDto)
-                                : " Failed :: Not Inserted ";
+        return cabService.updateCabDetailsById(id,cabDto);
     }
 
     /**
@@ -81,7 +77,7 @@ public class CabController {
      * @return {@link List<CabDto>}returns all the trainee details
      */
     @GetMapping("cabs")
-    public List<CabDto> getAllCabsDetails()  {
+    private List<CabDto> getAllCabsDetails()  {
 
         return cabService.showAllCabDetails();
 
@@ -97,7 +93,7 @@ public class CabController {
      * @return {@link List<Cab>}returns cab details
      */
     @GetMapping("search/{id}")
-    public CabDto getCabDetailsById(@PathVariable int id)  {
+    private CabDto getCabDetailsById(@PathVariable int id)  {
 
         return  cabService.displayCabDetailsById(id);
 
@@ -112,7 +108,7 @@ public class CabController {
      * @return {@link String>}returns Status of Cab details
      */
     @DeleteMapping("delete/{id}")
-    public String deleteCabDetailsById(@PathVariable int id)  {
+    private String deleteCabDetailsById(@PathVariable int id)  {
 
         return cabService.deleteCabDetailsById(id);
     }
@@ -128,7 +124,7 @@ public class CabController {
      * @return {@link String}returns the status of the given details
      */
     @PutMapping("update/{id}/{cabStatus}")
-    public String updateCabStatus(@PathVariable int id, @PathVariable String cabStatus) {
+    private String updateCabStatus(@PathVariable int id, @PathVariable String cabStatus) {
         return cabService.updateCabStatus(id, cabStatus);
     }
 }
