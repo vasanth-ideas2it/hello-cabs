@@ -4,7 +4,9 @@
 package com.hellocabs.controller;
 
 import com.hellocabs.dto.CustomerDto;
+import com.hellocabs.cofiguration.LoggerConfiguration;
 import com.hellocabs.service.CustomerService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,7 +26,8 @@ import com.hellocabs.constants.HelloCabsConstants;
 /**
  * <h> customerController </h>
  * <p>
- * It implements the customer CRUD manipulations.
+ *   This class is used to get and access customer details and
+ *   implements customer CRUD operations.
  * </p>
  *
  * @author gautam.
@@ -35,6 +38,7 @@ import com.hellocabs.constants.HelloCabsConstants;
 public class CustomerController {
     @Autowired
     CustomerService customerService;
+    private Logger logger = LoggerConfiguration.getInstance("CustomerController.class");
 
     /**
      * <p>
@@ -44,9 +48,10 @@ public class CustomerController {
      * @return {@link String}returns created customerId and status.
      */
     @PostMapping("create")
-    public String createCustomerDetails(@RequestBody CustomerDto customerDto) {
+    private String createCustomerDetails(@RequestBody CustomerDto customerDto) {
         int customerId = customerService.createCustomerDetails(customerDto).getCustomerId();
         if(0 != customerId) {
+            logger.info(HelloCabsConstants.CUSTOMER_REGISTERED + customerId );
             return (HelloCabsConstants.CUSTOMER_REGISTERED + customerId + " " + HttpStatus.CREATED);
         }
         return (HelloCabsConstants.CUSTOMER_NOT_REGISTERED);
@@ -60,11 +65,13 @@ public class CustomerController {
      * @return {@link CustomerDto}returns searched customer details.
      */
     @GetMapping("view/{customerId}")
-    public CustomerDto viewCustomerById(@PathVariable int customerId) throws RuntimeException{
+    private CustomerDto viewCustomerById(@PathVariable int customerId) throws RuntimeException {
         CustomerDto customerDto = customerService.viewCustomerById(customerId);
         if(null == customerDto) {
+            logger.error(HelloCabsConstants.CUSTOMER_NOT_FOUND);
             throw new RuntimeException(HelloCabsConstants.CUSTOMER_NOT_FOUND);
         }
+        logger.info(HelloCabsConstants.CUSTOMER_FOUND);
         return customerDto;
     }
 
@@ -76,11 +83,13 @@ public class CustomerController {
      * @return {@link String}returns updated customerId .
      */
     @PutMapping("update")
-    public String updateCustomerById(@RequestBody CustomerDto customerDto) throws RuntimeException{
+    private String updateCustomerById(@RequestBody CustomerDto customerDto) throws RuntimeException {
         int customerId = customerService.updateCustomer(customerDto).getCustomerId();
         if(0 == customerId) {
+            logger.error(HelloCabsConstants.CUSTOMER_NOT_UPDATED);
             throw new RuntimeException(HelloCabsConstants.CUSTOMER_NOT_UPDATED);
         }
+        logger.info(HelloCabsConstants.CUSTOMER_UPDATED);
         return(HelloCabsConstants.CUSTOMER_UPDATED+ customerId + HttpStatus.NOT_FOUND);
     }
 
@@ -92,11 +101,13 @@ public class CustomerController {
      * @return {@link String}returns deleted customerId .
      */
     @DeleteMapping("delete/{customerId}")
-    public String deleteCustomerById(@PathVariable int customerId) {
+    private String deleteCustomerById(@PathVariable int customerId) {
         boolean deletedCustomer = customerService.deleteCustomerById(customerId);
         if(true == deletedCustomer) {
+            logger.info(HelloCabsConstants.CUSTOMER_DELETED);
             return(HelloCabsConstants.CUSTOMER_DELETED + customerId + HttpStatus.OK);
         }
+        logger.info(HelloCabsConstants.CUSTOMER_NOT_DELETED);
         return(HelloCabsConstants.CUSTOMER_NOT_DELETED + customerId + HttpStatus.NOT_FOUND);
     }
 
@@ -107,7 +118,7 @@ public class CustomerController {
      * @return {@link List}returns all customers.
      */
     @GetMapping("customers")
-    public List<CustomerDto> retriveAllCustomers() {
+    private List<CustomerDto> retriveAllCustomers() {
         return customerService.retrieveCustomers();
 
     }

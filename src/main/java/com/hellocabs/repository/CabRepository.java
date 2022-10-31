@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Repository
 public interface CabRepository  extends JpaRepository<Cab, Integer> {
-    Cab findByMobileNumberAndPassword(long number, String pass);
+    Cab findByMobileNumberAndPassword(long number, String password);
 
     Cab findByIdAndIsActive(int id, boolean False);
     List<Cab> findAllByIsActive(boolean False);

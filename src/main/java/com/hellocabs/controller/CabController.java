@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.hellocabs.dto.CabDto;
 import com.hellocabs.configuration.LoggerConfiguration;
 import com.hellocabs.model.Cab;
@@ -44,6 +43,7 @@ public class CabController {
      * Method used to post or create Cab details which is get from user as
      * a cabDto object and pass to cabService and return status to user
      * </p>
+     *
      * @param cabDto{@link RequestBody CabDto}valid object with required details
      * @return {@link String}returns the status of the given details if valid
      */

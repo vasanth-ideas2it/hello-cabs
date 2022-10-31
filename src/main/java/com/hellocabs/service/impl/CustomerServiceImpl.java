@@ -11,6 +11,8 @@ import com.hellocabs.repository.CustomerRepository;
 import com.hellocabs.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -27,6 +29,8 @@ import java.util.List;
 public class CustomerServiceImpl implements CustomerService {
      @Autowired
      CustomerRepository customerRepository;
+     @Autowired
+    PasswordEncoder passwordEncoder;
     /**
      * <h> customerServiceImpl </h>
      * <p>
@@ -40,8 +44,8 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public Customer createCustomerDetails(CustomerDto customerDto) {
+        customerDto.setPassword(passwordEncoder.encode(customerDto.getPassword()));
         Customer customer = CustomerMapper.convertCustomerDtoToCustomer(customerDto);
-        customerDto.setIsDeleted(true);
         Customer createdCustomer =  customerRepository.save(customer);
         return createdCustomer;
     }
@@ -124,8 +128,8 @@ public class CustomerServiceImpl implements CustomerService {
     public String verifyCustomerDetails(CustomerDto customerDto) {
         Customer customer = CustomerMapper.convertCustomerDtoToCustomer(customerDto);
         long number = customer.getCustomerMobileNumber();
-        String pass = customer.getPassword();
-        Customer value =  customerRepository.findByCustomerMobileNumberAndPassword(number,pass);
+        String password = customer.getPassword();
+        Customer value =  customerRepository.findByCustomerMobileNumberAndPassword(number, password);
         if(null != value) {
             return HelloCabsConstants.LOGIN_SUCCESSFUL;
         }

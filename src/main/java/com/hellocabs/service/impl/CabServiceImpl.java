@@ -45,7 +45,7 @@ public class CabServiceImpl implements CabService {
         if (null != cab) {
             Cab cabDetails = cabRepository.save(cab);
             int id = cabDetails.getId();
-            return HelloCabsConstants.CAB_CREATED;
+            return (HelloCabsConstants.CAB_CREATED + " " + id);
         }
         return HelloCabsConstants.CAB_NOT_CREATED;
     }
@@ -124,8 +124,8 @@ public class CabServiceImpl implements CabService {
     public String verifyCabDetails(CabDto cabDto) {
         Cab cab = CabMapper.convertCabDtoToCab(cabDto);
         long number = cab.getMobileNumber();
-        String pass = cab.getPassword();
-        Cab value =  cabRepository.findByMobileNumberAndPassword(number,pass);
+        String password = cab.getPassword();
+        Cab value =  cabRepository.findByMobileNumberAndPassword(number,password);
         if(null != value) {
             return  HelloCabsConstants.LOGIN_SUCCESSFUL;
         }

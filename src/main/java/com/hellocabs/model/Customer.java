@@ -35,17 +35,22 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int customerId;
+
     @Column(name = "name",length = 30)
     private String customerName;
+
     @Column(name = "mobile_number")
     private long customerMobileNumber;
+
     @Column(name = "email",length = 20)
     private String customerEmail;
+
     @Column(name = "password",length = 20)
     private String password;
 
     @Column(name = "is_deleted")
     private boolean isDeleted;
+
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name = "customer_id")

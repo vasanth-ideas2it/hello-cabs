@@ -25,17 +25,23 @@ import java.util.Set;
 public class CustomerDto {
 
     private int customerId;
+
     @NotBlank(message = "Kindly Enter your name")
     @Size(min = 2, max = 30)
     private String customerName;
+
     @NotNull(message = "Kindly Enter your mobile number")
     @Digits(integer = 10 , fraction = 0)
     private long customerMobileNumber;
+
     @Email(message = "Kindly Enter your EmailId")
     private String customerEmail;
+
     @NotBlank(message = "set password for your security")
     private String password;
+
     private boolean isDeleted;
+
     private Set<RideDto> rides;
 
     public boolean getIsDeleted() {

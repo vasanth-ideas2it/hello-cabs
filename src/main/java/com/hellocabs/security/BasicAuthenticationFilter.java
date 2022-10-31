@@ -9,6 +9,9 @@ package com.hellocabs.security;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -28,8 +31,12 @@ import java.io.IOException;
  * @version 1.0
  *
  */
-/** public class BasicAuthenticationFilter extends OncePerRequestFilter {
+ public class BasicAuthenticationFilter extends OncePerRequestFilter {
 
+/*    @Bean
+    public PasswordEncoder encoder() {
+        return new BCryptPasswordEncoder();
+    }*/
 
 
     protected void doFilterInternal(HttpServletRequest request,
@@ -37,4 +44,4 @@ import java.io.IOException;
             throws ServletException, IOException {
     }
 
-} */
+}
