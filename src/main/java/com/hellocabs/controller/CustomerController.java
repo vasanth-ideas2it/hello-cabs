@@ -4,7 +4,7 @@
 package com.hellocabs.controller;
 
 import com.hellocabs.dto.CustomerDto;
-import com.hellocabs.cofiguration.LoggerConfiguration;
+import com.hellocabs.configuration.LoggerConfiguration;
 import com.hellocabs.service.CustomerService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +44,7 @@ public class CustomerController {
      * <p>
      *   This method is used to create customer details.
      * </p>
-     * @param {@link CustomerDto}customerDto contains customer details.
+     * @param customerDto {@link CustomerDto}contains customer details.
      * @return {@link String}returns created customerId and status.
      */
     @PostMapping("create")
@@ -61,7 +61,7 @@ public class CustomerController {
      * <p>
      *   This Method is used to search customer by its id.
      * </p>
-     * @param {@link int}customerId.
+     * @param customerId{@link int}
      * @return {@link CustomerDto}returns searched customer details.
      */
     @GetMapping("view/{customerId}")
@@ -79,7 +79,7 @@ public class CustomerController {
      * <p>
      *    This Method is used to update customer.
      * </p>
-     * @param {@link CustomerDto}customerDto.
+     * @param customerDto{@link CustomerDto}
      * @return {@link String}returns updated customerId .
      */
     @PutMapping("update")
@@ -97,7 +97,7 @@ public class CustomerController {
      * <p>
      *    This Method is used to delete customer by its id.
      * </p>
-     * @param {@link int}customerId.
+     * @param customerId{@link int}
      * @return {@link String}returns deleted customerId .
      */
     @DeleteMapping("delete/{customerId}")
@@ -118,7 +118,7 @@ public class CustomerController {
      * @return {@link List}returns all customers.
      */
     @GetMapping("customers")
-    private List<CustomerDto> retriveAllCustomers() {
+    public List<CustomerDto> retrieveAllCustomers() {
         return customerService.retrieveCustomers();
 
     }

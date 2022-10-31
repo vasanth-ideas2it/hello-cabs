@@ -1,5 +1,6 @@
 package com.hellocabs.mapper;
 
+import com.hellocabs.configuration.MapperConfig;
 import com.hellocabs.dto.CabDto;
 import com.hellocabs.dto.RideDto;
 import com.hellocabs.model.Cab;
@@ -29,8 +30,7 @@ public class CabMapper {
      * @param cabDto{@link CabDto}get valid information from user
      * @return {Cab}returns the cab object
      */
-    public static Cab convertCabDtoToCab(CabDto cabDto) {
-
+    public static Cab convertCabDtoIntoCab(CabDto cabDto) {
         Cab cab = convertPartialCabDtoIntoCab(cabDto);
         Set<RideDto> rideDtos= cabDto.getRides();
         Set<Ride> rides;
@@ -51,9 +51,9 @@ public class CabMapper {
      * @param cab{@link Cab}get valid information from user
      * @return {CabDto}returns the cabDto object
      */
-    public static CabDto convertCabToCabDto(Cab cab) {
+    public static CabDto convertCabIntoCabDto(Cab cab) {
         CabDto cabDto = convertPartialCabIntoCabDto(cab);
-        Set<Ride> rides= cab.getRides();
+        Set<Ride> rides = cab.getRides();
         Set<RideDto> rideDtos;
 
         if (null != rides) {
@@ -94,7 +94,34 @@ public class CabMapper {
         cabDto.setLicenseNumber(cab.getLicenseNumber());
         cabDto.setMobileNumber(cab.getMobileNumber());
         cabDto.setPassword(cab.getPassword());
+        cabDto.setActive(cab.isActive());
         return cabDto;
     }
 
+    /**
+     * <p>
+     * Method used to change the cab object into cabDto with the help
+     * of cabDto entity object and return to respective method
+     * </p>
+     *
+     * @param cab{@link Cab}get valid information from user
+     * @return {CabDto}returns the cabDto object
+     */
+    public static CabDto convertCabToCabDto(Cab cab) {
+        return MapperConfig.getConfigure().map(cab, CabDto.class);
+
+    }
+
+    /**
+     * <p>
+     * Method used to change the cabDto object into cab with the help
+     * of cab entity object and return to respective method
+     * </p>
+     *
+     * @param cabDto{@link CabDto}get valid information from user
+     * @return {Cab}returns the cab object
+     */
+    public static Cab convertCabDtoToCab(CabDto cabDto) {
+        return MapperConfig.getConfigure().map(cabDto, Cab.class);
+    }
 }

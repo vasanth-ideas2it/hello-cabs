@@ -221,6 +221,7 @@ public class RideServiceImpl implements RideService {
     public CabDto updateStatus(StatusDto statusDto) {        
         int rideId = statusDto.getRideId();        
         int cabId = statusDto.getCabId();
+        logger.info("statusDto :" + statusDto);
         RideDto rideDto = searchRideById(rideId);
         
         if (null != rideDto) {
@@ -250,6 +251,7 @@ public class RideServiceImpl implements RideService {
         String rideStatus = statusDto.getRideStatus();
         CabCategoryDto cabCategoryDto = cabCategoryService
                 .getCabCategoryById(statusDto.getCategoryId());
+        logger.info("CabCategory : " + cabCategoryDto);
 
         switch (rideStatus.toLowerCase()) {
             case "accepted" :

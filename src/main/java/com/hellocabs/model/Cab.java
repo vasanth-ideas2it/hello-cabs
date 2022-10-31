@@ -1,9 +1,11 @@
 package com.hellocabs.model;
 
+import com.hellocabs.dto.CabCategoryDto;
 import lombok.Data;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -77,4 +79,7 @@ public class Cab {
 
     @Column(name = "is_active")
     private boolean isActive;
+
+    @Column(name = "cab_category_id")
+    private int cabCategoryId ;
 }

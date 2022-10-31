@@ -1,5 +1,6 @@
 package com.hellocabs.mapper;
 
+import com.hellocabs.configuration.MapperConfig;
 import com.hellocabs.dto.LocationDto;
 import com.hellocabs.model.Location;
 import org.modelmapper.ModelMapper;
@@ -14,7 +15,7 @@ public class LocationMapper {
     }
 
     public static Location locationDtoToLocation(LocationDto locationDto) {
-        return modelMapper.map(locationDto, Location.class);
+        return MapperConfig.getConfigure().map(locationDto, Location.class);
     }
 
     public static List<LocationDto> locationsToLocationDtos(List<Location> locations) {

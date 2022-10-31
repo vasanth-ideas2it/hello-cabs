@@ -61,7 +61,7 @@ public class CabServiceImpl implements CabService {
      * @return {@link String}returns status of the cab details
      */
     @Override
-    public String updateCabDetailsById(int id,CabDto cabDto) {
+    public String updateCabDetailsById(int id, CabDto cabDto) {
 
         Cab cab = CabMapper.convertCabDtoToCab(cabDto);
 
@@ -105,7 +105,9 @@ public class CabServiceImpl implements CabService {
     public String deleteCabDetailsById(int id) {
 
         if (cabRepository.existsById(id)) {
-            cabRepository.deleteById(id);
+            Cab cab = cabRepository.findByIdAndIsActive(id,false);
+            cab.setActive(true);
+            cabRepository.save(cab);
             return HelloCabsConstants.CAB_DELETED;
         }
         return HelloCabsConstants.CAB_NOT_FOUND;

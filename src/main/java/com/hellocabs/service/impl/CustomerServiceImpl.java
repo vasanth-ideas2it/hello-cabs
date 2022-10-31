@@ -99,7 +99,7 @@ public class CustomerServiceImpl implements CustomerService {
     public boolean deleteCustomerById(int customerId) {
         Customer customer = customerRepository.findById(customerId).orElse(null);
         if(null != customer) {
-            customer.setIsDeleted(false);
+            customer.setIsDeleted(true);
             customerRepository.save(customer);
             return true;
         }
