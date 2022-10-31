@@ -6,6 +6,7 @@
 
 package com.hellocabs.service;
 
+import com.hellocabs.dto.BookDto;
 import com.hellocabs.dto.CabCategoryDto;
 import com.hellocabs.dto.CabDto;
 import com.hellocabs.dto.LocationDto;
@@ -116,11 +117,9 @@ public interface RideService {
      *   to booked
      * </p>
      *
-     * @param rideDto {@link RideDto} ride details of a customer
-     * @param customerId {@link int} customer who booked a cab
-     * @return cabDtos {@link Set<CabDto>} list of cab that are
-     *              available on particular location
+     * @param bookDto {@link BookDto} ride details of a customer
+     * @return  {@link String} booking id
      *
      */
-    String bookRide(RideDto rideDto, int customerId);
+    String bookRide(BookDto bookDto);
 }

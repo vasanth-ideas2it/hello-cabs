@@ -1,10 +1,8 @@
 package com.hellocabs.mapper;
 
-import com.hellocabs.dto.CabCategoryDto;
 import com.hellocabs.dto.CabDto;
 import com.hellocabs.dto.RideDto;
 import com.hellocabs.model.Cab;
-import com.hellocabs.model.CabCategory;
 import com.hellocabs.model.Ride;
 
 import java.util.Set;
@@ -33,19 +31,7 @@ public class CabMapper {
      */
     public static Cab convertCabDtoToCab(CabDto cabDto) {
 
-        Cab cab = new Cab();
-        cab.setCabNumber(cabDto.getCabNumber());
-        cab.setCabStatus(cabDto.getCabStatus());
-        cab.setCarModel(cabDto.getCarModel());
-        cab.setCurrentLocation(cabDto.getCurrentLocation());
-        cab.setDriverName(cabDto.getDriverName());
-        cab.setDriverRating(cabDto.getDriverRating());
-        cab.setEmail(cabDto.getEmail());
-        cab.setGender(cabDto.getGender());
-        cab.setId(cabDto.getId());
-        cab.setLicenseNumber(cabDto.getLicenseNumber());
-        cab.setMobileNumber(cabDto.getMobileNumber());
-        cab.setPassword(cabDto.getPassword());
+        Cab cab = convertPartialCabDtoIntoCab(cabDto);
         Set<RideDto> rideDtos= cabDto.getRides();
         Set<Ride> rides;
 
@@ -66,7 +52,35 @@ public class CabMapper {
      * @return {CabDto}returns the cabDto object
      */
     public static CabDto convertCabToCabDto(Cab cab) {
+        CabDto cabDto = convertPartialCabIntoCabDto(cab);
+        Set<Ride> rides= cab.getRides();
+        Set<RideDto> rideDtos;
 
+        if (null != rides) {
+            rideDtos = rides.stream().map(RideMapper :: convertRideIntoRideDto).collect(Collectors.toSet());
+            cabDto.setRides(rideDtos);
+        }
+        return cabDto;
+    }
+
+    public static Cab convertPartialCabDtoIntoCab(CabDto cabDto) {
+        Cab cab = new Cab();
+        cab.setCabNumber(cabDto.getCabNumber());
+        cab.setCabStatus(cabDto.getCabStatus());
+        cab.setCarModel(cabDto.getCarModel());
+        cab.setCurrentLocation(cabDto.getCurrentLocation());
+        cab.setDriverName(cabDto.getDriverName());
+        cab.setDriverRating(cabDto.getDriverRating());
+        cab.setEmail(cabDto.getEmail());
+        cab.setGender(cabDto.getGender());
+        cab.setId(cabDto.getId());
+        cab.setLicenseNumber(cabDto.getLicenseNumber());
+        cab.setMobileNumber(cabDto.getMobileNumber());
+        cab.setPassword(cabDto.getPassword());
+        return cab;
+    }
+
+    public static CabDto convertPartialCabIntoCabDto(Cab cab) {
         CabDto cabDto = new CabDto();
         cabDto.setCabNumber(cab.getCabNumber());
         cabDto.setCabStatus(cab.getCabStatus());
@@ -80,13 +94,6 @@ public class CabMapper {
         cabDto.setLicenseNumber(cab.getLicenseNumber());
         cabDto.setMobileNumber(cab.getMobileNumber());
         cabDto.setPassword(cab.getPassword());
-        Set<Ride> rides= cab.getRides();
-        Set<RideDto> rideDtos;
-
-        if (null != rides) {
-            rideDtos = rides.stream().map(RideMapper :: convertRideIntoRideDto).collect(Collectors.toSet());
-            cabDto.setRides(rideDtos);
-        }
         return cabDto;
     }
 

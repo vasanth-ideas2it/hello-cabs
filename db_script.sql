@@ -2,11 +2,11 @@ create table user(id int primary key auto_increment, username varchar(20), passw
 
 create table payment(id int primary key auto_increment, payment_mode varchar(50), payment_status varchar(50));
 
-create table location(id int primary key auto_increment,location_name varchar(50));
+create table location(id int primary key auto_increment,location_name varchar(50), is_deleted boolean default false);
 
 create table cab_category(id int primary key auto_increment, cab_type varchar(30), initial_fare double, extra_fare_per_hour double, peak_hour_fare double, is_deleted boolean default false);
 
-CREATE TABLE customer (id int NOT NULL AUTO_INCREMENT,  name varchar(30) DEFAULT NULL,  mobile_number bigint(20) DEFAULT NULL,  email varchar(20) DEFAULT NULL,  PRIMARY KEY (id));
+CREATE TABLE customer (id int NOT NULL AUTO_INCREMENT,  name varchar(30) DEFAULT NULL,  mobile_number bigint(20) DEFAULT NULL,  email varchar(20) DEFAULT NULL, is_deleted boolean default false, PRIMARY KEY (id));
 
 create table ride(id int primary key auto_increment, pickup_location int, drop_location int, ride_booked_time timestamp, ride_picked_time timestamp, ride_dropped_time timestamp, price double, passenger_mobile_number bigint, rating double, ride_status varchar(20), customer_id int, cab_id int, is_cancelled boolean default false);
 alter table ride add constraint fk_location_id foreign key(pickup_location) references location(id);

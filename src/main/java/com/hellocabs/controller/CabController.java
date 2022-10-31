@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hellocabs.dto.CabDto;
-import com.hellocabs.logger.LoggerConfiguration;
+import com.hellocabs.configuration.LoggerConfiguration;
 import com.hellocabs.model.Cab;
 import com.hellocabs.service.CabService;
 

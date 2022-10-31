@@ -6,9 +6,12 @@
 
 package com.hellocabs.mapper;
 
+import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.RideDto;
+import com.hellocabs.configuration.LoggerConfiguration;
 import com.hellocabs.model.Location;
 import com.hellocabs.model.Ride;
+import org.apache.log4j.Logger;
 
 /**
  * <p>
@@ -22,6 +25,9 @@ import com.hellocabs.model.Ride;
  *
  */
 public class RideMapper {
+
+    private static  Logger logger = LoggerConfiguration
+            .getInstance(HelloCabsConstants.RIDE_MAPPER);
 
     /**
      * <p>
@@ -49,6 +55,17 @@ public class RideMapper {
         ride.setIsCancelled(rideDto.getIsCancelled());
         ride.setDropLocation(LocationMapper
                 .locationDtoToLocation(rideDto.getDropLocation()));
+
+        if (null != rideDto.getCabDto()) {
+            ride.setCab(CabMapper
+                    .convertPartialCabDtoIntoCab(rideDto.getCabDto()));
+        }
+
+        if (null != rideDto.getCustomerDto()) {
+            ride.setCustomer(CustomerMapper
+                    .convertPartialCustomerDtoIntoCustomer(
+                    rideDto.getCustomerDto()));
+        }
         return ride;
     }
 
@@ -77,6 +94,19 @@ public class RideMapper {
                 .locationToLocationDto(ride.getPickupLocation()));
         rideDto.setDropLocation(LocationMapper
                 .locationToLocationDto(ride.getDropLocation()));
+
+        if (null != ride.getCab()) {
+            rideDto.setCabDto(CabMapper
+                    .convertPartialCabIntoCabDto(ride.getCab()));
+            logger.info(ride.getCustomer());
+            logger.info(ride);
+        }
+
+        if (null != ride.getCustomer()) {
+            rideDto.setCustomerDto(CustomerMapper
+                    .convertPartialCustomerIntoCustomerDto(
+                    ride.getCustomer()));
+        }
         return rideDto;
     }
 }

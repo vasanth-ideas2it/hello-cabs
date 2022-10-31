@@ -1,6 +1,15 @@
 package com.hellocabs.constants;
 
 public class HelloCabsConstants {
+
+    //LOGGER
+    public static final String RIDE_SERVICE_CLASS = "RideServiceImpl.class";
+    public static final String RIDE_MAPPER = "RideMapper.class";
+
+    //REGEX
+    public static final String PEAK_HOUR_REGEX = "0?[8-9]|1[089]|2[0-1]";
+    public static final String RIDE_STATUS_REGEX = "Booked|Accepted|Picked|Dropped|Cancelled";
+
     //SEARCH NOT FOUND
     public static final String LOCATION_NOT_FOUND = "Location not found for given id";
     public static final String CAB_CATEGORY_NOT_FOUND = "Cab category not found for given id";
@@ -68,13 +77,18 @@ public class HelloCabsConstants {
     public static final String CAR_MODEL_NOT_BLANK = "CarModel Not to be Empty :: Please Enter The CarModel";
     public static final String CAR_MODEL_SIZE = "CarModel Should be in 5 to 20 characters";
     public static final String CURRENT_LOCATION_SIZE = "Current Location Should be in between 10 to 15 Characters";
-    public static final String LOCATION_NOT_BLANK = "Location name must not be Empty or null";
+    public static final String LOCATION_NOT_BLANK = "Location name should not be Empty or null";
     public static final String LOCATION_SIZE = "Location name should have at least 3 characters";
-    public static final String PICKUP_LOCATION_NOT_LOCATION = "Pickup location name must not be empty or null :: Please enter pickup location";
-    public static final String DROP_LOCATION_NOT_LOCATION = "Drop location name must not be empty or null :: Please enter drop location";
+    public static final String PICKUP_LOCATION_NOT_EMPTY = "Pickup location name must not be empty or null :: Please enter pickup location";
+    public static final String DROP_LOCATION_NOT_EMPTY = "Drop location name must not be empty or null :: Please enter drop location";
     public static final String RIDE_STATUS_NOT_BLANK = "Ride status should not be empty or null";
+    public static final String MOBILE_NUMBER_NOT_BLANK = "Mobile number should not be empty or null";
+    public static final String MOBILE_NUMBER = "Mobile number should have 10 digits";
+    public static final String CUSTOMER_ID_NOT_BLANK = "Customer Id should not be null or empty";
+    public static final String RIDE_STATUS = "Ride status should have any one these values " + RIDE_STATUS_REGEX;
+
+
     public static final String CUSTOMER_NOT_DROPPED = " THE CUSTOMER NOT TO BE DROPPED YET :: Please check the ride status";
-    public static final String PEAK_HOUR_REGEX = "0?[8-9]|1[089]|2[0-1]";
     public static final String TRAVEL_FARE = "The PRICE AMOUNT : ";
 
     //RIDE STATUS
@@ -82,7 +96,16 @@ public class HelloCabsConstants {
     public static final String CAB_AVAILABLE = "Available";
     public static final String CAB_UNAVAILABLE = "UnAvailable";
     public static final String RIDE_BOOKED = "Booked";
+    public static final String RIDE_COMPLETED = "Dropped";
+    public static final String RIDE_PICKED = "Picked";
+    public static final String RIDE_ACCEPTED = "Accepted";
+    public static final String RIDE_IGNORED = "Cancelled";
 
     //NOT CREATED
     public static final String CAB_NOT_CREATED = "Cab Not Created for given Details";
+    public static final String STATUS_UPDATED = "Status updated to ";
+    public static final String RIDE_BOOKED_FOR_CUSTOMER = "Ride booked for customer ";
+
+
+
 }

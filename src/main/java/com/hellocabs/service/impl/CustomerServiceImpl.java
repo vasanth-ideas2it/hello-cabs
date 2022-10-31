@@ -41,7 +41,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer createCustomerDetails(CustomerDto customerDto) {
         Customer customer = CustomerMapper.convertCustomerDtoToCustomer(customerDto);
-        customerDto.setStatus(true);
+        customerDto.setIsDeleted(true);
         Customer createdCustomer =  customerRepository.save(customer);
         return createdCustomer;
     }
@@ -58,7 +58,7 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDto viewCustomerById(int customerId) {
         Customer customer = customerRepository.findById(customerId).orElse(null);
         if(null != customer) {
-            CustomerDto customerDto = CustomerMapper.covertCustomerToCustomerDto(customer);
+            CustomerDto customerDto = CustomerMapper.convertCustomerToCustomerDto(customer);
             return customerDto;
         }
         return null;
@@ -77,7 +77,7 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDto updateCustomer(CustomerDto customerDto) {
         Customer customer = CustomerMapper.convertCustomerDtoToCustomer(customerDto);
         if(customerRepository.existsById(customer.getCustomerId())) {
-            return CustomerMapper.covertCustomerToCustomerDto(customerRepository.save(customer));
+            return CustomerMapper.convertCustomerToCustomerDto(customerRepository.save(customer));
         }
         return null;
     }
@@ -95,7 +95,7 @@ public class CustomerServiceImpl implements CustomerService {
     public boolean deleteCustomerById(int customerId) {
         Customer customer = customerRepository.findById(customerId).orElse(null);
         if(null != customer) {
-            customer.setStatus(false);
+            customer.setIsDeleted(false);
             customerRepository.save(customer);
             return true;
         }

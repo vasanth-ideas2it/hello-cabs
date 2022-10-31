@@ -3,7 +3,7 @@ package com.hellocabs.controller;
 import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.LocationDto;
 import com.hellocabs.exception.HelloCabsException;
-import com.hellocabs.logger.LoggerConfiguration;
+import com.hellocabs.configuration.LoggerConfiguration;
 import com.hellocabs.service.LocationService;
 
 import org.apache.log4j.Logger;

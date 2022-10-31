@@ -35,6 +35,15 @@ public class CustomerDto {
     private String customerEmail;
     @NotBlank(message = "set password for your security")
     private String password;
-    private boolean status;
+    private boolean isDeleted;
     private Set<RideDto> rides;
+
+    public boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
 }

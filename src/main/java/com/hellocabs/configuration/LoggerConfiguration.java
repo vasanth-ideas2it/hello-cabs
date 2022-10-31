@@ -4,7 +4,7 @@
  * </p>
  */
 
-package com.hellocabs.logger;
+package com.hellocabs.configuration;
 
 import org.apache.log4j.Logger;
 

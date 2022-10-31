@@ -5,8 +5,10 @@ package com.hellocabs.mapper;
 
 import com.hellocabs.dto.CustomerDto;
 import com.hellocabs.dto.RideDto;
+import com.hellocabs.configuration.LoggerConfiguration;
 import com.hellocabs.model.Customer;
 import com.hellocabs.model.Ride;
+import org.apache.log4j.Logger;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -24,6 +26,8 @@ import java.util.stream.Collectors;
  */
 public class CustomerMapper {
 
+    private static Logger logger = LoggerConfiguration.getInstance("CustomerMapper.class");
+
     /**
      * <p>
      *     Converting customerDto to customer.
@@ -33,17 +37,13 @@ public class CustomerMapper {
      * @return converted customer
      */
     public static Customer convertCustomerDtoToCustomer(CustomerDto customerDto) {
-        Customer customer = new Customer();
-        customer.setCustomerId(customerDto.getCustomerId());
-        customer.setCustomerName(customerDto.getCustomerName());
-        customer.setCustomerMobileNumber(customerDto.getCustomerMobileNumber());
-        customer.setCustomerEmail(customerDto.getCustomerEmail());
-        customer.setPassword(customerDto.getPassword());
+        Customer customer = convertPartialCustomerDtoIntoCustomer(customerDto);
         Set<RideDto> rideDtos = customerDto.getRides();
 
         if (null != rideDtos) {
+
             customer.setRides(rideDtos.stream()
-                    .map(RideMapper::convertRideDtoIntoRide)
+                    .map(RideMapper :: convertRideDtoIntoRide)
                     .collect(Collectors.toSet()));
         }
         return customer;
@@ -57,13 +57,8 @@ public class CustomerMapper {
      * @param customer
      * @return converted customerDto
      */
-    public static CustomerDto covertCustomerToCustomerDto(Customer customer) {
-        CustomerDto customerDto = new CustomerDto();
-        customerDto.setCustomerId(customer.getCustomerId());
-        customerDto.setCustomerName(customer.getCustomerName());
-        customerDto.setCustomerMobileNumber(customer.getCustomerMobileNumber());
-        customerDto.setCustomerEmail(customer.getCustomerEmail());
-        customerDto.setPassword(customer.getPassword());
+    public static CustomerDto convertCustomerToCustomerDto(Customer customer) {
+        CustomerDto customerDto = convertPartialCustomerIntoCustomerDto(customer);
         Set<Ride> rides = customer.getRides();
 
         if (null != rides) {
@@ -73,6 +68,7 @@ public class CustomerMapper {
         }
         return customerDto;
     }
+
     /**
      * <p>
      *     Converting customers to customerDtos.
@@ -84,9 +80,32 @@ public class CustomerMapper {
     public static List<CustomerDto> convertCustomersToCustomerDtos(List<Customer> customers) {
         List<CustomerDto> customerDtos = new LinkedList<CustomerDto>();
         for (Customer customer : customers) {
-            CustomerDto customerDto = CustomerMapper.covertCustomerToCustomerDto(customer);
+            CustomerDto customerDto = CustomerMapper.convertCustomerToCustomerDto(customer);
             customerDtos.add(customerDto);  
         }
         return customerDtos;
+    }
+
+    public static Customer convertPartialCustomerDtoIntoCustomer(CustomerDto customerDto) {
+        Customer customer = new Customer();
+        customer.setCustomerId(customerDto.getCustomerId());
+        customer.setCustomerName(customerDto.getCustomerName());
+        customer.setCustomerMobileNumber(customerDto.getCustomerMobileNumber());
+        customer.setCustomerEmail(customerDto.getCustomerEmail());
+        customer.setPassword(customerDto.getPassword());
+        customer.setIsDeleted(customerDto.getIsDeleted());
+        return  customer;
+    }
+
+    public static CustomerDto convertPartialCustomerIntoCustomerDto(Customer customer) {
+        logger.info("convertPartialCustomerIntoCustomerDto " + customer);
+        CustomerDto customerDto = new CustomerDto();
+        customerDto.setCustomerId(customer.getCustomerId());
+        customerDto.setCustomerName(customer.getCustomerName());
+        customerDto.setCustomerMobileNumber(customer.getCustomerMobileNumber());
+        customerDto.setCustomerEmail(customer.getCustomerEmail());
+        customerDto.setPassword(customer.getPassword());
+        customerDto.setIsDeleted(customer.getIsDeleted());
+        return customerDto;
     }
 }

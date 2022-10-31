@@ -34,7 +34,7 @@ public interface CabService {
      * </p>
      *
      * @param cabDto {@link CabDto} object with required details
-     * @Param id {@link int}used to check the exists details in database
+     * @param id {@link int}used to check the exists details in database
      * @return {@link String}returns status of the cab details
      */
     String updateCabDetailsById(int id, CabDto cabDto);
@@ -80,7 +80,7 @@ public interface CabService {
      * </p>
      *
      * @param id{@link int}used to check and get the respective cab object
-     * @Param cabStatus{@link String}used to get updated status and pass to respective cab
+     * @param cabStatus{@link String}used to get updated status and pass to respective cab
      * @return {String}returns the status of the cab status
      */
     String updateCabStatus(int id, String cabStatus);

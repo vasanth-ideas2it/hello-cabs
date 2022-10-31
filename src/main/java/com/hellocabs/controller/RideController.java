@@ -7,11 +7,12 @@
 package com.hellocabs.controller;
 
 import com.hellocabs.constants.HelloCabsConstants;
+import com.hellocabs.dto.BookDto;
 import com.hellocabs.dto.CabDto;
 import com.hellocabs.dto.RideDto;
 import com.hellocabs.dto.StatusDto;
 import com.hellocabs.exception.HelloCabsException;
-import com.hellocabs.logger.LoggerConfiguration;
+import com.hellocabs.configuration.LoggerConfiguration;
 import com.hellocabs.service.RideService;
 
 import lombok.RequiredArgsConstructor;
@@ -105,16 +106,13 @@ public class RideController {
      *   ride details
      * </p>
      *
-     * @param rideDto {@link RideDto} ride details of a customer
-     * @param customerId {@link int} customer who booked a cab
-     * @return cabs {@link Set<CabDto>} list of cab that are
-     *              available on particular location
+     * @param bookDto {@link BookDto} ride details of a customer
+     * @return {@link String} booking id
      *
      */
-    @PostMapping("book/{categoryId}/{customerId}")
-    public String bookRide(@RequestBody @Valid RideDto rideDto,
-                           @PathVariable int customerId) {
-        return rideService.bookRide(rideDto, customerId);
+    @PostMapping("book")
+    public String bookRide(@RequestBody @Valid BookDto bookDto) {
+        return rideService.bookRide(bookDto);
     }
 
     /**

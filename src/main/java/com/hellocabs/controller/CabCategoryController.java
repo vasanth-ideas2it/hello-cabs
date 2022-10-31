@@ -18,7 +18,7 @@ import javax.validation.Valid;
 import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.CabCategoryDto;
 import com.hellocabs.exception.HelloCabsException;
-import com.hellocabs.logger.LoggerConfiguration;
+import com.hellocabs.configuration.LoggerConfiguration;
 import com.hellocabs.service.CabCategoryService;
 
 @RestController

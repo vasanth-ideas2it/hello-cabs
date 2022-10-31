@@ -7,26 +7,24 @@
 package com.hellocabs.service.impl;
 
 import com.hellocabs.constants.HelloCabsConstants;
+import com.hellocabs.dto.BookDto;
 import com.hellocabs.dto.CabCategoryDto;
 import com.hellocabs.dto.CabDto;
-import com.hellocabs.dto.CustomerDto;
 import com.hellocabs.dto.RideDto;
 import com.hellocabs.dto.StatusDto;
 import com.hellocabs.exception.HelloCabsException;
-import com.hellocabs.logger.LoggerConfiguration;
+import com.hellocabs.configuration.LoggerConfiguration;
 import com.hellocabs.mapper.RideMapper;
 import com.hellocabs.model.Ride;
 import com.hellocabs.repository.RideRepository;
 import com.hellocabs.service.CabCategoryService;
 import com.hellocabs.service.CabService;
-import com.hellocabs.service.CustomerService;
 import com.hellocabs.service.RideService;
 import lombok.RequiredArgsConstructor;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -48,9 +46,8 @@ public class RideServiceImpl implements RideService {
     private final RideRepository rideRepository;
     private final CabService cabService;
     private final CabCategoryService cabCategoryService;
-    private final CustomerService customerService;
     private final Logger logger = LoggerConfiguration
-            .getInstance("RideServiceImpl.class");
+            .getInstance(HelloCabsConstants.RIDE_SERVICE_CLASS);
     private static final int MAXIMUM_WAITING_TIME = 5;
     private static final int MINIMUM_BOOKING_HOUR = 4;
 
@@ -145,7 +142,7 @@ public class RideServiceImpl implements RideService {
 
         if (rideDto != null) {
             rideDto.setIsCancelled(true);
-            rideDto.setRideStatus("Cancelled");
+            rideDto.setRideStatus(HelloCabsConstants.RIDE_IGNORED);
             updateRide(rideDto);
             logger.info(HelloCabsConstants.RIDE_CANCELLED);
             return HelloCabsConstants.RIDE_CANCELLED;
@@ -165,29 +162,20 @@ public class RideServiceImpl implements RideService {
      *   to booked
      * </p>
      *
-     * @param rideDto {@link RideDto} ride details of a customer
-     * @param customerId {@link int} customer who booked a cab
-     * @return cabDtos {@link Set<CabDto>} list of cab that are
-     *              available on particular location
+     * @param bookDto {@link BookDto} ride details of a customer
+     * @return {@link String} booking id
      *
      */
-    public String bookRide(RideDto rideDto, int customerId) {
-        CustomerDto customerDto = customerService
-                .viewCustomerById(customerId);
-        Set<RideDto> rideDtos = new HashSet<>();
+    public String bookRide(BookDto bookDto) {
+        RideDto rideDto = new RideDto();
+        rideDto.setPassengerMobileNumber(bookDto.getPassengerMobileNumber());
+        rideDto.setPickupLocation(bookDto.getPickupLocation());
+        rideDto.setDropLocation(bookDto.getDropLocation());
+        rideDto.setCustomerDto(bookDto.getCustomerDto());
         rideDto.setRideStatus(HelloCabsConstants.RIDE_BOOKED);
         rideDto.setRideBookedTime(LocalDateTime.now());
         RideDto rideDto1 = RideMapper
                 .convertRideIntoRideDto(createRide(rideDto));
-
-        if (null != customerDto.getRides()) {
-            rideDtos= customerDto.getRides();
-            rideDtos.add(rideDto1);
-        }
-        rideDtos.add(rideDto1);
-        customerDto.setRides(rideDtos);
-        logger.info("Book ride " + customerDto);
-        customerService.updateCustomer(customerDto);
         return HelloCabsConstants.RIDE_CREATED + rideDto1.getId()
                 + HelloCabsConstants.WAITING_STATUS;
     }
@@ -210,10 +198,12 @@ public class RideServiceImpl implements RideService {
 
         if ((MAXIMUM_WAITING_TIME < (LocalDateTime.now().getMinute())
                 - rideDto.getRideBookedTime().getMinute())
-                && ("Booked").equalsIgnoreCase(rideDto.getRideStatus())) {
+                && (HelloCabsConstants.RIDE_BOOKED)
+                .equalsIgnoreCase(rideDto.getRideStatus())) {
             deleteRideById(rideId);
             return HelloCabsConstants.CANCELLED_DUE_TO_UNAVAILABILITY;
         }
+        logger.info(HelloCabsConstants.SEARCHING_CABS);
         return HelloCabsConstants.SEARCHING_CABS;
     }
 
@@ -276,9 +266,9 @@ public class RideServiceImpl implements RideService {
                 rideDto.setRideDroppedTime(LocalDateTime.now());
                 rideDto.setRideStatus(rideStatus);
                 cabDto.setCabStatus(HelloCabsConstants.CAB_AVAILABLE);
-                Set<RideDto> rideDtos = cabDto.getRides();
-                rideDtos.add(rideDto);
-                cabDto.setRides(rideDtos);
+                logger.info("Before ser cab object " + rideDto);
+                rideDto.setCabDto(cabDto);
+                logger.info("After set cab object " + rideDto);
                 cabDto.setCurrentLocation(rideDto.getDropLocation()
                         .getLocationName());
                 double price = calculateTravelFare(rideDto, cabCategoryDto);
@@ -291,8 +281,9 @@ public class RideServiceImpl implements RideService {
                 break;
 
             default:
-                cabDto.setCabStatus("UnAvailable");
+                rideDto.setRideStatus(HelloCabsConstants.RIDE_BOOKED);
         }
+        logger.info(HelloCabsConstants.STATUS_UPDATED + rideStatus);
         cabService.updateCabDetailsById(cabDto.getId(), cabDto);
         updateRide(rideDto);
         return cabDto;
@@ -300,36 +291,50 @@ public class RideServiceImpl implements RideService {
 
     /**
      * <p>
-     * Method used to Calculate TravelFare by using PickUpTime And DropTime
+     *   Calculate TravelFare by using time difference between
+     *   PickUpTime And DropTime, if time difference exceeds basic
+     *   fare then extra charge will be added for every additional hour
+     *   Also if ride is booked in peak hour respective price has been
+     *   calculated for base time and also for additional time
      * </p>
+     *
      * @param rideDto {@link RideDto, CabDto, CabCategory}rideDto,
      *                                   cabDto, cabCategory Object
      * @param cabCategoryDto {@link CabCategoryDto}
      * @return {@link Double}returns RidePrice by Time Of Travel
+     *
      */
-    public double calculateTravelFare(RideDto rideDto,
+    private double calculateTravelFare(RideDto rideDto,
             CabCategoryDto cabCategoryDto) {
-        int pickTime = rideDto.getRidePickedTime().getHour();
-        int droppedTime =rideDto.getRideDroppedTime().getHour();
-        int timeDifference = (droppedTime - pickTime);
-        double initialFare = cabCategoryDto.getInitialFare();
-        double extraHourFare = cabCategoryDto.getExtraFarePerHour();
-        double additionalFare = cabCategoryDto.getPeakHourFare();
-        boolean isPeakHour = (Integer.toString(pickTime)
-                .matches(HelloCabsConstants.PEAK_HOUR_REGEX));
-        double totalFare = 0;
 
-        if (MINIMUM_BOOKING_HOUR > (timeDifference)) {
-             totalFare = isPeakHour
-                     ? (initialFare + additionalFare)
-                     : initialFare;
+        if ((HelloCabsConstants.RIDE_COMPLETED)
+                .equalsIgnoreCase(rideDto.getRideStatus())) {
+            int pickTime = rideDto.getRidePickedTime().getHour();
+            int droppedTime = rideDto.getRideDroppedTime().getHour();
+            int timeDifference = (droppedTime - pickTime);
+            double initialFare = cabCategoryDto.getInitialFare();
+            double extraHourFare = cabCategoryDto.getExtraFarePerHour();
+            double additionalFare = cabCategoryDto.getPeakHourFare();
+            boolean isPeakHour = (Integer.toString(pickTime)
+                    .matches(HelloCabsConstants.PEAK_HOUR_REGEX));
+            double totalFare = 0;
 
-        } else if (MINIMUM_BOOKING_HOUR < (timeDifference)) {
-            double fare = initialFare
-                    + ((timeDifference - 4) * extraHourFare);
-            totalFare = isPeakHour ? (fare + additionalFare) : fare;
+            if (MINIMUM_BOOKING_HOUR > (timeDifference)) {
+                totalFare = isPeakHour
+                        ? (initialFare + additionalFare)
+                        : initialFare;
+
+            } else if (MINIMUM_BOOKING_HOUR < (timeDifference)) {
+                double fare = initialFare
+                        + ((timeDifference - 4) * extraHourFare);
+                totalFare = isPeakHour ? (fare + additionalFare) : fare;
+            }
+            logger.info(HelloCabsConstants.TRAVEL_FARE + totalFare);
+            return totalFare;
         }
-        return totalFare;
+        logger.info(HelloCabsConstants.CUSTOMER_NOT_DROPPED);
+        throw new HelloCabsException(HelloCabsConstants.CUSTOMER_NOT_DROPPED);
     }
+
 
 }
