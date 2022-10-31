@@ -41,6 +41,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer createCustomerDetails(CustomerDto customerDto) {
         Customer customer = CustomerMapper.convertCustomerDtoToCustomer(customerDto);
+        customerDto.setStatus(true);
         Customer createdCustomer =  customerRepository.save(customer);
         return createdCustomer;
     }
@@ -94,7 +95,8 @@ public class CustomerServiceImpl implements CustomerService {
     public boolean deleteCustomerById(int customerId) {
         Customer customer = customerRepository.findById(customerId).orElse(null);
         if(null != customer) {
-            customerRepository.delete(customer);
+            customer.setStatus(false);
+            customerRepository.save(customer);
             return true;
         }
          return false;

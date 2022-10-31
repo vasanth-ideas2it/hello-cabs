@@ -8,7 +8,6 @@ import com.hellocabs.dto.RideDto;
 import com.hellocabs.model.Customer;
 import com.hellocabs.model.Ride;
 
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;

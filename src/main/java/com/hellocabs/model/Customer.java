@@ -43,6 +43,8 @@ public class Customer {
     private String customerEmail;
     @Column(name = "password",length = 20)
     private String password;
+    @Column(name = "status")
+    private boolean status;
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name = "customer_id")

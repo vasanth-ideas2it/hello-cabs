@@ -35,5 +35,6 @@ public class CustomerDto {
     private String customerEmail;
     @NotBlank(message = "set password for your security")
     private String password;
+    private boolean status;
     private Set<RideDto> rides;
 }
