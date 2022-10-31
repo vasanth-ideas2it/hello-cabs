@@ -52,6 +52,8 @@ public class CabCategory {
     @Column(name = "peak_hour_fare")
     private double peakHourFare;
 
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
     @OneToMany
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @LazyCollection(LazyCollectionOption.FALSE)

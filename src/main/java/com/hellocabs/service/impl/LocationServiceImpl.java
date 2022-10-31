@@ -8,7 +8,6 @@ import com.hellocabs.service.LocationService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class LocationServiceImpl implements LocationService {
@@ -68,7 +67,7 @@ public class LocationServiceImpl implements LocationService {
     public LocationDto updateLocation(LocationDto locationDto) {
         Location location = LocationMapper.locationDtoToLocation(locationDto);
 
-        if (locationRepository.existsById(location.getId())) {
+        if (locationRepository.existsByIdAndIsDeleted(location.getId(), false)) {
             return LocationMapper.locationToLocationDto(locationRepository.save(location));
         } else {
             return null;
@@ -88,14 +87,14 @@ public class LocationServiceImpl implements LocationService {
      *         deleted or not
      */
     public boolean deleteLocationById(int id) {
-        Optional<Location> location = locationRepository.findById(id);
+        Location location = locationRepository.findByIdAndIsDeleted(id, false);
 
-        if (!location.isPresent()) {
-            return false;
-        } else {
-            location.get().setDeleted(true);
-            locationRepository.save(location.get());
+        if (null != location) {
+            location.setDeleted(true);
+            locationRepository.save(location);
             return true;
+        } else {
+            return false;
         }
     }
 
@@ -108,7 +107,7 @@ public class LocationServiceImpl implements LocationService {
      *         retrieves all the locations
      */
     public List<LocationDto> retrieveAllLocations() {
-        return LocationMapper.locationsToLocationDtos(locationRepository.findAll());
+        return LocationMapper.locationsToLocationDtos(locationRepository.findAllByIsDeleted(false));
     }
 }
 

@@ -35,7 +35,6 @@ public class Location {
     private String locationName;
 
     @Column(name = "is_deleted")
-    @Value("false")
     private boolean isDeleted;
 
     public Location() {
