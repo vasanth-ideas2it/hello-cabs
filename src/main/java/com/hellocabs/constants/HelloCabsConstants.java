@@ -106,6 +106,5 @@ public class HelloCabsConstants {
     public static final String STATUS_UPDATED = "Status updated to ";
     public static final String RIDE_BOOKED_FOR_CUSTOMER = "Ride booked for customer ";
 
-
-
+    public static final String FIELD_NOT_BLANK = "Minimum three characters required";
 }

@@ -66,6 +66,8 @@ public class Ride {
 
     private String rideStatus;
 
+    private String feedback;
+
     private boolean isCancelled;
 
     @OneToOne(targetEntity = Location.class)

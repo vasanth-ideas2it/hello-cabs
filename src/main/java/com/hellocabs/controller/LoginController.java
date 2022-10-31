@@ -56,7 +56,7 @@ public class LoginController {
     } */
 
 
-        @Autowired
+       /* @Autowired
         private AuthenticationManager authenticationManager;
 
         @PostMapping("/login")
@@ -66,5 +66,5 @@ public class LoginController {
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
             return new ResponseEntity<>("User signed-in successfully!.", HttpStatus.OK);
-        }
+        }*/
 }

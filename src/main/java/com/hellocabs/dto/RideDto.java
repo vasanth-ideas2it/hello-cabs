@@ -53,6 +53,8 @@ public class RideDto {
 
     private double rating;
 
+    private String feedback;
+
     @NotBlank(message = HelloCabsConstants.RIDE_STATUS_NOT_BLANK)
     @Pattern(regexp = HelloCabsConstants.RIDE_STATUS_REGEX,
             message = HelloCabsConstants.RIDE_STATUS)

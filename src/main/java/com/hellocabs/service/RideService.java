@@ -9,7 +9,9 @@ package com.hellocabs.service;
 import com.hellocabs.dto.BookDto;
 import com.hellocabs.dto.CabCategoryDto;
 import com.hellocabs.dto.CabDto;
+import com.hellocabs.dto.FeedBackDto;
 import com.hellocabs.dto.LocationDto;
+import com.hellocabs.dto.RatingDto;
 import com.hellocabs.dto.RideDto;
 import com.hellocabs.dto.StatusDto;
 
@@ -73,11 +75,11 @@ public interface RideService {
      *   the ride from user
      * </p>
      *
-     * @param id {@link int} ride details to be updated
-     * @return {@link String} reason for ride cancellation
+     * @param feedBackDto {@link FeedBackDto} feedback and ride status details
+     * @return {@link String} ride cancellation
      *
      */
-    String deleteRideById(int id);
+    String deleteRide(FeedBackDto feedBackDto);
 
     /**
      * <p>
@@ -122,4 +124,17 @@ public interface RideService {
      *
      */
     String bookRide(BookDto bookDto);
+
+    /**
+     * <p>
+     *   Used this method whenever to give rating and
+     *   feedback for the ride
+     * </p>
+     *
+     * @param ratingDto {@link RatingDto} get the feedback and
+     *      rating for the ride when finished
+     * @return {@link String} ride's rating
+     *
+     */
+    RideDto submitFeedBack(RatingDto ratingDto);
 }

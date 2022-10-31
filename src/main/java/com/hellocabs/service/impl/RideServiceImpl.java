@@ -10,6 +10,8 @@ import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.BookDto;
 import com.hellocabs.dto.CabCategoryDto;
 import com.hellocabs.dto.CabDto;
+import com.hellocabs.dto.FeedBackDto;
+import com.hellocabs.dto.RatingDto;
 import com.hellocabs.dto.RideDto;
 import com.hellocabs.dto.StatusDto;
 import com.hellocabs.exception.HelloCabsException;
@@ -133,16 +135,17 @@ public class RideServiceImpl implements RideService {
      *   the ride from user
      * </p>
      *
-     * @param id {@link int} ride details to be updated
+     * @param feedBackDto {@link FeedBackDto} feedback and ride status details
      * @return {@link String} reason for ride cancellation
      *
      */
-    public String deleteRideById(int id) {
-        RideDto rideDto = searchRideById(id);
+    public String deleteRide(FeedBackDto feedBackDto) {
+        RideDto rideDto = searchRideById(feedBackDto.getRideId());
 
         if (rideDto != null) {
             rideDto.setIsCancelled(true);
             rideDto.setRideStatus(HelloCabsConstants.RIDE_IGNORED);
+            rideDto.setFeedback(feedBackDto.getFeedback());
             updateRide(rideDto);
             logger.info(HelloCabsConstants.RIDE_CANCELLED);
             return HelloCabsConstants.RIDE_CANCELLED;
@@ -182,6 +185,41 @@ public class RideServiceImpl implements RideService {
 
     /**
      * <p>
+     *   Used this method whenever to give rating and
+     *   feedback for the ride
+     * </p>
+     *
+     * @param ratingDto {@link RatingDto} get the feedback and
+     *      rating for the ride when finished
+     * @return {@link String} ride's rating
+     *
+     */
+    public RideDto submitFeedBack(RatingDto ratingDto) {
+
+        logger.info(ratingDto.getRideStatus());
+        if (HelloCabsConstants.RIDE_COMPLETED
+                .equalsIgnoreCase(ratingDto.getRideStatus())) {
+            RideDto rideDto = searchRideById(ratingDto.getRideId());
+            rideDto.setRideDroppedTime(LocalDateTime.now());
+            rideDto.setRideStatus(ratingDto.getRideStatus());
+            CabDto cabDto = cabService.displayCabDetailsById(rideDto.getCabDto().getId());
+            logger.info(cabDto.getId());
+            logger.info(cabDto.getCabCategoryId());
+            cabDto.setCabStatus(HelloCabsConstants.CAB_AVAILABLE);
+            cabDto.setCurrentLocation(rideDto.getDropLocation()
+                    .getLocationName());
+            double price = calculateTravelFare(rideDto, cabDto.getCabCategoryId());
+            rideDto.setPrice(price);
+            rideDto.setRating(ratingDto.getRating());
+            rideDto.setFeedback(ratingDto.getFeedback());
+            cabService.updateCabDetailsById(cabDto.getId(), cabDto);
+            return updateRide(rideDto);
+        }
+        throw new HelloCabsException(HelloCabsConstants.CUSTOMER_NOT_DROPPED);
+    }
+
+    /**
+     * <p>
      *   Implement this method is used when ride is booked, no
      *   cab categories were found on that location or
      *   no cab driver was accept this ride for
@@ -200,7 +238,10 @@ public class RideServiceImpl implements RideService {
                 - rideDto.getRideBookedTime().getMinute())
                 && (HelloCabsConstants.RIDE_BOOKED)
                 .equalsIgnoreCase(rideDto.getRideStatus())) {
-            deleteRideById(rideId);
+            rideDto.setIsCancelled(true);
+            rideDto.setFeedback(HelloCabsConstants.CANCELLED_DUE_TO_UNAVAILABILITY);
+            rideDto.setRideStatus(HelloCabsConstants.RIDE_IGNORED);
+            updateRide(rideDto);
             return HelloCabsConstants.CANCELLED_DUE_TO_UNAVAILABILITY;
         }
         logger.info(HelloCabsConstants.SEARCHING_CABS);
@@ -225,9 +266,10 @@ public class RideServiceImpl implements RideService {
         RideDto rideDto = searchRideById(rideId);
         
         if (null != rideDto) {
-            logger.info(HelloCabsConstants.RIDE_FOUND + rideDto);
+            logger.info(HelloCabsConstants.RIDE_FOUND);
             rideDto.setRideStatus(statusDto.getRideStatus());
             CabDto cabDto = cabService.displayCabDetailsById(cabId);
+            rideDto.setCabDto(cabDto);
             return updateStatusInfo(statusDto, rideDto, cabDto);
 
         }
@@ -249,9 +291,7 @@ public class RideServiceImpl implements RideService {
     private CabDto updateStatusInfo(StatusDto statusDto,
             RideDto rideDto, CabDto cabDto) {
         String rideStatus = statusDto.getRideStatus();
-        CabCategoryDto cabCategoryDto = cabCategoryService
-                .getCabCategoryById(statusDto.getCategoryId());
-        logger.info("CabCategory : " + cabCategoryDto);
+        //logger.info("CabCategory : " + cabCategoryDto);
 
         switch (rideStatus.toLowerCase()) {
             case "accepted" :
@@ -261,20 +301,8 @@ public class RideServiceImpl implements RideService {
             case "picked" :
                 rideDto.setRidePickedTime(LocalDateTime.now());
                 rideDto.setRideStatus(rideStatus);
-                cabDto.setCabStatus(HelloCabsConstants.CAB_ON_RIDE);
-                break;
-
-            case "dropped" :
-                rideDto.setRideDroppedTime(LocalDateTime.now());
-                rideDto.setRideStatus(rideStatus);
-                cabDto.setCabStatus(HelloCabsConstants.CAB_AVAILABLE);
-                logger.info("Before ser cab object " + rideDto);
                 rideDto.setCabDto(cabDto);
-                logger.info("After set cab object " + rideDto);
-                cabDto.setCurrentLocation(rideDto.getDropLocation()
-                        .getLocationName());
-                double price = calculateTravelFare(rideDto, cabCategoryDto);
-                rideDto.setPrice(price);
+                cabDto.setCabStatus(HelloCabsConstants.CAB_ON_RIDE);
                 break;
 
             case "cancelled" :
@@ -300,14 +328,19 @@ public class RideServiceImpl implements RideService {
      *   calculated for base time and also for additional time
      * </p>
      *
-     * @param rideDto {@link RideDto, CabDto, CabCategory}rideDto,
-     *                                   cabDto, cabCategory Object
-     * @param cabCategoryDto {@link CabCategoryDto}
+     * @param rideDto {@link RideDto} rideDto
+     * @param cabCategoryId {@link int} id to be searched
      * @return {@link Double}returns RidePrice by Time Of Travel
      *
      */
     private double calculateTravelFare(RideDto rideDto,
-            CabCategoryDto cabCategoryDto) {
+            int cabCategoryId) {
+        logger.info(cabCategoryId);
+        CabCategoryDto cabCategoryDto = cabCategoryService
+                .getCabCategoryById(cabCategoryId);
+        logger.info(cabCategoryDto.getInitialFare());
+        logger.info(cabCategoryDto.getExtraFarePerHour());
+        logger.info(cabCategoryDto.getPeakHourFare());
 
         if ((HelloCabsConstants.RIDE_COMPLETED)
                 .equalsIgnoreCase(rideDto.getRideStatus())) {

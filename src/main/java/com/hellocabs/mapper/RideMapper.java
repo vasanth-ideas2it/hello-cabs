@@ -53,6 +53,7 @@ public class RideMapper {
         location.setId(rideDto.getPickupLocation().getId());
         ride.setPickupLocation(location);
         ride.setIsCancelled(rideDto.getIsCancelled());
+        ride.setFeedback(rideDto.getFeedback());
         ride.setDropLocation(LocationMapper
                 .locationDtoToLocation(rideDto.getDropLocation()));
 
@@ -90,6 +91,7 @@ public class RideMapper {
         rideDto.setRating(ride.getRating());
         rideDto.setRideStatus(ride.getRideStatus());
         rideDto.setIsCancelled(ride.getIsCancelled());
+        rideDto.setFeedback(ride.getFeedback());
         rideDto.setPickupLocation(LocationMapper
                 .locationToLocationDto(ride.getPickupLocation()));
         rideDto.setDropLocation(LocationMapper

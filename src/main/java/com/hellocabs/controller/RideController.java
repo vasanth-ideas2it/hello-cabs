@@ -9,6 +9,8 @@ package com.hellocabs.controller;
 import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.BookDto;
 import com.hellocabs.dto.CabDto;
+import com.hellocabs.dto.FeedBackDto;
+import com.hellocabs.dto.RatingDto;
 import com.hellocabs.dto.RideDto;
 import com.hellocabs.dto.StatusDto;
 import com.hellocabs.exception.HelloCabsException;
@@ -143,9 +145,25 @@ public class RideController {
      * @return rideDto {@link RideDto} updated rideDto
      *
      */
-    @PostMapping("waiting/{rideId}")
+    @GetMapping("waiting/{rideId}")
     public String confirmRide(@PathVariable int rideId) {
         return rideService.confirmRide(rideId);
+    }
+
+    /**
+     * <p>
+     *   Used this method whenever to give rating and
+     *   feedback for the ride
+     * </p>
+     *
+     * @param ratingDto {@link RatingDto} get the feedback and
+     *      rating for the ride when finished
+     * @return {@link String} ride's rating
+     *
+     */
+    @PutMapping("rating")
+    public RideDto submitFeedback(@RequestBody @Valid RatingDto ratingDto){
+        return rideService.submitFeedBack(ratingDto);
     }
 
     /**
@@ -154,12 +172,12 @@ public class RideController {
      *   the ride for some reason
      * </p>
      *
-     * @param id {@link int} ride details to be updated
-     * @return {@link String} reason for ride cancellation
+     * @param feedBackDto {@link FeedBackDto} feedback of the ride
+     * @return {@link String} ride cancellation
      *
      */
-    @DeleteMapping("cancel/{id}")
-    public String deleteRideById(@PathVariable int id){
-        return rideService.deleteRideById(id);
+    @DeleteMapping("cancel")
+    public String deleteRideById(@RequestBody @Valid FeedBackDto feedBackDto){
+        return rideService.deleteRide(feedBackDto);
     }
 }

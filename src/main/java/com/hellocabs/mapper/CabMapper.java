@@ -30,41 +30,9 @@ public class CabMapper {
      * @param cabDto{@link CabDto}get valid information from user
      * @return {Cab}returns the cab object
      */
-    public static Cab convertCabDtoIntoCab(CabDto cabDto) {
-        Cab cab = convertPartialCabDtoIntoCab(cabDto);
-        Set<RideDto> rideDtos= cabDto.getRides();
-        Set<Ride> rides;
-
-        if (null != rideDtos) {
-            rides = rideDtos.stream().map(RideMapper :: convertRideDtoIntoRide).collect(Collectors.toSet());
-            cab.setRides(rides);
-        }
-        return cab;
-    }
-
-    /**
-     * <p>
-     * Method used to change the cab object into cabDto with the help
-     * of cabDto entity object and return to respective method
-     * </p>
-     *
-     * @param cab{@link Cab}get valid information from user
-     * @return {CabDto}returns the cabDto object
-     */
-    public static CabDto convertCabIntoCabDto(Cab cab) {
-        CabDto cabDto = convertPartialCabIntoCabDto(cab);
-        Set<Ride> rides = cab.getRides();
-        Set<RideDto> rideDtos;
-
-        if (null != rides) {
-            rideDtos = rides.stream().map(RideMapper :: convertRideIntoRideDto).collect(Collectors.toSet());
-            cabDto.setRides(rideDtos);
-        }
-        return cabDto;
-    }
-
     public static Cab convertPartialCabDtoIntoCab(CabDto cabDto) {
         Cab cab = new Cab();
+        cab.setId(cabDto.getId());
         cab.setCabNumber(cabDto.getCabNumber());
         cab.setCabStatus(cabDto.getCabStatus());
         cab.setCarModel(cabDto.getCarModel());
@@ -80,8 +48,21 @@ public class CabMapper {
         return cab;
     }
 
+
+
+
+    /**
+     * <p>
+     * Method used to change the cab object into cabDto with the help
+     * of cabDto entity object and return to respective method
+     * </p>
+     *
+     * @param cab{@link Cab}get valid information from user
+     * @return {CabDto}returns the cabDto object
+     */
     public static CabDto convertPartialCabIntoCabDto(Cab cab) {
         CabDto cabDto = new CabDto();
+        cabDto.setId(cab.getId());
         cabDto.setCabNumber(cab.getCabNumber());
         cabDto.setCabStatus(cab.getCabStatus());
         cabDto.setCarModel(cab.getCarModel());
