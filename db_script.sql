@@ -4,7 +4,7 @@ create table payment(id int primary key auto_increment, payment_mode varchar(50)
 
 create table location(id int primary key auto_increment,location_name varchar(50));
 
-create table cab_category(id int primary key auto_increment, cab_type varchar(30), initial_fare double, extra_fare_per_hr double, peak_hr_fare double, is_deleted boolean default false);
+create table cab_category(id int primary key auto_increment, cab_type varchar(30), initial_fare double, extra_fare_per_hour double, peak_hour_fare double, is_deleted boolean default false);
 
 CREATE TABLE customer (id int NOT NULL AUTO_INCREMENT,  name varchar(30) DEFAULT NULL,  mobile_number bigint(20) DEFAULT NULL,  email varchar(20) DEFAULT NULL,  PRIMARY KEY (id));
 

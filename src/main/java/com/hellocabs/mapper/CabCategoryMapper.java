@@ -10,14 +10,14 @@ import java.util.stream.Collectors;
 public class CabCategoryMapper {
     public static CabCategoryDto  CabCategoryToCabCategoryDto(CabCategory cabCategory) {
         return new CabCategoryDto(cabCategory.getId(), cabCategory.getCabType(), cabCategory.getInitialFare(),
-                                  cabCategory.getExtraFarePerHr(), cabCategory.getPeakHrFare(),
+                                  cabCategory.getExtraFarePerHour(), cabCategory.getPeakHourFare(),
                                   cabCategory.getCabs().stream().map(CabMapper :: convertCabToCabDto).collect(Collectors.toList()));
     }
 
     public static CabCategory CabCategoryDtoToCabCategory(CabCategoryDto cabCategoryDto) {
         return new CabCategory(cabCategoryDto.getId(), cabCategoryDto.getCabType(),
                                cabCategoryDto.getInitialFare(),
-                               cabCategoryDto.getExtraFarePerHr(), cabCategoryDto.getPeakHrFare(),
+                               cabCategoryDto.getExtraFarePerHour(), cabCategoryDto.getPeakHourFare(),
                                cabCategoryDto.getCabs().stream().map(CabMapper :: convertCabDtoToCab).collect(Collectors.toList()));
     }
 

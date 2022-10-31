@@ -313,8 +313,8 @@ public class RideServiceImpl implements RideService {
         int droppedTime =rideDto.getRideDroppedTime().getHour();
         int timeDifference = (droppedTime - pickTime);
         double initialFare = cabCategoryDto.getInitialFare();
-        double extraHourFare = cabCategoryDto.getExtraFarePerHr();
-        double additionalFare = cabCategoryDto.getPeakHrFare();
+        double extraHourFare = cabCategoryDto.getExtraFarePerHour();
+        double additionalFare = cabCategoryDto.getPeakHourFare();
         boolean isPeakHour = (Integer.toString(pickTime)
                 .matches(HelloCabsConstants.PEAK_HOUR_REGEX));
         double totalFare = 0;

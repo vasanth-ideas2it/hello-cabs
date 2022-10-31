@@ -25,19 +25,19 @@ public class CabCategoryDto {
     private String cabType;
 
     private double initialFare;
-    private double extraFarePerHr;
-    private double peakHrFare;
+    private double extraFarePerHour;
+    private double peakHourFare;
     private List<CabDto> cabs;
 
     public CabCategoryDto() {
     }
 
-    public CabCategoryDto(int id, String cabType, double initialFare, double extraFarePerHr, double peakHrFare, List<CabDto> cabs) {
+    public CabCategoryDto(int id, String cabType, double initialFare, double extraFarePerHour, double peakHourFare, List<CabDto> cabs) {
         this.id = id;
         this.cabType = cabType;
         this.initialFare = initialFare;
-        this.extraFarePerHr = extraFarePerHr;
-        this.peakHrFare = peakHrFare;
+        this.extraFarePerHour = extraFarePerHour;
+        this.peakHourFare = peakHourFare;
         this.cabs = cabs;
     }
 }

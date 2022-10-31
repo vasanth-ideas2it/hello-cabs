@@ -46,11 +46,11 @@ public class CabCategory {
     @Column(name = "initial_fare")
     private double initialFare;
 
-    @Column(name = "extra_fare_per_hr")
-    private double extraFarePerHr;
+    @Column(name = "extra_fare_per_hour")
+    private double extraFarePerHour;
 
-    @Column(name = "peak_hr_fare")
-    private double peakHrFare;
+    @Column(name = "peak_hour_fare")
+    private double peakHourFare;
 
     @OneToMany
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
@@ -61,12 +61,12 @@ public class CabCategory {
     public CabCategory() {
     }
 
-    public CabCategory(int id, String cabType, double initialFare, double extraFarePerHr, double peakHrFare, List<Cab> cabs) {
+    public CabCategory(int id, String cabType, double initialFare, double extraFarePerHour, double peakHourFare, List<Cab> cabs) {
         this.id = id;
         this.cabType = cabType;
         this.initialFare = initialFare;
-        this.extraFarePerHr = extraFarePerHr;
-        this.peakHrFare = peakHrFare;
+        this.extraFarePerHour = extraFarePerHour;
+        this.peakHourFare = peakHourFare;
         this.cabs = cabs;
     }
 }
