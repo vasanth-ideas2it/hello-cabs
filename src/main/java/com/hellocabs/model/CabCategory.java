@@ -59,16 +59,4 @@ public class CabCategory {
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name = "cab_category_id")
     List<Cab> cabs;
-
-    public CabCategory() {
-    }
-
-    public CabCategory(int id, String cabType, double initialFare, double extraFarePerHour, double peakHourFare, List<Cab> cabs) {
-        this.id = id;
-        this.cabType = cabType;
-        this.initialFare = initialFare;
-        this.extraFarePerHour = extraFarePerHour;
-        this.peakHourFare = peakHourFare;
-        this.cabs = cabs;
-    }
 }

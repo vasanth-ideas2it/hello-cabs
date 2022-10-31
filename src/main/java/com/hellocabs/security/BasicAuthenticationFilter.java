@@ -5,10 +5,10 @@
  */
 
 package com.hellocabs.security;
-/*
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;*/
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -28,7 +28,7 @@ import java.io.IOException;
  * @version 1.0
  *
  */
-public class BasicAuthenticationFilter extends OncePerRequestFilter {
+/** public class BasicAuthenticationFilter extends OncePerRequestFilter {
 
 
 
@@ -37,4 +37,4 @@ public class BasicAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
     }
 
-}
+} */

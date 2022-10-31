@@ -41,7 +41,7 @@ public class LocationController {
      *         inserted location id is returned
      */
     @PostMapping("/create")
-    public int addLocation(@Valid @RequestBody LocationDto locationDto) {
+    private int addLocation(@Valid @RequestBody LocationDto locationDto) {
         int id = locationService.createLocation(locationDto);
         logger.info(HelloCabsConstants.LOCATION_CREATED);
         return  id;
@@ -59,7 +59,7 @@ public class LocationController {
      *         searched location is returned
      */
     @GetMapping("/search/{id}")
-    public LocationDto searchLocationById(@PathVariable int id) {
+    private LocationDto searchLocationById(@PathVariable int id) {
         LocationDto locationDto = locationService.getLocationById(id);
 
         if (null == locationDto) {
@@ -81,7 +81,7 @@ public class LocationController {
      *         updated location is returned
      */
     @PutMapping("/update")
-    public LocationDto updateLocation(@Valid @RequestBody LocationDto locationDto) {
+    private LocationDto updateLocation(@Valid @RequestBody LocationDto locationDto) {
         LocationDto updatedLocationDto = locationService.updateLocation(locationDto);
         if (null == updatedLocationDto ) {
             logger.error(HelloCabsConstants.LOCATION_NOT_FOUND);
@@ -104,7 +104,7 @@ public class LocationController {
      *         deleted or not
      */
     @DeleteMapping("/delete/{id}")
-    public String deleteLocationById(@PathVariable int id) {
+    private String deleteLocationById(@PathVariable int id) {
         if (locationService.deleteLocationById(id)) {
             logger.info(HelloCabsConstants.LOCATION_DELETED);
             return HelloCabsConstants.LOCATION_DELETED;
@@ -123,7 +123,7 @@ public class LocationController {
      *         retrieves all the locations
      */
     @GetMapping("/locations")
-    public List<LocationDto> getAllLocations() {
+    private List<LocationDto> getAllLocations() {
         return locationService.retrieveAllLocations();
     }
 }

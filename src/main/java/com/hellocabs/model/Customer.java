@@ -43,10 +43,10 @@ public class Customer {
     private String customerEmail;
     @Column(name = "password",length = 20)
     private String password;
-    @Column(name = "is_Deleted")
-    private boolean isDeleted;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name = "customer_id")
     private Set<Ride> rides;

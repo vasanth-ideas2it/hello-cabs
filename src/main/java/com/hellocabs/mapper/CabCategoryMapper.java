@@ -7,18 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
+
 public class CabCategoryMapper {
+    private static final ModelMapper modelMapper = new ModelMapper();
     public static CabCategoryDto  CabCategoryToCabCategoryDto(CabCategory cabCategory) {
-        return new CabCategoryDto(cabCategory.getId(), cabCategory.getCabType(), cabCategory.getInitialFare(),
-                                  cabCategory.getExtraFarePerHour(), cabCategory.getPeakHourFare(),
-                                  cabCategory.getCabs().stream().map(CabMapper :: convertCabToCabDto).collect(Collectors.toList()));
+        return modelMapper.map(cabCategory, CabCategoryDto.class);
     }
 
     public static CabCategory CabCategoryDtoToCabCategory(CabCategoryDto cabCategoryDto) {
-        return new CabCategory(cabCategoryDto.getId(), cabCategoryDto.getCabType(),
-                               cabCategoryDto.getInitialFare(),
-                               cabCategoryDto.getExtraFarePerHour(), cabCategoryDto.getPeakHourFare(),
-                               cabCategoryDto.getCabs().stream().map(CabMapper :: convertCabDtoToCab).collect(Collectors.toList()));
+        return modelMapper.map(cabCategoryDto, CabCategory.class);
     }
 
     public static List<CabCategoryDto> CabCategoriesToCabCategoryDtos(List<CabCategory> cabCategories) {

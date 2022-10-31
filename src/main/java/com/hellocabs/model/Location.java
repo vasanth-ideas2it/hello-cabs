@@ -36,12 +36,4 @@ public class Location {
 
     @Column(name = "is_deleted")
     private boolean isDeleted;
-
-    public Location() {
-    }
-
-    public Location(int id, String locationName) {
-        this.id = id;
-        this.locationName = locationName;
-    }
 }

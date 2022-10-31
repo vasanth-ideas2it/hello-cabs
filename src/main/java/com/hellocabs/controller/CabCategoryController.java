@@ -41,7 +41,7 @@ public class CabCategoryController {
      *         inserted cab category id is returned
      */
     @PostMapping("/create")
-    public int addCabCategory(@Valid @RequestBody CabCategoryDto cabCategoryDto) {
+    private int addCabCategory(@Valid @RequestBody CabCategoryDto cabCategoryDto) {
         int id = cabCategoryService.createCabCategory(cabCategoryDto);
         logger.info(HelloCabsConstants.CAB_CATEGORY_CREATED + id);
         return  id;
@@ -59,7 +59,7 @@ public class CabCategoryController {
      *         searched cab category is returned
      */
     @GetMapping("/search/{id}")
-    public CabCategoryDto searchCabCategoryById(@PathVariable int id) {
+    private CabCategoryDto searchCabCategoryById(@PathVariable int id) {
         CabCategoryDto cabCategoryDto = cabCategoryService.getCabCategoryById(id);
 
         if ( null == cabCategoryDto) {
@@ -81,7 +81,7 @@ public class CabCategoryController {
      *         updated cab category is returned
      */
     @PutMapping("/update")
-    public CabCategoryDto updateCabCategory(@Valid @RequestBody CabCategoryDto cabCategoryDto) {
+    private CabCategoryDto updateCabCategory(@Valid @RequestBody CabCategoryDto cabCategoryDto) {
         CabCategoryDto updatedCabCategoryDto = cabCategoryService.updateCabCategory(cabCategoryDto);
 
         if (null == updatedCabCategoryDto) {
@@ -105,7 +105,7 @@ public class CabCategoryController {
      *         deleted or not
      */
     @DeleteMapping("/delete/{id}")
-    public String deleteCabCategoryById(@PathVariable int id) {
+    private String deleteCabCategoryById(@PathVariable int id) {
         if (cabCategoryService.deleteCabCategoryById(id)) {
             logger.info(HelloCabsConstants.CAB_CATEGORY_DELETED);
             return HelloCabsConstants.CAB_CATEGORY_DELETED;
@@ -124,7 +124,7 @@ public class CabCategoryController {
      *         retrieves all the cab categories
      */
     @GetMapping("/cabcategories")
-    public List<CabCategoryDto> getAllCabCategories() {
+    private List<CabCategoryDto> getAllCabCategories() {
         List<CabCategoryDto> cabCategoryDtos = cabCategoryService.retrieveAllCabCategories();
         return cabCategoryDtos;
     }

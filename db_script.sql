@@ -1,5 +1,3 @@
-create table user(id int primary key auto_increment, username varchar(20), password varchar(20));
-
 create table payment(id int primary key auto_increment, payment_mode varchar(50), payment_status varchar(50));
 
 create table location(id int primary key auto_increment,location_name varchar(50), is_deleted boolean default false);

@@ -1,65 +1,85 @@
-/*
- * <p>
- *   Copyright (c) All rights reserved Ideas2IT
- * </p>
- */
-
 package com.hellocabs.security;
 
-import com.hellocabs.configuration.LoggerConfiguration;
-import lombok.RequiredArgsConstructor;
-import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  * <p>
- *   Class that contains security configuration
- *   which provides access to users using cab booking application
- *   which configures user credentials and roles
+ * SpringSecurityConfiguration class has configuration of 
+ * Spring security
  * </p>
  *
- * @author : Pradeep
- * created on 29/10/2022
- * @version 1.0
- *
+ * @author Divya
+ * @version 1.0 13 Oct 2022
  */
-//@Configuration
-//@EnableWebSecurity
-@RequiredArgsConstructor
+@Configuration
+@EnableWebSecurity
+// @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
 
-    private static final Logger logger = LoggerConfiguration
-            .getInstance("SecurityConfiguration.class");
-
-    /*private final RideService rideService;
-    //private final UserDetailsService userDetailsService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final BasicAuthenticationFilter basicAuthenticationFilter;
-
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        logger.info("In config configure(auth)");
-       // auth.userDetailsService(userDetailsService)
-         //       .passwordEncoder(new BCryptPasswordEncoder());
-    }
-
-    protected void securityFilterChain(HttpSecurity http) throws Exception {
-        logger.info("In config configure(http)");
-        http.csrf().disable().authorizeRequests()
-                .antMatchers("/").permitAll()
-                .anyRequest()
-                .authenticated()
-                .and().sessionManagement().
-                sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.addFilterBefore(basicAuthenticationFilter,
-                UsernamePasswordAuthenticationFilter.class);
-    }
+   /* @Autowired
+    private UserDetailsService userDetailsService;
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
+    @Override
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.csrf().disable().authorizeRequests().antMatchers("/login").permitAll()
+                .antMatchers("/hellocabs/**").hasAnyAuthority()
+                .and().httpBasic();
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder());
+*/
+
+
+
+
+    /**
+     * <p>
+     * This method returns {@link BCryptPasswordEncoder}
+     * </p>
+     *
+     * @return {@link BCryptPasswordEncoder}
+     */
     @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-       return authenticationManagerBean();
-    }*/
+    public static PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    /**
+     * <p>
+     * This method has the security filter that checks and authorize the user.
+     * </p>
+     *
+     * @param httpSecurity
+     * @return {@link SecurityFilterChain}
+     * @throws Exception
+     */
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+            httpSecurity.csrf().disable().authorizeRequests().antMatchers("/login").permitAll()
+                .antMatchers("/**").permitAll();
+
+        return httpSecurity.build();
+    }
+
 }
