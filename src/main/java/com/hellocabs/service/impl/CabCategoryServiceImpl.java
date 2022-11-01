@@ -95,8 +95,8 @@ public class CabCategoryServiceImpl implements CabCategoryService {
      */
     public boolean deleteCabCategoryById(int id) {
         CabCategory cabCategory = cabCategoryRepository.findByIdAndIsDeleted(id, false);
-
-        if (null != cabCategory) {
+        System.out.println(cabCategory);
+        if (null == cabCategory) {
             return false;
         } else {
             cabCategory.setDeleted(true);
@@ -114,6 +114,6 @@ public class CabCategoryServiceImpl implements CabCategoryService {
      *         retrieves all the cab categories
      */
     public List<CabCategoryDto> retrieveAllCabCategories() {
-        return CabCategoryMapper.CabCategoriesToCabCategoryDtos(cabCategoryRepository.findAllByIsDeleted(false));
+        return CabCategoryMapper.cabCategoriesToCabCategoryDtos(cabCategoryRepository.findAllByIsDeleted(false));
     }
 }
