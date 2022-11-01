@@ -104,8 +104,10 @@ public class CabServiceImpl implements CabService {
             Cab cab = cabRepository.findByIdAndIsActive(id,false);
             logger.info(HelloCabsConstants.CAB_FOUND + cab);
             return CabMapper.convertCabToCabDto(cab);
-        }
+       /* }
         logger.info(HelloCabsConstants.CAB_NOT_FOUND);
+            return CabMapper.convertPartialCabIntoCabDto(cab);*/
+        }
         throw new HelloCabsException(HelloCabsConstants.CAB_NOT_FOUND);
     }
 

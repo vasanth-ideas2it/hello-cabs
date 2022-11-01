@@ -131,16 +131,39 @@ public class RideController {
      *
      * @param statusDto {@link StatusDto} contains information
      *                          about ride status
+     * @param rideId {@link int} rideId to be updated
      * @return {@link ResponseEntity<Object>} assigned cab details
      *
      */
-    @PutMapping("status")
-    public ResponseEntity<Object> updateStatus(@Valid
-            @RequestBody StatusDto statusDto) {
+    @PutMapping("status/{rideId}")
+    public ResponseEntity<Object> updateRideStatus(@Valid
+            @RequestBody StatusDto statusDto, @PathVariable int rideId) {
         return HelloCabsResponseHandler.generateResponse(
                 HelloCabsConstants.STATUS_UPDATED,HttpStatus.OK,
-                rideService.updateStatus(statusDto));
+                rideService.updateRideStatus(statusDto, rideId));
     }
+
+    /**
+     * <p>
+     *   This method is often used to assign a ride to cab
+     *   by passing the user input as an object and respective id
+     * </p>
+     *
+     * @param statusDto {@link StatusDto} contains information
+     *                          about ride status
+     * @param rideId {@link int} rideId to be confirmed
+     * @param cabId {@link int} cabId to be assigned to pick the ride
+     * @return {@link String} ride confirmation
+     *
+     */
+    @PutMapping("confirm/{rideId}/{cabId}")
+    public ResponseEntity<Object> confirmRide(@Valid
+            @RequestBody StatusDto statusDto, @PathVariable int rideId,
+            @PathVariable int cabId) {
+        return HelloCabsResponseHandler.generateResponse(
+                rideService.confirmRide(statusDto, rideId, cabId), HttpStatus.OK);
+    }
+
 
     /**
      * <p>
@@ -156,9 +179,9 @@ public class RideController {
      *
      */
     @GetMapping("waiting/{rideId}")
-    public ResponseEntity<Object> confirmRide(@PathVariable int rideId) {
+    public ResponseEntity<Object> waitingToConfirmRide(@PathVariable int rideId) {
         return HelloCabsResponseHandler.generateResponse(
-                rideService.confirmRide(rideId), HttpStatus.OK);
+                rideService.waitingToConfirmRide(rideId), HttpStatus.OK);
     }
 
     /**

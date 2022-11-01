@@ -5,6 +5,7 @@
  */
 package com.hellocabs.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hellocabs.constants.HelloCabsConstants;
 import lombok.Data;
 
@@ -32,6 +33,7 @@ public class CabCategoryDto {
     private double initialFare;
     private double extraFarePerHour;
     private double peakHourFare;
+    @JsonIgnore
     private List<CabDto> cabs;
 
     public CabCategoryDto() {

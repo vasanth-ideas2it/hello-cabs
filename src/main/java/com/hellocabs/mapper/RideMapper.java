@@ -8,6 +8,8 @@ package com.hellocabs.mapper;
 import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.RideDto;
 import com.hellocabs.configuration.LoggerConfiguration;
+import com.hellocabs.model.Cab;
+import com.hellocabs.model.Customer;
 import com.hellocabs.model.Location;
 import com.hellocabs.model.Ride;
 import org.apache.log4j.Logger;
@@ -49,22 +51,24 @@ public class RideMapper {
         ride.setRating(rideDto.getRating());
         ride.setRideStatus(rideDto.getRideStatus());
         Location location = new Location();
-        location.setId(rideDto.getPickupLocation().getId());
+        location.setId(rideDto.getPickupLocation());
         ride.setPickupLocation(location);
         ride.setIsCancelled(rideDto.getIsCancelled());
         ride.setFeedback(rideDto.getFeedback());
-        ride.setDropLocation(LocationMapper
-                .locationDtoToLocation(rideDto.getDropLocation()));
+        Location location1 = new Location();
+        location1.setId(rideDto.getDropLocation());
+        ride.setDropLocation(location1);
+        Cab cab = new Cab();
+        Customer customer = new Customer();
 
-        if (null != rideDto.getCabDto()) {
-            ride.setCab(CabMapper
-                    .convertPartialCabDtoIntoCab(rideDto.getCabDto()));
+        if (0 != rideDto.getCabId()) {
+            cab.setId(rideDto.getCabId());
+            ride.setCab(cab);
         }
 
-        if (null != rideDto.getCustomerDto()) {
-            ride.setCustomer(CustomerMapper
-                    .convertPartialCustomerDtoIntoCustomer(
-                    rideDto.getCustomerDto()));
+        if (0 != rideDto.getCustomerId()) {
+            customer.setCustomerId(rideDto.getCustomerId());
+            ride.setCustomer(customer);
         }
         return ride;
     }
@@ -91,22 +95,17 @@ public class RideMapper {
         rideDto.setRideStatus(ride.getRideStatus());
         rideDto.setIsCancelled(ride.getIsCancelled());
         rideDto.setFeedback(ride.getFeedback());
-        rideDto.setPickupLocation(LocationMapper
-                .locationToLocationDto(ride.getPickupLocation()));
-        rideDto.setDropLocation(LocationMapper
-                .locationToLocationDto(ride.getDropLocation()));
+        rideDto.setPickupLocation(
+                ride.getPickupLocation().getId());
+        rideDto.setDropLocation(
+                ride.getDropLocation().getId());
 
         if (null != ride.getCab()) {
-            rideDto.setCabDto(CabMapper
-                    .convertPartialCabIntoCabDto(ride.getCab()));
-            logger.info(ride.getCustomer());
-            logger.info(ride);
+            rideDto.setCabId((ride.getCab().getId()));
         }
 
         if (null != ride.getCustomer()) {
-            rideDto.setCustomerDto(CustomerMapper
-                    .convertPartialCustomerIntoCustomerDto(
-                    ride.getCustomer()));
+            rideDto.setCustomerId(ride.getCustomer().getCustomerId());
         }
         return rideDto;
     }

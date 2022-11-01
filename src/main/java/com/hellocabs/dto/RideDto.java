@@ -61,16 +61,16 @@ public class RideDto {
 
     private boolean isCancelled;
 
-    //@NotBlank(message = HelloCabsConstants.PICKUP_LOCATION_NOT_EMPTY)
-    private LocationDto pickupLocation;
+    @NotBlank(message = HelloCabsConstants.PICKUP_LOCATION_NOT_EMPTY)
+    private int pickupLocation;
 
-    //@NotBlank(message = HelloCabsConstants.DROP_LOCATION_NOT_EMPTY)
-    private LocationDto  dropLocation;
+    @NotBlank(message = HelloCabsConstants.DROP_LOCATION_NOT_EMPTY)
+    private int  dropLocation;
 
-    private CabDto cabDto;
+    private int cabId;
 
     //@NotBlank(message = HelloCabsConstants.CUSTOMER_ID_NOT_BLANK)
-    private CustomerDto customerDto;
+    private int customerId;
 
     public void setIsCancelled(boolean isCancelled) {
         this.isCancelled = isCancelled;
@@ -83,8 +83,8 @@ public class RideDto {
     @Override
     public String toString() {
         return id + "" + passengerMobileNumber + pickupLocation
-                + dropLocation.getId() + rideStatus + rating
-                + cabDto.getId() + customerDto.getCustomerId();
+                + dropLocation + rideStatus + rating
+                + cabId + customerId;
     }
 }
 

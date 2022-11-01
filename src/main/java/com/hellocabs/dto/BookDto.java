@@ -25,9 +25,9 @@ public class BookDto {
 
     private long passengerMobileNumber;
 
-    private LocationDto pickupLocation;
+    private int pickupLocation;
 
-    private LocationDto  dropLocation;
+    private int dropLocation;
 
-    private CustomerDto customerDto;
+    private int customerId;
 }

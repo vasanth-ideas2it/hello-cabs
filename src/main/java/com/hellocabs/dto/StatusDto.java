@@ -27,12 +27,6 @@ import javax.validation.constraints.Pattern;
 @Validated
 public class StatusDto {
 
-    private int categoryId;
-
-    private int rideId;
-
-    private int cabId;
-
     @NotBlank(message = HelloCabsConstants.RIDE_STATUS_NOT_BLANK)
     @Pattern(regexp = HelloCabsConstants.RIDE_STATUS_REGEX,
             message = HelloCabsConstants.RIDE_STATUS)

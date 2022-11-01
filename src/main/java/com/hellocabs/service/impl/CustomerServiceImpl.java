@@ -5,15 +5,22 @@ package com.hellocabs.service.impl;
 
 import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.CustomerDto;
+import com.hellocabs.exception.HelloCabsException;
 import com.hellocabs.mapper.CustomerMapper;
 import com.hellocabs.model.Customer;
 import com.hellocabs.repository.CustomerRepository;
 import com.hellocabs.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +33,7 @@ import java.util.List;
  *  @version 1.0.
  */
 @Service
-public class CustomerServiceImpl implements CustomerService {
+public class CustomerServiceImpl implements CustomerService, UserDetailsService {
      @Autowired
      CustomerRepository customerRepository;
      @Autowired
@@ -134,5 +141,17 @@ public class CustomerServiceImpl implements CustomerService {
             return HelloCabsConstants.LOGIN_SUCCESSFUL;
         }
         return HelloCabsConstants.LOGIN_NOT_SUCCESSFUL;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Customer customer = customerRepository
+                .findByCustomerMobileNumber(Long.parseLong(username));
+        if (customer != null) {
+            return new User(Long.toString(customer.getCustomerMobileNumber()),
+                    customer.getPassword(), new ArrayList<>());
+        }
+        throw new HelloCabsException(
+                new UsernameNotFoundException(HelloCabsConstants.CUSTOMER_NOT_FOUND));
     }
 }

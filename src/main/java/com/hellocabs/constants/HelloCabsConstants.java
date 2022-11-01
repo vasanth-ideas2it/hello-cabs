@@ -125,6 +125,8 @@ public class HelloCabsConstants {
     public static final String STATUS_NOT_FOUND = "No such ride status exists";
     public static final String CUSTOMER_NOT_PICKED = "Customer not to be picked yet";
     public static final String CUSTOMER_ALREADY_DROPPED = "Customer Already dropped, Couldn't update feedback";
-    public static final String RIDE_NOT_ACCEPTED = "Couldn't pick an unaccepted ride";
+    public static final String RIDE_NOT_ACCEPTED = "Ride not accepted yet";
     public static final String ALREADY_ON_BOARD = "You are already on board";
+    public static final String INVALID_LOGIN_CREDENTIALS = "Invalid Login Credentials";
+    public static final String CAB_ASSIGNED = "Hoorah! Cab assigned";
 }

@@ -45,6 +45,7 @@ public class CabMapper {
         cab.setLicenseNumber(cabDto.getLicenseNumber());
         cab.setMobileNumber(cabDto.getMobileNumber());
         cab.setPassword(cabDto.getPassword());
+        cab.setCabCategoryId(cabDto.getCabCategoryId());
         return cab;
     }
 
@@ -74,6 +75,7 @@ public class CabMapper {
         cabDto.setMobileNumber(cab.getMobileNumber());
         cabDto.setPassword(cab.getPassword());
         cabDto.setActive(cab.isActive());
+        cabDto.setCabCategoryId(cab.getCabCategoryId());
         return cabDto;
     }
 

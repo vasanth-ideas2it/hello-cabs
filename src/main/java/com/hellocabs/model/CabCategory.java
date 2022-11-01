@@ -1,5 +1,6 @@
 package com.hellocabs.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.LazyCollection;
@@ -51,6 +52,8 @@ public class CabCategory {
 
     @Column(name = "is_deleted")
     private boolean isDeleted;
+
+    @JsonIgnore
     @OneToMany
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @LazyCollection(LazyCollectionOption.FALSE)

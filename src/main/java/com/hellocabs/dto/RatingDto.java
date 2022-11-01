@@ -30,11 +30,6 @@ public class RatingDto {
 
     private int rideId;
 
-    @NotBlank(message = HelloCabsConstants.RIDE_STATUS_NOT_BLANK)
-    @Pattern(regexp = HelloCabsConstants.RIDE_STATUS_REGEX,
-            message = HelloCabsConstants.RIDE_STATUS)
-    private String rideStatus;
-
     private double rating;
 
     @Size(min = 3, message = HelloCabsConstants.FIELD_NOT_BLANK)

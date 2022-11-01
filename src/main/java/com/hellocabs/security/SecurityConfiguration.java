@@ -1,5 +1,8 @@
 package com.hellocabs.security;
 
+import com.hellocabs.service.CustomerService;
+import com.hellocabs.service.impl.CustomUserDetailsService;
+import com.hellocabs.service.impl.CustomerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -30,8 +34,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 // @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
+
+    private final CustomerServiceImpl customerServiceImpl;
 
     /**
      * <p>
@@ -56,13 +63,21 @@ public class SecurityConfiguration {
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-            httpSecurity.csrf().disable().authorizeRequests().antMatchers("/login").permitAll()
+            httpSecurity.csrf().disable().authorizeRequests().antMatchers("/customer/login").permitAll()
                 .antMatchers("/**").permitAll();
 
         return httpSecurity.build();
     }
 
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-       return authenticationManagerBean();
+    @Bean
+    public AuthenticationManager authenticationManagerBean(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+       return authenticationConfiguration.getAuthenticationManager();
     }
+
+    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+        authenticationManagerBuilder.userDetailsService(customerServiceImpl);
+    }
+
+
+
 }

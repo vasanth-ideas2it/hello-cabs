@@ -14,6 +14,7 @@ import com.hellocabs.dto.LocationDto;
 import com.hellocabs.dto.RatingDto;
 import com.hellocabs.dto.RideDto;
 import com.hellocabs.dto.StatusDto;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Set;
 
@@ -94,7 +95,7 @@ public interface RideService {
      * @return rideDto {@link RideDto} updated rideDto
      *
      */
-    String confirmRide(int rideId);
+    String waitingToConfirmRide(int rideId);
 
     /**
      * <p>
@@ -104,9 +105,10 @@ public interface RideService {
      *
      * @param statusDto {@link StatusDto} contains information
      *                          about ride status
+     * @param rideId {@link int} status to be changed for the ride id
      * @return {@link CabDto} assigned cab details
      */
-    CabDto updateStatus(StatusDto statusDto);
+    CabDto updateRideStatus(StatusDto statusDto, int rideId);
 
     /**
      * <p>
@@ -137,4 +139,19 @@ public interface RideService {
      *
      */
     RideDto submitFeedBack(RatingDto ratingDto);
+
+    /**
+     * <p>
+     *   This method often used to assign a ride to cab
+     *   by passing the user input as an object and respective id
+     * </p>
+     *
+     * @param statusDto {@link StatusDto} contains information
+     *                          about ride status
+     * @param rideId {@link int} rideId to be confirmed
+     * @param cabId {@link int} cabId to be assigned to pick the ride
+     * @return {@link String} ride confirmation
+     *
+     */
+    String confirmRide(StatusDto statusDto, int rideId, int cabId);
 }
