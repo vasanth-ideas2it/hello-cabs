@@ -143,12 +143,18 @@ public class RideServiceImpl implements RideService {
         RideDto rideDto = searchRideById(feedBackDto.getRideId());
 
         if (rideDto != null) {
-            rideDto.setIsCancelled(true);
-            rideDto.setRideStatus(HelloCabsConstants.RIDE_IGNORED);
-            rideDto.setFeedback(feedBackDto.getFeedback());
-            updateRide(rideDto);
-            logger.info(HelloCabsConstants.RIDE_CANCELLED);
-            return HelloCabsConstants.RIDE_CANCELLED;
+
+            if (!HelloCabsConstants.RIDE_COMPLETED
+                    .equalsIgnoreCase(rideDto.getRideStatus())) {
+                rideDto.setIsCancelled(true);
+                rideDto.setRideStatus(HelloCabsConstants.RIDE_IGNORED);
+                rideDto.setFeedback(feedBackDto.getFeedback());
+                updateRide(rideDto);
+                logger.info(HelloCabsConstants.RIDE_CANCELLED);
+                return HelloCabsConstants.RIDE_CANCELLED;
+            }
+            throw new HelloCabsException(HelloCabsConstants
+                    .RIDE_NOT_CANCELLED);
         }
         logger.error(HelloCabsConstants.RIDE_NOT_FOUND);
         return HelloCabsConstants.RIDE_NOT_FOUND;
@@ -196,24 +202,31 @@ public class RideServiceImpl implements RideService {
      */
     public RideDto submitFeedBack(RatingDto ratingDto) {
 
-        logger.info(ratingDto.getRideStatus());
         if (HelloCabsConstants.RIDE_COMPLETED
                 .equalsIgnoreCase(ratingDto.getRideStatus())) {
             RideDto rideDto = searchRideById(ratingDto.getRideId());
-            rideDto.setRideDroppedTime(LocalDateTime.now());
-            rideDto.setRideStatus(ratingDto.getRideStatus());
-            CabDto cabDto = cabService.displayCabDetailsById(rideDto.getCabDto().getId());
-            logger.info(cabDto.getId());
-            logger.info(cabDto.getCabCategoryId());
-            cabDto.setCabStatus(HelloCabsConstants.CAB_AVAILABLE);
-            cabDto.setCurrentLocation(rideDto.getDropLocation()
-                    .getLocationName());
-            double price = calculateTravelFare(rideDto, cabDto.getCabCategoryId());
-            rideDto.setPrice(price);
-            rideDto.setRating(ratingDto.getRating());
-            rideDto.setFeedback(ratingDto.getFeedback());
-            cabService.updateCabDetailsById(cabDto.getId(), cabDto);
-            return updateRide(rideDto);
+
+            if (HelloCabsConstants.RIDE_PICKED
+                    .equalsIgnoreCase(rideDto.getRideStatus())) {
+                rideDto.setRideDroppedTime(LocalDateTime.now());
+                rideDto.setRideStatus(ratingDto.getRideStatus());
+                CabDto cabDto = cabService.displayCabDetailsById(
+                        rideDto.getCabDto().getId());
+                logger.info(cabDto.getId());
+                logger.info(cabDto.getCabCategoryId());
+                cabDto.setCabStatus(HelloCabsConstants.CAB_AVAILABLE);
+                cabDto.setCurrentLocation(rideDto.getDropLocation()
+                        .getLocationName());
+                double price = calculateTravelFare(rideDto,
+                        cabDto.getCabCategoryId());
+                rideDto.setPrice(price);
+                rideDto.setRating(ratingDto.getRating());
+                rideDto.setFeedback(ratingDto.getFeedback());
+                cabService.updateCabDetailsById(cabDto.getId(), cabDto);
+                return updateRide(rideDto);
+            }
+            throw new HelloCabsException(HelloCabsConstants
+                    .CUSTOMER_NOT_PICKED);
         }
         throw new HelloCabsException(HelloCabsConstants.CUSTOMER_NOT_DROPPED);
     }
@@ -239,7 +252,8 @@ public class RideServiceImpl implements RideService {
                 && (HelloCabsConstants.RIDE_BOOKED)
                 .equalsIgnoreCase(rideDto.getRideStatus())) {
             rideDto.setIsCancelled(true);
-            rideDto.setFeedback(HelloCabsConstants.CANCELLED_DUE_TO_UNAVAILABILITY);
+            rideDto.setFeedback(HelloCabsConstants
+                    .CANCELLED_DUE_TO_UNAVAILABILITY);
             rideDto.setRideStatus(HelloCabsConstants.RIDE_IGNORED);
             updateRide(rideDto);
             return HelloCabsConstants.CANCELLED_DUE_TO_UNAVAILABILITY;
@@ -262,7 +276,6 @@ public class RideServiceImpl implements RideService {
     public CabDto updateStatus(StatusDto statusDto) {        
         int rideId = statusDto.getRideId();        
         int cabId = statusDto.getCabId();
-        logger.info("statusDto :" + statusDto);
         RideDto rideDto = searchRideById(rideId);
         
         if (null != rideDto) {
@@ -271,7 +284,6 @@ public class RideServiceImpl implements RideService {
             CabDto cabDto = cabService.displayCabDetailsById(cabId);
             rideDto.setCabDto(cabDto);
             return updateStatusInfo(statusDto, rideDto, cabDto);
-
         }
         throw new HelloCabsException(HelloCabsConstants.RIDE_NOT_FOUND);
     }
@@ -291,7 +303,6 @@ public class RideServiceImpl implements RideService {
     private CabDto updateStatusInfo(StatusDto statusDto,
             RideDto rideDto, CabDto cabDto) {
         String rideStatus = statusDto.getRideStatus();
-        //logger.info("CabCategory : " + cabCategoryDto);
 
         switch (rideStatus.toLowerCase()) {
             case "accepted" :
@@ -311,7 +322,8 @@ public class RideServiceImpl implements RideService {
                 break;
 
             default:
-                rideDto.setRideStatus(HelloCabsConstants.RIDE_BOOKED);
+                throw new HelloCabsException(HelloCabsConstants
+                        .STATUS_NOT_FOUND, new IllegalArgumentException());
         }
         logger.info(HelloCabsConstants.STATUS_UPDATED + rideStatus);
         cabService.updateCabDetailsById(cabDto.getId(), cabDto);
@@ -370,6 +382,4 @@ public class RideServiceImpl implements RideService {
         logger.info(HelloCabsConstants.CUSTOMER_NOT_DROPPED);
         throw new HelloCabsException(HelloCabsConstants.CUSTOMER_NOT_DROPPED);
     }
-
-
 }

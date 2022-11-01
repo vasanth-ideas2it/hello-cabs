@@ -1,5 +1,20 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
+
 package com.hellocabs.constants;
 
+/**
+ * <p>
+ *   Constants contains number of constants
+ * </p>
+ *
+ * @author : Divya
+ * @version 1.0 Oct-28-2022
+ *
+ */
 public class HelloCabsConstants {
 
     //LOGGER
@@ -103,8 +118,11 @@ public class HelloCabsConstants {
 
     //NOT CREATED
     public static final String CAB_NOT_CREATED = "Cab Not Created for given Details";
-    public static final String STATUS_UPDATED = "Status updated to ";
+    public static final String STATUS_UPDATED = "Status updated ";
     public static final String RIDE_BOOKED_FOR_CUSTOMER = "Ride booked for customer ";
 
     public static final String FIELD_NOT_BLANK = "Minimum three characters required";
+    public static final String RIDE_NOT_CANCELLED = "Couldn't cancel ride after dropped";
+    public static final String STATUS_NOT_FOUND = "No such ride status exists";
+    public static final String CUSTOMER_NOT_PICKED = "Customer not to be picked yet";
 }

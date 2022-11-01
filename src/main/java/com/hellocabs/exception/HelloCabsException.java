@@ -1,9 +1,16 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
+
 package com.hellocabs.exception;
 
-public class HelloCabsException extends RuntimeException {
-    public HelloCabsException() {
+import lombok.NoArgsConstructor;
 
-    }
+@NoArgsConstructor
+public class HelloCabsException extends RuntimeException {
+
     public HelloCabsException(String message) {
         super(message);
     }
