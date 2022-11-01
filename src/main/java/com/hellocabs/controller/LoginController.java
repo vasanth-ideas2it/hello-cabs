@@ -55,11 +55,11 @@ public class LoginController {
         return (cabService.verifyCabDetails(cabDto));
     } */
 
+    
+ //       @Autowired
+   //     private AuthenticationManager authenticationManager;
 
-       /* @Autowired
-        private AuthenticationManager authenticationManager;
-
-        @PostMapping("/login")
+  /*      @PostMapping("/login")
         public ResponseEntity<String> authenticateUser(@RequestBody LoginDto loginDto){
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     loginDto.getMobileNumber(), loginDto.getPassword()));
