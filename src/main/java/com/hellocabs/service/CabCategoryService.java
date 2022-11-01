@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.hellocabs.service;
 
 import com.hellocabs.dto.CabCategoryDto;

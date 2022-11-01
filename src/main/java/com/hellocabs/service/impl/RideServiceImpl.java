@@ -339,6 +339,7 @@ public class RideServiceImpl implements RideService {
 
         switch (rideStatus.toLowerCase()) {
             case "accepted" :
+                rideDto.setRideStatus(rideStatus);
                 cabDto.setCabStatus(HelloCabsConstants.CAB_UNAVAILABLE);
                 break;
 

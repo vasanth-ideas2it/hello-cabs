@@ -1,13 +1,13 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.hellocabs.mapper;
 
 import com.hellocabs.configuration.MapperConfig;
 import com.hellocabs.dto.CabDto;
-import com.hellocabs.dto.RideDto;
 import com.hellocabs.model.Cab;
-import com.hellocabs.model.Ride;
-
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * <h> CabMapper </h>

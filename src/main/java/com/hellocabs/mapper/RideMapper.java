@@ -3,7 +3,6 @@
  *   Copyright (c) All rights reserved Ideas2IT
  * </p>
  */
-
 package com.hellocabs.mapper;
 
 import com.hellocabs.constants.HelloCabsConstants;
@@ -26,7 +25,7 @@ import org.apache.log4j.Logger;
  */
 public class RideMapper {
 
-    private static  Logger logger = LoggerConfiguration
+    private static final  Logger logger = LoggerConfiguration
             .getInstance(HelloCabsConstants.RIDE_MAPPER);
 
     /**

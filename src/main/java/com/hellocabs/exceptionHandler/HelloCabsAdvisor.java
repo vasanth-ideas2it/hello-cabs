@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.hellocabs.exceptionHandler;
 
 import com.hellocabs.exception.HelloCabsException;

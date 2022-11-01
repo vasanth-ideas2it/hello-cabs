@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.hellocabs.mapper;
 
 import com.hellocabs.dto.CabCategoryDto;
@@ -5,7 +10,6 @@ import com.hellocabs.model.CabCategory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 

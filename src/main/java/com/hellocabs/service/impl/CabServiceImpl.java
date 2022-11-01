@@ -1,11 +1,20 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
+
 package com.hellocabs.service.impl;
 
+import com.hellocabs.configuration.LoggerConfiguration;
 import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.CabDto;
+import com.hellocabs.exception.HelloCabsException;
 import com.hellocabs.mapper.CabMapper;
 import com.hellocabs.model.Cab;
 import com.hellocabs.repository.CabRepository;
 import com.hellocabs.service.CabService;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,11 +32,13 @@ import java.util.stream.Collectors;
 @Service
 public class CabServiceImpl implements CabService {
 
+    private static final Logger logger = LoggerConfiguration.getInstance("CabServiceImpl.class");
+    private final CabRepository cabRepository;
+
     public CabServiceImpl(CabRepository cabRepository) {
         this.cabRepository = cabRepository;
     }
 
-    CabRepository cabRepository;
 
     /**
      * <p>
@@ -45,8 +56,11 @@ public class CabServiceImpl implements CabService {
         if (null != cab) {
             Cab cabDetails = cabRepository.save(cab);
             int id = cabDetails.getId();
+            logger.info(HelloCabsConstants. CAB_CREATED + cab.getId());
             return (HelloCabsConstants.CAB_CREATED + " " + id);
+
         }
+        logger.info(HelloCabsConstants.CAB_NOT_CREATED);
         return HelloCabsConstants.CAB_NOT_CREATED;
     }
 
@@ -67,9 +81,10 @@ public class CabServiceImpl implements CabService {
 
         if (cabRepository.existsById(id)) {
             Cab cabDetails = cabRepository.save(cab);
-            int cabId = cabDetails.getId();
+            logger.info(HelloCabsConstants.CAB_UPDATED + cabDetails.getId());
            return HelloCabsConstants.CAB_UPDATED;
         }
+        logger.info(HelloCabsConstants.CAB_NOT_UPDATED);
         return HelloCabsConstants.CAB_NOT_UPDATED;
     }
 
@@ -84,12 +99,14 @@ public class CabServiceImpl implements CabService {
      */
     @Override
     public CabDto displayCabDetailsById(int id) {
-        CabDto cabDto = null;
+
         if (cabRepository.existsById(id)) {
             Cab cab = cabRepository.findByIdAndIsActive(id,false);
+            logger.info(HelloCabsConstants.CAB_FOUND + cab);
             return CabMapper.convertCabToCabDto(cab);
         }
-        return new CabDto();
+        logger.info(HelloCabsConstants.CAB_NOT_FOUND);
+        throw new HelloCabsException(HelloCabsConstants.CAB_NOT_FOUND);
     }
 
     /**
@@ -108,9 +125,11 @@ public class CabServiceImpl implements CabService {
             Cab cab = cabRepository.findByIdAndIsActive(id,false);
             cab.setActive(true);
             cabRepository.save(cab);
+            logger.info(HelloCabsConstants.CAB_DELETED + cab.getId());
             return HelloCabsConstants.CAB_DELETED;
         }
-        return HelloCabsConstants.CAB_NOT_FOUND;
+        logger.error(HelloCabsConstants.CAB_NOT_FOUND);
+        throw new HelloCabsException(HelloCabsConstants.CAB_NOT_FOUND);
     }
 
     /**
@@ -127,8 +146,8 @@ public class CabServiceImpl implements CabService {
         Cab cab = CabMapper.convertCabDtoToCab(cabDto);
         long number = cab.getMobileNumber();
         String password = cab.getPassword();
-        Cab value =  cabRepository.findByMobileNumberAndPassword(number,password);
-        if(null != value) {
+        Cab cabDetails =  cabRepository.findByMobileNumberAndPassword(number,password);
+        if(null != cabDetails) {
             return  HelloCabsConstants.LOGIN_SUCCESSFUL;
         }
         return  HelloCabsConstants.LOGIN_NOT_SUCCESSFUL;

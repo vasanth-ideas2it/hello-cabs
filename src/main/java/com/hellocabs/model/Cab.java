@@ -1,11 +1,14 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.hellocabs.model;
 
-import com.hellocabs.dto.CabCategoryDto;
 import lombok.Data;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
