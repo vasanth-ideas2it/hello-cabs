@@ -48,9 +48,6 @@ public class CabMapper {
         return cab;
     }
 
-
-
-
     /**
      * <p>
      * Method used to change the cab object into cabDto with the help
@@ -61,6 +58,7 @@ public class CabMapper {
      * @return {CabDto}returns the cabDto object
      */
     public static CabDto convertPartialCabIntoCabDto(Cab cab) {
+
         CabDto cabDto = new CabDto();
         cabDto.setId(cab.getId());
         cabDto.setCabNumber(cab.getCabNumber());
