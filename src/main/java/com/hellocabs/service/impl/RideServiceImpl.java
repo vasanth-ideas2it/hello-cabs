@@ -27,6 +27,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -212,8 +213,6 @@ public class RideServiceImpl implements RideService {
                 rideDto.setRideStatus(ratingDto.getRideStatus());
                 CabDto cabDto = cabService.displayCabDetailsById(
                         rideDto.getCabDto().getId());
-                logger.info(cabDto.getId());
-                logger.info(cabDto.getCabCategoryId());
                 cabDto.setCabStatus(HelloCabsConstants.CAB_AVAILABLE);
                 cabDto.setCurrentLocation(rideDto.getDropLocation()
                         .getLocationName());
@@ -222,13 +221,43 @@ public class RideServiceImpl implements RideService {
                 rideDto.setPrice(price);
                 rideDto.setRating(ratingDto.getRating());
                 rideDto.setFeedback(ratingDto.getFeedback());
-                cabService.updateCabDetailsById(cabDto.getId(), cabDto);
+                cabService.updateCabDetailsById(cabDto.getId(),
+                        calculateAverageRating(cabDto, ratingDto));
                 return updateRide(rideDto);
+            } else if (HelloCabsConstants.RIDE_COMPLETED
+                    .equalsIgnoreCase(rideDto.getRideStatus())) {
+                throw new HelloCabsException(HelloCabsConstants
+                        .CUSTOMER_ALREADY_DROPPED);
             }
             throw new HelloCabsException(HelloCabsConstants
                     .CUSTOMER_NOT_PICKED);
         }
         throw new HelloCabsException(HelloCabsConstants.CUSTOMER_NOT_DROPPED);
+    }
+
+    /**
+     * <p>
+     *     Method used to get the ride rating from user
+     *     and calculate the average driver rating for the cab
+     * </p>
+     *
+     * @param cabDto {@link CabDto} cabDto in which rating has to be updated
+     * @param ratingDto {@link RatingDto} ratingDto which has ride's rating
+     * @return {@link CabDto} updated driver rating
+     *
+     */
+    private CabDto calculateAverageRating(CabDto cabDto, RatingDto ratingDto) {
+
+        if (null != cabDto.getRides()) {
+            List<Double> ratings = cabDto.getRides().stream()
+                    .map(RideDto :: getRating).toList();
+            double averageRating = ratings.stream().mapToDouble(
+                    rating -> rating).summaryStatistics().getAverage();
+            cabDto.setDriverRating(averageRating);
+        } else {
+            cabDto.setDriverRating(ratingDto.getRating());
+        }
+        return cabDto;
     }
 
     /**
@@ -247,19 +276,24 @@ public class RideServiceImpl implements RideService {
     public String confirmRide(int rideId) {
         RideDto rideDto = searchRideById(rideId);
 
-        if ((MAXIMUM_WAITING_TIME < (LocalDateTime.now().getMinute())
-                - rideDto.getRideBookedTime().getMinute())
-                && (HelloCabsConstants.RIDE_BOOKED)
+        if (HelloCabsConstants.RIDE_BOOKED
                 .equalsIgnoreCase(rideDto.getRideStatus())) {
-            rideDto.setIsCancelled(true);
-            rideDto.setFeedback(HelloCabsConstants
-                    .CANCELLED_DUE_TO_UNAVAILABILITY);
-            rideDto.setRideStatus(HelloCabsConstants.RIDE_IGNORED);
-            updateRide(rideDto);
-            return HelloCabsConstants.CANCELLED_DUE_TO_UNAVAILABILITY;
+
+            if ((MAXIMUM_WAITING_TIME < (LocalDateTime.now().getMinute())
+                    - rideDto.getRideBookedTime().getMinute())
+                    && (HelloCabsConstants.RIDE_BOOKED)
+                    .equalsIgnoreCase(rideDto.getRideStatus())) {
+                rideDto.setIsCancelled(true);
+                rideDto.setFeedback(HelloCabsConstants
+                        .CANCELLED_DUE_TO_UNAVAILABILITY);
+                rideDto.setRideStatus(HelloCabsConstants.RIDE_IGNORED);
+                updateRide(rideDto);
+                return HelloCabsConstants.CANCELLED_DUE_TO_UNAVAILABILITY;
+            }
+            logger.info(HelloCabsConstants.SEARCHING_CABS);
+            return HelloCabsConstants.SEARCHING_CABS;
         }
-        logger.info(HelloCabsConstants.SEARCHING_CABS);
-        return HelloCabsConstants.SEARCHING_CABS;
+        throw new HelloCabsException(HelloCabsConstants.ALREADY_ON_BOARD);
     }
 
     /**
@@ -280,7 +314,6 @@ public class RideServiceImpl implements RideService {
         
         if (null != rideDto) {
             logger.info(HelloCabsConstants.RIDE_FOUND);
-            rideDto.setRideStatus(statusDto.getRideStatus());
             CabDto cabDto = cabService.displayCabDetailsById(cabId);
             rideDto.setCabDto(cabDto);
             return updateStatusInfo(statusDto, rideDto, cabDto);
@@ -310,10 +343,18 @@ public class RideServiceImpl implements RideService {
                 break;
 
             case "picked" :
-                rideDto.setRidePickedTime(LocalDateTime.now());
-                rideDto.setRideStatus(rideStatus);
-                rideDto.setCabDto(cabDto);
-                cabDto.setCabStatus(HelloCabsConstants.CAB_ON_RIDE);
+                logger.info(rideDto.getRideStatus());
+                if (HelloCabsConstants.RIDE_ACCEPTED
+                        .equalsIgnoreCase(rideDto.getRideStatus())) {
+                    rideDto.setRideStatus(statusDto.getRideStatus());
+                    rideDto.setRidePickedTime(LocalDateTime.now());
+                    rideDto.setRideStatus(rideStatus);
+                    rideDto.setCabDto(cabDto);
+                    cabDto.setCabStatus(HelloCabsConstants.CAB_ON_RIDE);
+                } else {
+                    throw new HelloCabsException(
+                            HelloCabsConstants.RIDE_NOT_ACCEPTED);
+                }
                 break;
 
             case "cancelled" :

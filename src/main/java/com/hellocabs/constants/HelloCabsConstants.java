@@ -125,4 +125,7 @@ public class HelloCabsConstants {
     public static final String RIDE_NOT_CANCELLED = "Couldn't cancel ride after dropped";
     public static final String STATUS_NOT_FOUND = "No such ride status exists";
     public static final String CUSTOMER_NOT_PICKED = "Customer not to be picked yet";
+    public static final String CUSTOMER_ALREADY_DROPPED = "Customer Already dropped, Couldn't update feedback";
+    public static final String RIDE_NOT_ACCEPTED = "Couldn't pick an unaccepted ride";
+    public static final String ALREADY_ON_BOARD = "You are already on board";
 }
