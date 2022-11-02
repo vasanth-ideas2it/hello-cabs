@@ -17,7 +17,7 @@ public interface LocationService {
      *
      * @param locationDto
      *        for which the location to be added is given
-     * @return int
+     * @return Integer
      *         inserted location id is returned
      */
     String createLocation(LocationDto locationDto);
@@ -47,7 +47,7 @@ public interface LocationService {
      * @return LocationDto
      *         searched location is returned
      */
-    LocationDto getLocationById(int id);
+    LocationDto getLocationById(Integer id);
 
     /**
      * <p>
@@ -61,7 +61,7 @@ public interface LocationService {
      *         gets the message whether the location is
      *         deleted or not
      */
-    boolean deleteLocationById(int id);
+    boolean deleteLocationById(Integer id);
 
     /**
      * <p>

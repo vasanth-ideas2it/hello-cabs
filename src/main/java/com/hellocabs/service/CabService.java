@@ -39,10 +39,10 @@ public interface CabService {
      * </p>
      *
      * @param cabDto {@link CabDto} object with required details
-     * @param id {@link int}used to check the exists details in database
+     * @param id {@link Integer}used to check the exists details in database
      * @return {@link String}returns status of the cab details
      */
-    String updateCabDetailsById(int id, CabDto cabDto);
+    String updateCabDetailsById(Integer id, CabDto cabDto);
 
     /**
      * <p>
@@ -50,10 +50,10 @@ public interface CabService {
      * or returns null to controller
      *</p>
      *
-     * @param id{@link int}used to get details from server if exists
+     * @param id{@link Integer}used to get details from server if exists
      * @return {Cab}returns cab details object by using cabId
      */
-    CabDto displayCabDetailsById(int id);
+    CabDto displayCabDetailsById(Integer id);
 
     /**
      * <p>
@@ -61,10 +61,10 @@ public interface CabService {
      * if it exists returns the status of the cabId or returns the id not found
      * </p>
      *
-     * @param id{@link int}used to delete details if exists
+     * @param id{@link Integer}used to delete details if exists
      *  @return {String}returns Status of the cab id
      */
-    String deleteCabDetailsById(int id);
+    String deleteCabDetailsById(Integer id);
 
     String verifyCabDetails(CabDto cabDto);
 
@@ -84,9 +84,9 @@ public interface CabService {
      * cabId and updated cabStatus to update in cabDetails
      * </p>
      *
-     * @param id{@link int}used to check and get the respective cab object
+     * @param id{@link Integer}used to check and get the respective cab object
      * @param cabStatus{@link String}used to get updated status and pass to respective cab
      * @return {String}returns the status of the cab status
      */
-    String updateCabStatus(int id, String cabStatus);
+    String updateCabStatus(Integer id, String cabStatus);
 }

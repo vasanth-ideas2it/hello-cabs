@@ -73,7 +73,7 @@ public class CabController {
      */
     @PutMapping("updateCab")
     private ResponseEntity<Object> updateCabDetails(@Valid @RequestBody CabDto cabDto) {
-        int id = cabDto.getId();
+        Integer id = cabDto.getId();
         return HelloCabsResponseHandler
                 .generateResponse(cabService.updateCabDetailsById(id,cabDto), HttpStatus.OK);
     }
@@ -101,11 +101,11 @@ public class CabController {
      * with help of GetMapping annotation if id exist returns respective
      * object or returns Record Not found
      * </p>
-     * @param id{@link int}to check the respective Cab Object or not
+     * @param id{@link Integer}to check the respective Cab Object or not
      * @return {@link ResponseEntity<Object>}returns respective cab details
      */
     @GetMapping("search/{id}")
-    private ResponseEntity<Object> getCabDetailsById(@PathVariable int id)  {
+    private ResponseEntity<Object> getCabDetailsById(@PathVariable Integer id)  {
 
         return HelloCabsResponseHandler
                 .generateResponse(HelloCabsConstants.CAB_AVAILABLE,
@@ -118,11 +118,11 @@ public class CabController {
      * Method used to delete details from server by using id with help
      * of DeleteMapping and pathVariable
      * </p>
-     * @param id{@link int}
+     * @param id{@link Integer}
      * @return {@link ResponseEntity<Object>>}returns Status of Cab details
      */
     @DeleteMapping("delete/{id}")
-    private ResponseEntity<Object> deleteCabDetailsById(@PathVariable int id)  {
+    private ResponseEntity<Object> deleteCabDetailsById(@PathVariable Integer id)  {
 
         return HelloCabsResponseHandler
                 .generateResponse(cabService.deleteCabDetailsById(id), HttpStatus.OK);
@@ -134,12 +134,12 @@ public class CabController {
      * cabDto object and pass to cab Service to update
      * </p>
      *
-     * @param id {@link int}to check respective cab or not
+     * @param id {@link Integer}to check respective cab or not
      * @param cabStatus{@link String}to change or update the status of cab
      * @return {@link ResponseEntity<Object>}returns the status of the given details
      */
     @PutMapping("update/{id}/{cabStatus}")
-    private ResponseEntity<Object> updateCabStatus(@PathVariable int id,
+    private ResponseEntity<Object> updateCabStatus(@PathVariable Integer id,
                                                    @PathVariable String cabStatus) {
         return HelloCabsResponseHandler
                 .generateResponse(cabService.updateCabStatus(id, cabStatus), HttpStatus.OK);

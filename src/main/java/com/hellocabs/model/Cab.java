@@ -40,7 +40,7 @@ public class Cab {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     @Column(name = "driver_name")
     private String driverName;
@@ -52,7 +52,7 @@ public class Cab {
     private String gender;
 
     @Column(name = "mobile_number")
-    private long mobileNumber;
+    private Long mobileNumber;
 
     @Column(name = "email")
     private String email;
@@ -61,7 +61,7 @@ public class Cab {
     private String licenseNumber;
 
     @Column(name = "driver_rating")
-    private double driverRating;
+    private Double driverRating;
 
     @Column(name = "cab_status")
     private String cabStatus;
@@ -84,5 +84,5 @@ public class Cab {
     private boolean isActive;
 
     @Column(name = "cab_category_id")
-    private int cabCategoryId ;
+    private Integer cabCategoryId ;
 }

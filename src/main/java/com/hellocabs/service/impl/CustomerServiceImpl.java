@@ -65,11 +65,11 @@ public class CustomerServiceImpl implements CustomerService, UserDetailsService 
      *   converts customer to customerDto.
      * </p>
      *
-     * @param {@link int}customerId.
+     * @param {@link Integer}customerId.
      * @return {@link CustomerDto} returns customerDto object.
      */
     @Override
-    public CustomerDto viewCustomerById(int customerId) {
+    public CustomerDto viewCustomerById(Integer customerId) {
         Customer customer = customerRepository.findById(customerId).orElse(null);
         if(null != customer) {
             CustomerDto customerDto = CustomerMapper.convertCustomerToCustomerDto(customer);
@@ -102,11 +102,11 @@ public class CustomerServiceImpl implements CustomerService, UserDetailsService 
      *    and delete if is exist.
      * </p>
      *
-     * @param {@link int}customerId.
+     * @param {@link Integer}customerId.
      * @return {@link ResponseEntity<String>}returns true or false.
      */
     @Override
-    public boolean deleteCustomerById(int customerId) {
+    public boolean deleteCustomerById(Integer customerId) {
         Customer customer = customerRepository.findById(customerId).orElse(null);
         if(null != customer) {
             customer.setIsDeleted(true);
@@ -137,7 +137,7 @@ public class CustomerServiceImpl implements CustomerService, UserDetailsService 
     @Override
     public String verifyCustomerDetails(CustomerDto customerDto) {
         Customer customer = CustomerMapper.convertCustomerDtoToCustomer(customerDto);
-        long number = customer.getCustomerMobileNumber();
+        Long number = customer.getCustomerMobileNumber();
         String password = customer.getPassword();
         //customer.setPassword(passwordEncoder.encode(password));
         Customer login =  customerRepository.findByCustomerMobileNumberAndPassword(number, password);

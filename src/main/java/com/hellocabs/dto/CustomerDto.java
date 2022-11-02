@@ -27,7 +27,7 @@ import java.util.Set;
 @Validated
 public class CustomerDto {
 
-    private int customerId;
+    private Integer customerId;
 
     @NotBlank(message = "Kindly Enter your name")
     @Pattern(regexp = ("([a-z][A-Z]){4,}"))
@@ -36,7 +36,7 @@ public class CustomerDto {
     @NotNull(message = "Kindly Enter your mobile number")
     @Digits(integer = 10 , fraction = 0)
     @Column(unique = true)
-    private long customerMobileNumber;
+    private Long customerMobileNumber;
 
     @Email(message = "Kindly Enter your EmailId")
     @Column(unique = true)

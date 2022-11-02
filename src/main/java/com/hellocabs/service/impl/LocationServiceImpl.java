@@ -30,14 +30,14 @@ public class LocationServiceImpl implements LocationService {
      *
      * @param locationDto
      *        for which the location to be added is given
-     * @return int
+     * @return Integer
      *         inserted location id is returned
      */
     public String createLocation(LocationDto locationDto) {
         Location location = LocationMapper.locationDtoToLocation(locationDto);
 
         if (!locationRepository.existsByLocationName(location.getLocationName())) {
-            int id = LocationMapper.locationToLocationDto(locationRepository.save(location)).getId();
+            Integer id = LocationMapper.locationToLocationDto(locationRepository.save(location)).getId();
             return HelloCabsConstants.LOCATION_CREATED + id;
         }
         return HelloCabsConstants.LOCATION_ALREADY_EXISTS;
@@ -54,7 +54,7 @@ public class LocationServiceImpl implements LocationService {
      * @return LocationDto
      *         searched location is returned
      */
-    public LocationDto getLocationById(int id) {
+    public LocationDto getLocationById(Integer id) {
         Location location = locationRepository.findByIdAndIsDeleted(id, false);
 
         if (null != location) {
@@ -97,7 +97,7 @@ public class LocationServiceImpl implements LocationService {
      *         gets the message whether the location is
      *         deleted or not
      */
-    public boolean deleteLocationById(int id) {
+    public boolean deleteLocationById(Integer id) {
         Location location = locationRepository.findByIdAndIsDeleted(id, false);
 
         if (null != location) {

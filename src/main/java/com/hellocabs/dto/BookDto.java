@@ -23,11 +23,11 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class BookDto {
 
-    private long passengerMobileNumber;
+    private Long passengerMobileNumber;
 
-    private int pickupLocation;
+    private Integer pickupLocation;
 
-    private int dropLocation;
+    private Integer dropLocation;
 
-    private int customerId;
+    private Integer customerId;
 }

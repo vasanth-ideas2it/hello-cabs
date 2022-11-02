@@ -9,6 +9,8 @@ import lombok.Data;
 
 @Data
 public class LoginDto {
-    private long mobileNumber;
+
+    private Long MobileNumber;
+
     private String password;
 }

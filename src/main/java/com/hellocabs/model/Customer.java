@@ -34,13 +34,13 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int customerId;
+    private Integer customerId;
 
     @Column(name = "name",length = 30)
     private String customerName;
 
     @Column(name = "mobile_number")
-    private long customerMobileNumber;
+    private Long customerMobileNumber;
 
     @Column(name = "email",length = 20)
     private String customerEmail;

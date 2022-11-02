@@ -25,14 +25,14 @@ import java.util.List;
  */
 @Data
 public class CabCategoryDto {
-    private int id;
+    private Integer id;
 
     @NotBlank(message = HelloCabsConstants.CAB_TYPE_NOT_BLANK)
     private String cabType;
 
-    private double initialFare;
-    private double extraFarePerHour;
-    private double peakHourFare;
+    private Double initialFare;
+    private Double extraFarePerHour;
+    private Double peakHourFare;
     @JsonIgnore
     private List<CabDto> cabs;
 }

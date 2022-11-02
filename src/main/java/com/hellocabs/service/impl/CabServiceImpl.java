@@ -55,7 +55,7 @@ public class CabServiceImpl implements CabService {
         Cab cab = CabMapper.convertCabDtoToCab(cabDto);
         if (null != cab) {
             Cab cabDetails = cabRepository.save(cab);
-            int id = cabDetails.getId();
+            Integer id = cabDetails.getId();
             logger.info(HelloCabsConstants. CAB_CREATED + cab.getId());
             return (HelloCabsConstants.CAB_CREATED + " " + id);
 
@@ -71,11 +71,11 @@ public class CabServiceImpl implements CabService {
      * </p>
      *
      * @param cabDto {@link CabDto} object with required details
-     * @Param id {@link int}used to check the exists details in database
+     * @Param id {@link Integer}used to check the exists details in database
      * @return {@link String}returns status of the cab details
      */
     @Override
-    public String updateCabDetailsById(int id, CabDto cabDto) {
+    public String updateCabDetailsById(Integer id, CabDto cabDto) {
 
         Cab cab = CabMapper.convertPartialCabDtoIntoCab(cabDto);
 
@@ -94,11 +94,11 @@ public class CabServiceImpl implements CabService {
      * or returns null to controller
      *</p>
      *
-     * @param id{@link int}used to get details from server if exists
+     * @param id{@link Integer}used to get details from server if exists
      * @return {Cab}returns cab details object by using cabId
      */
     @Override
-    public CabDto displayCabDetailsById(int id) {
+    public CabDto displayCabDetailsById(Integer id) {
 
         if (cabRepository.existsById(id)) {
             Cab cab = cabRepository.findByIdAndIsActive(id,false);
@@ -115,11 +115,11 @@ public class CabServiceImpl implements CabService {
      * if it exists returns the status of the cabId or returns the id not found
      * </p>
      *
-     * @param id{@link int}used to delete details if exists
+     * @param id{@link Integer}used to delete details if exists
      *  @return {String}returns Status of the cab id
      */
     @Override
-    public String deleteCabDetailsById(int id) {
+    public String deleteCabDetailsById(Integer id) {
 
         if (cabRepository.existsById(id)) {
             Cab cab = cabRepository.findByIdAndIsActive(id,false);
@@ -144,7 +144,7 @@ public class CabServiceImpl implements CabService {
     @Override
     public String verifyCabDetails(CabDto cabDto) {
         Cab cab = CabMapper.convertCabDtoToCab(cabDto);
-        long number = cab.getMobileNumber();
+        Long number = cab.getMobileNumber();
         String password = cab.getPassword();
         Cab cabDetails =  cabRepository.findByMobileNumberAndPassword(number,password);
         if(null != cabDetails) {
@@ -172,12 +172,12 @@ public class CabServiceImpl implements CabService {
      * cabId and updated cabStatus to update in cabDetails
      * </p>
      *
-     * @param id{@link int}used to check and get the respective cab object
+     * @param id{@link Integer}used to check and get the respective cab object
      * @Param cabStatus{@link String}used to get updated status and pass to respective cab
      * @return {String}returns the status of the cab status
      */
     @Override
-    public String updateCabStatus(int id, String cabStatus) {
+    public String updateCabStatus(Integer id, String cabStatus) {
 
         if (cabRepository.existsById(id)) {
             CabDto cabDto = displayCabDetailsById(id);

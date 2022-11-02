@@ -36,19 +36,19 @@ public class CabCategory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     @Column(name = "cab_type")
     private String cabType;
 
     @Column(name = "initial_fare")
-    private double initialFare;
+    private Double initialFare;
 
     @Column(name = "extra_fare_per_hour")
-    private double extraFarePerHour;
+    private Double extraFarePerHour;
 
     @Column(name = "peak_hour_fare")
-    private double peakHourFare;
+    private Double peakHourFare;
 
     @Column(name = "is_deleted")
     private boolean isDeleted;

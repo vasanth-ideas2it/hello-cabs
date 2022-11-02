@@ -45,7 +45,7 @@ public class CabCategoryController {
      *
      * @param cabCategoryDto
      *        for which the cab category to be added is given
-     * @return int
+     * @return Integer
      *         inserted cab category id is returned
      */
     @PostMapping("/create")
@@ -67,7 +67,7 @@ public class CabCategoryController {
      *         searched cab category is returned
      */
     @GetMapping("/search/{id}")
-    private ResponseEntity<Object> searchCabCategoryById(@PathVariable int id) {
+    private ResponseEntity<Object> searchCabCategoryById(@PathVariable Integer id) {
         CabCategoryDto cabCategoryDto = cabCategoryService.getCabCategoryById(id);
 
         if ( null == cabCategoryDto) {
@@ -113,7 +113,7 @@ public class CabCategoryController {
      *         deleted or not
      */
     @DeleteMapping("/delete/{id}")
-    private ResponseEntity<Object> deleteCabCategoryById(@PathVariable int id) {
+    private ResponseEntity<Object> deleteCabCategoryById(@PathVariable Integer id) {
         if (cabCategoryService.deleteCabCategoryById(id)) {
             logger.info(HelloCabsConstants.CAB_CATEGORY_DELETED);
             return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.CAB_CATEGORY_DELETED, HttpStatus.OK);

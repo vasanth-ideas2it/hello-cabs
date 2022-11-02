@@ -169,7 +169,7 @@ public class RideController {
     /**
      * <p>
      *   This method is used to confirm the ride is booked
-     *   if not accepted by cab for long time, ride will be
+     *   if not accepted by cab for Long time, ride will be
      *   cancelled automatically and shows user a message
      *   to choose another cab category
      * </p>

@@ -59,12 +59,12 @@ public class RideMapper {
         Cab cab = new Cab();
         Customer customer = new Customer();
 
-        if (0 != rideDto.getCabId()) {
+        if (null != rideDto.getCabId()) {
             cab.setId(rideDto.getCabId());
             ride.setCab(cab);
         }
 
-        if (0 != rideDto.getCustomerId()) {
+        if (null != rideDto.getCustomerId()) {
             customer.setCustomerId(rideDto.getCustomerId());
             ride.setCustomer(customer);
         }

@@ -13,10 +13,10 @@ import java.util.List;
 
 @Repository
 public interface CabCategoryRepository extends JpaRepository<CabCategory,Integer> {
-    CabCategory findByIdAndIsDeleted(int id, boolean value);
+    CabCategory findByIdAndIsDeleted(Integer id, boolean value);
     List<CabCategory> findAllByIsDeleted(boolean value);
 
-    boolean existsByIdAndIsDeleted(int id, boolean value);
+    boolean existsByIdAndIsDeleted(Integer id, boolean value);
 
     boolean existsByCabType(String cabType);
 }

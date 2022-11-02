@@ -53,8 +53,8 @@ public class CustomerController {
     @PostMapping("create")
 
     private ResponseEntity<Object> createCustomerDetails(@RequestBody CustomerDto customerDto) {
-        int customerId = customerService.createCustomerDetails(customerDto).getCustomerId();
-        if (0 != customerId) {
+        Integer customerId = customerService.createCustomerDetails(customerDto).getCustomerId();
+        if (null != customerId) {
             logger.info(HelloCabsConstants.CUSTOMER_REGISTERED + customerId );
             return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.CUSTOMER_REGISTERED ,HttpStatus.CREATED);
         }
@@ -66,12 +66,13 @@ public class CustomerController {
      * <p>
      *   This Method is used to search customer by its id.
      * </p>
-     * @param customerId{@link int}
+     * @param customerId{@link Integer}
      * @return {@link CustomerDto}returns searched customer details.
      */
     @GetMapping("view/{customerId}")
-    private ResponseEntity<Object> viewCustomerById(@PathVariable int customerId) throws RuntimeException {
+    private ResponseEntity<Object> viewCustomerById(@PathVariable Integer customerId) throws RuntimeException {
         CustomerDto customerDto = customerService.viewCustomerById(customerId);
+
         if (null != customerDto) {
             logger.info(HelloCabsConstants.CUSTOMER_FOUND);
             return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.CUSTOMER_FOUND,HttpStatus.OK, customerDto);
@@ -90,13 +91,12 @@ public class CustomerController {
      */
     @PutMapping("update")
     private ResponseEntity<Object> updateCustomerById(@RequestBody CustomerDto customerDto) throws RuntimeException {
-        int id = customerDto.getCustomerId();
-        if (0 != id) {
+        Integer id = customerDto.getCustomerId();
+        if (null != id) {
             customerService.updateCustomer(customerDto);
             logger.info(HelloCabsConstants.CUSTOMER_UPDATED);
             return HelloCabsResponseHandler
                     .generateResponse(HelloCabsConstants.CUSTOMER_UPDATED,HttpStatus.OK);
-
         }
         logger.error(HelloCabsConstants.CUSTOMER_NOT_UPDATED);
         throw new HelloCabsException(HelloCabsConstants.CUSTOMER_NOT_UPDATED);
@@ -106,11 +106,11 @@ public class CustomerController {
      * <p>
      *    This Method is used to delete customer by its id.
      * </p>
-     * @param customerId{@link int}
+     * @param customerId{@link Integer}
      * @return {@link String}returns deleted customerId .
      */
     @DeleteMapping("delete/{customerId}")
-    private ResponseEntity<Object> deleteCustomerById(@PathVariable int customerId) {
+    private ResponseEntity<Object> deleteCustomerById(@PathVariable Integer customerId) {
         boolean deletedCustomer = customerService.deleteCustomerById(customerId);
         if ( deletedCustomer) {
             logger.info(HelloCabsConstants.CUSTOMER_DELETED);

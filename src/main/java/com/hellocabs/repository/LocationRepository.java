@@ -15,10 +15,14 @@ import java.util.Optional;
 @Repository
 public interface LocationRepository extends JpaRepository<Location,Integer> {
 
-    Location findByIdAndIsDeleted(int id, boolean value);
+    Location findByIdAndIsDeleted(Integer id, boolean value);
     List<Location> findAllByIsDeleted(boolean value);
 
+<<<<<<< HEAD
     boolean existsByIdAndIsDeleted(int id, boolean value);
 
     boolean existsByLocationName(String locationName);
+=======
+    boolean existsByIdAndIsDeleted(Integer id, boolean value);
+>>>>>>> Change primitive type to Wrapper class
 }

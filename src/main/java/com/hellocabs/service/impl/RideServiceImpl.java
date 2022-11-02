@@ -124,10 +124,8 @@ public class RideServiceImpl implements RideService {
      *
      */
     public RideDto updateRide(RideDto rideDto) {
-        logger.info("Before rideDto update" + rideDto);
         Ride ride = rideRepository.save(RideMapper
                 .convertRideDtoIntoRide(rideDto));
-        logger.info("After update " + ride.getCab().getId());
         logger.info(HelloCabsConstants.RIDE_UPDATED + ride);
         return RideMapper.convertRideIntoRideDto(ride);
     }
@@ -243,7 +241,7 @@ public class RideServiceImpl implements RideService {
         if (null != cabDto.getRides()) {
             List<Double> ratings = cabDto.getRides().stream()
                     .map(RideDto :: getRating).toList();
-            double averageRating = ratings.stream().mapToDouble(
+            Double averageRating = ratings.stream().mapToDouble(
                     rating -> rating).summaryStatistics().getAverage();
             cabDto.setDriverRating(averageRating);
         } else {
@@ -395,7 +393,7 @@ public class RideServiceImpl implements RideService {
                     logger.info(ride.getDropLocation());
                     cabDto.setTest(ride.getDropLocation()
                             .getLocationName());
-                    double price = calculateTravelFare(rideDto,
+                    Double price = calculateTravelFare(rideDto,
                             cabDto.getCabCategoryId());
                     rideDto.setPrice(price);
                 } else {
@@ -428,7 +426,7 @@ public class RideServiceImpl implements RideService {
      * @return {@link Double}returns RidePrice by Time Of Travel
      *
      */
-    private double calculateTravelFare(RideDto rideDto,
+    private Double calculateTravelFare(RideDto rideDto,
             Integer cabCategoryId) {
         logger.info(cabCategoryId);
         CabCategoryDto cabCategoryDto = cabCategoryService
@@ -442,12 +440,12 @@ public class RideServiceImpl implements RideService {
             Integer pickTime = rideDto.getRidePickedTime().getHour();
             Integer droppedTime = rideDto.getRideDroppedTime().getHour();
             Integer timeDifference = (droppedTime - pickTime);
-            double initialFare = cabCategoryDto.getInitialFare();
-            double extraHourFare = cabCategoryDto.getExtraFarePerHour();
-            double additionalFare = cabCategoryDto.getPeakHourFare();
+            Double initialFare = cabCategoryDto.getInitialFare();
+            Double extraHourFare = cabCategoryDto.getExtraFarePerHour();
+            Double additionalFare = cabCategoryDto.getPeakHourFare();
             boolean isPeakHour = (Integer.toString(pickTime)
                     .matches(HelloCabsConstants.PEAK_HOUR_REGEX));
-            double totalFare = 0;
+            Double totalFare = 0;
 
             if (MINIMUM_BOOKING_HOUR > (timeDifference)) {
                 totalFare = isPeakHour
@@ -455,7 +453,7 @@ public class RideServiceImpl implements RideService {
                         : initialFare;
 
             } else if (MINIMUM_BOOKING_HOUR < (timeDifference)) {
-                double fare = initialFare
+                Double fare = initialFare
                         + ((timeDifference - 4) * extraHourFare);
                 totalFare = isPeakHour ? (fare + additionalFare) : fare;
             }

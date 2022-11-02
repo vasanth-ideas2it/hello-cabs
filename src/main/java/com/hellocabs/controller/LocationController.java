@@ -52,7 +52,7 @@ public class LocationController {
     private ResponseEntity<Object> addLocation(@Valid @RequestBody LocationDto locationDto) {
         String locationCreated = locationService.createLocation(locationDto);
         logger.info(locationCreated);
-        return  HelloCabsResponseHandler.generateResponse(locationCreated, HttpStatus.CREATED);
+        return HelloCabsResponseHandler.generateResponse(locationCreated, HttpStatus.CREATED);
     }
 
     /**
@@ -67,7 +67,7 @@ public class LocationController {
      *         searched location is returned
      */
     @GetMapping("/search/{id}")
-    private ResponseEntity<Object> searchLocationById(@PathVariable int id) {
+    private ResponseEntity<Object> searchLocationById(@PathVariable Integer id) {
         LocationDto locationDto = locationService.getLocationById(id);
 
         if (null == locationDto) {
@@ -104,7 +104,7 @@ public class LocationController {
      * This method is to delete location Details.
      * </p>
      *
-     * @param id
+     * @param id {@link Integer}
      *        for which the id of the location need to
      *        be deleted is given
      * @return ResponseEntity<Object>
@@ -112,7 +112,7 @@ public class LocationController {
      *         deleted or not
      */
     @DeleteMapping("/delete/{id}")
-    private ResponseEntity<Object> deleteLocationById(@PathVariable int id) {
+    private ResponseEntity<Object> deleteLocationById(@PathVariable Integer id) {
         if (locationService.deleteLocationById(id)) {
             logger.info(HelloCabsConstants.LOCATION_DELETED);
             return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.LOCATION_DELETED, HttpStatus.OK);

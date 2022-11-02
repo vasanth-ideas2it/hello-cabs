@@ -34,7 +34,7 @@ import org.springframework.validation.annotation.Validated;
 public class CabDto {
 
 
-    private int id;
+    private Integer id;
     @NotBlank(message = HelloCabsConstants.DRIVER_NAME_NOT_BLANK)
     @Pattern(regexp = ("([a-z][A-Z]){4,}"))
     private String driverName;
@@ -51,7 +51,7 @@ public class CabDto {
     @Digits(integer = 10, fraction = 0)
     @Column(unique = true)
     @UniqueElements
-    private long mobileNumber;
+    private Long mobileNumber;
 
     @Email(message = HelloCabsConstants.ENTER_VALID_EMAIL)
     @Size(min = 10, max = 30)
@@ -63,7 +63,7 @@ public class CabDto {
     @Column(unique = true)
     private String licenseNumber;
 
-    private double driverRating;
+    private Double driverRating;
 
     @NotBlank(message = HelloCabsConstants.CAB_STATUS_NOT_BLANK)
     @Size(min = 5, max = 20)
@@ -78,7 +78,7 @@ public class CabDto {
     @Size(min = 5, max = 15, message = HelloCabsConstants.CURRENT_LOCATION_SIZE)
     private String test;
 
-    private int cabCategoryId ;
+    private Integer cabCategoryId;
 
     @NotBlank(message = "set password for your security")
     @Pattern(regexp = ("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*]){8,16}"))

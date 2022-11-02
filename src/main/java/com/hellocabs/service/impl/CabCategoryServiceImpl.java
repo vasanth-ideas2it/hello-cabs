@@ -30,13 +30,13 @@ public class CabCategoryServiceImpl implements CabCategoryService {
      *
      * @param cabCategoryDto
      *        for which the cab category to be added is given
-     * @return int
+     * @return {@link String}
      *         inserted cab category id is returned
      */
     public String createCabCategory(CabCategoryDto cabCategoryDto) {
         CabCategory cabCategory = CabCategoryMapper.cabCategoryDtoToCabCategory(cabCategoryDto);
         if (!cabCategoryRepository.existsByCabType(cabCategory.getCabType())) {
-            int id = CabCategoryMapper.cabCategoryToCabCategoryDto(cabCategoryRepository.save(cabCategory)).getId();
+            Integer id = CabCategoryMapper.cabCategoryToCabCategoryDto(cabCategoryRepository.save(cabCategory)).getId();
             return HelloCabsConstants.CAB_CATEGORY_CREATED + id;
         }
         return HelloCabsConstants.CAB_TYPE_ALREADY_EXISTS;
@@ -54,7 +54,7 @@ public class CabCategoryServiceImpl implements CabCategoryService {
      *         searched cab category is returned if present
      *         otherwise null
      */
-    public CabCategoryDto getCabCategoryById(int id) {
+    public CabCategoryDto getCabCategoryById(Integer id) {
         CabCategory cabCategory = cabCategoryRepository.findByIdAndIsDeleted(id, false);
 
         if (null != cabCategory) {
@@ -97,7 +97,7 @@ public class CabCategoryServiceImpl implements CabCategoryService {
      *         returns true if the cab category of given id is deleted
      *         otherwise false
      */
-    public boolean deleteCabCategoryById(int id) {
+    public boolean deleteCabCategoryById(Integer id) {
         CabCategory cabCategory = cabCategoryRepository.findByIdAndIsDeleted(id, false);
         System.out.println(cabCategory);
         if (null == cabCategory) {

@@ -49,7 +49,7 @@ public interface CabCategoryService {
      *         searched location is returned if present
      *         otherwise null
      */
-    CabCategoryDto getCabCategoryById(int id);
+    CabCategoryDto getCabCategoryById(Integer id);
 
     /**
      * <p>
@@ -63,7 +63,7 @@ public interface CabCategoryService {
      *         returns true if the location of given id is deleted
      *         otherwise false
      */
-    boolean deleteCabCategoryById(int id);
+    boolean deleteCabCategoryById(Integer id);
 
     /**
      * <p>
