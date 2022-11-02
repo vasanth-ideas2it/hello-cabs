@@ -19,4 +19,6 @@ public interface LocationRepository extends JpaRepository<Location,Integer> {
     List<Location> findAllByIsDeleted(boolean value);
 
     boolean existsByIdAndIsDeleted(int id, boolean value);
+
+    boolean existsByLocationName(String locationName);
 }

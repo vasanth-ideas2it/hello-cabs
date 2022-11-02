@@ -49,7 +49,7 @@ public class HelloCabsConstants {
     //NOT DELETED
     public static final String CUSTOMER_NOT_DELETED = "Customer is not deleted for given id : ";
     //CREATED
-    public static final String LOCATION_CREATED = "Location found for given id";
+    public static final String LOCATION_CREATED = "Location created with ID: ";
     public static final String CAB_CATEGORY_CREATED = "Cab category created with ID: ";
     public static final String CAB_CREATED = "Cab created with ID: ";
     public static final String RIDE_CREATED = "Ride created with ID: ";
@@ -57,6 +57,7 @@ public class HelloCabsConstants {
 
     //NOT CREATED
     public static final String CUSTOMER_NOT_REGISTERED = "Customer is not registered successfully because mobileNumber or emailId already exist ";
+
     //UPDATED
     public static final String LOCATION_UPDATED = "Location updated ";
     public static final String CAB_CATEGORY_UPDATED = "Cab category updated";
@@ -120,7 +121,8 @@ public class HelloCabsConstants {
     public static final String CAB_NOT_CREATED = "Cab Not Created for given Details";
     public static final String STATUS_UPDATED = "Status updated ";
     public static final String RIDE_BOOKED_FOR_CUSTOMER = "Ride booked for customer ";
-
+    public static final String CAB_TYPE_ALREADY_EXISTS = "Cab type already exists";
+    public static final String LOCATION_ALREADY_EXISTS = "Location already exists";
     public static final String FIELD_NOT_BLANK = "Minimum three characters required";
     public static final String RIDE_NOT_CANCELLED = "Couldn't cancel ride after dropped";
     public static final String STATUS_NOT_FOUND = "No such ride status exists";

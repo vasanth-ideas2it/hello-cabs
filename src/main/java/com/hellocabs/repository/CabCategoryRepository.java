@@ -17,4 +17,6 @@ public interface CabCategoryRepository extends JpaRepository<CabCategory,Integer
     List<CabCategory> findAllByIsDeleted(boolean value);
 
     boolean existsByIdAndIsDeleted(int id, boolean value);
+
+    boolean existsByCabType(String cabType);
 }

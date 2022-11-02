@@ -5,6 +5,7 @@
  */
 package com.hellocabs.service.impl;
 
+import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.LocationDto;
 import com.hellocabs.mapper.LocationMapper;
 import com.hellocabs.model.Location;
@@ -32,10 +33,14 @@ public class LocationServiceImpl implements LocationService {
      * @return int
      *         inserted location id is returned
      */
-    public int createLocation(LocationDto locationDto) {
+    public String createLocation(LocationDto locationDto) {
         Location location = LocationMapper.locationDtoToLocation(locationDto);
-        int id = LocationMapper.locationToLocationDto(locationRepository.save(location)).getId();
-        return id;
+
+        if (!locationRepository.existsByLocationName(location.getLocationName())) {
+            int id = LocationMapper.locationToLocationDto(locationRepository.save(location)).getId();
+            return HelloCabsConstants.LOCATION_CREATED + id;
+        }
+        return HelloCabsConstants.LOCATION_ALREADY_EXISTS;
     }
 
     /**
@@ -64,16 +69,17 @@ public class LocationServiceImpl implements LocationService {
      * This method is to update location Details.
      * </p>
      *
+     * @param id
+     *        for which the id of the location to be updated is given
      * @param locationDto
      *        for which the location to be updated is given
      * @return LocationDto
      *         updated location is returned
      */
-    public LocationDto updateLocation(LocationDto locationDto) {
-        Location location = LocationMapper.locationDtoToLocation(locationDto);
-
-        if (locationRepository.existsByIdAndIsDeleted(location.getId(), false)) {
-            return LocationMapper.locationToLocationDto(locationRepository.save(location));
+    public LocationDto updateLocation(int id, LocationDto locationDto) {
+        if (locationRepository.existsByIdAndIsDeleted(id, false)) {
+            return LocationMapper.locationToLocationDto(locationRepository.
+                    save(LocationMapper.locationDtoToLocation(locationDto)));
         } else {
             return null;
         }

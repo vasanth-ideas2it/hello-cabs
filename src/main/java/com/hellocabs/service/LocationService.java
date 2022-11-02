@@ -20,19 +20,21 @@ public interface LocationService {
      * @return int
      *         inserted location id is returned
      */
-    int createLocation(LocationDto locationDto);
+    String createLocation(LocationDto locationDto);
 
     /**
      * <p>
      * This method is to update location Details.
      * </p>
      *
+     * @param id
+     *        for which the id of the location to be updated is given
      * @param locationDto
      *        for which the location to be updated is given
      * @return LocationDto
      *         updated location is returned
      */
-    LocationDto updateLocation(LocationDto locationDto);
+    LocationDto updateLocation(int id, LocationDto locationDto);
 
     /**
      * <p>

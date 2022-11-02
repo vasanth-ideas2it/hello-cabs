@@ -14,9 +14,9 @@ import java.util.List;
 
 /**
  * <p>
- * CabCategoryDto class has the getters and setters for
- * cab category
- *</p>
+ * CabCategoryDto class has the getters and setters that holds the
+ * data of the fields related to cab category.
+ * </p>
  *
  * @author  Divya
  *
@@ -35,16 +35,4 @@ public class CabCategoryDto {
     private double peakHourFare;
     @JsonIgnore
     private List<CabDto> cabs;
-
-    public CabCategoryDto() {
-    }
-
-    public CabCategoryDto(int id, String cabType, double initialFare, double extraFarePerHour, double peakHourFare, List<CabDto> cabs) {
-        this.id = id;
-        this.cabType = cabType;
-        this.initialFare = initialFare;
-        this.extraFarePerHour = extraFarePerHour;
-        this.peakHourFare = peakHourFare;
-        this.cabs = cabs;
-    }
 }

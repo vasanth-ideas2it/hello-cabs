@@ -5,8 +5,11 @@
  */
 package com.hellocabs.controller;
 
+import com.hellocabs.response.HelloCabsResponseHandler;
 import org.apache.log4j.Logger;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,10 +49,10 @@ public class CabCategoryController {
      *         inserted cab category id is returned
      */
     @PostMapping("/create")
-    private int addCabCategory(@Valid @RequestBody CabCategoryDto cabCategoryDto) {
-        int id = cabCategoryService.createCabCategory(cabCategoryDto);
-        logger.info(HelloCabsConstants.CAB_CATEGORY_CREATED + id);
-        return  id;
+    private ResponseEntity<Object> addCabCategory(@Valid @RequestBody CabCategoryDto cabCategoryDto) {
+        String cabCreated = cabCategoryService.createCabCategory(cabCategoryDto);
+        logger.info(cabCreated);
+        return  HelloCabsResponseHandler.generateResponse(cabCreated, HttpStatus.OK);
     }
 
     /**
@@ -64,7 +67,7 @@ public class CabCategoryController {
      *         searched cab category is returned
      */
     @GetMapping("/search/{id}")
-    private CabCategoryDto searchCabCategoryById(@PathVariable int id) {
+    private ResponseEntity<Object> searchCabCategoryById(@PathVariable int id) {
         CabCategoryDto cabCategoryDto = cabCategoryService.getCabCategoryById(id);
 
         if ( null == cabCategoryDto) {
@@ -72,7 +75,7 @@ public class CabCategoryController {
             throw new HelloCabsException(HelloCabsConstants.CAB_CATEGORY_NOT_FOUND);
         }
         logger.info(HelloCabsConstants.CAB_CATEGORY_FOUND);
-        return cabCategoryDto;
+        return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.CAB_CATEGORY_FOUND, HttpStatus.FOUND, cabCategoryDto);
     }
 
     /**
@@ -85,16 +88,16 @@ public class CabCategoryController {
      * @return CabCategoryDto
      *         updated cab category is returned
      */
-    @PutMapping("/update")
-    private CabCategoryDto updateCabCategory(@Valid @RequestBody CabCategoryDto cabCategoryDto) {
-        CabCategoryDto updatedCabCategoryDto = cabCategoryService.updateCabCategory(cabCategoryDto);
+    @PutMapping("/update/{id}")
+    private ResponseEntity<Object> updateCabCategory(@PathVariable int id, @Valid @RequestBody CabCategoryDto cabCategoryDto) {
+        CabCategoryDto updatedCabCategoryDto = cabCategoryService.updateCabCategory(id, cabCategoryDto);
 
         if (null == updatedCabCategoryDto) {
             logger.error(HelloCabsConstants.CAB_CATEGORY_NOT_FOUND);
             throw new HelloCabsException(HelloCabsConstants.CAB_CATEGORY_NOT_FOUND);
         }
         logger.error(HelloCabsConstants.CAB_CATEGORY_UPDATED);
-        return  updatedCabCategoryDto;
+        return  HelloCabsResponseHandler.generateResponse(HelloCabsConstants.CAB_CATEGORY_UPDATED, HttpStatus.OK, updatedCabCategoryDto);
     }
 
     /**
@@ -110,13 +113,13 @@ public class CabCategoryController {
      *         deleted or not
      */
     @DeleteMapping("/delete/{id}")
-    private String deleteCabCategoryById(@PathVariable int id) {
+    private ResponseEntity<Object> deleteCabCategoryById(@PathVariable int id) {
         if (cabCategoryService.deleteCabCategoryById(id)) {
             logger.info(HelloCabsConstants.CAB_CATEGORY_DELETED);
-            return HelloCabsConstants.CAB_CATEGORY_DELETED;
+            return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.CAB_CATEGORY_DELETED, HttpStatus.OK);
         } else {
             logger.error(HelloCabsConstants.CAB_CATEGORY_NOT_FOUND);
-            return HelloCabsConstants.CAB_CATEGORY_NOT_FOUND;
+            throw new HelloCabsException(HelloCabsConstants.CAB_CATEGORY_NOT_FOUND);
         }
     }
 
@@ -129,8 +132,9 @@ public class CabCategoryController {
      *         retrieves all the cab categories
      */
     @GetMapping("/cabcategories")
-    private List<CabCategoryDto> getAllCabCategories() {
+    private ResponseEntity<Object> getAllCabCategories() {
         List<CabCategoryDto> cabCategoryDtos = cabCategoryService.retrieveAllCabCategories();
-        return cabCategoryDtos;
+        logger.info(HelloCabsConstants.CAB_CATEGORY_FOUND);
+        return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.CAB_CATEGORY_FOUND, HttpStatus.OK, cabCategoryDtos);
     }
 }

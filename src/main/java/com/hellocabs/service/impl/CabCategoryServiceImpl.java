@@ -5,6 +5,7 @@
  */
 package com.hellocabs.service.impl;
 
+import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.CabCategoryDto;
 import com.hellocabs.mapper.CabCategoryMapper;
 import com.hellocabs.model.CabCategory;
@@ -32,11 +33,13 @@ public class CabCategoryServiceImpl implements CabCategoryService {
      * @return int
      *         inserted cab category id is returned
      */
-    public int createCabCategory(CabCategoryDto cabCategoryDto) {
+    public String createCabCategory(CabCategoryDto cabCategoryDto) {
         CabCategory cabCategory = CabCategoryMapper.cabCategoryDtoToCabCategory(cabCategoryDto);
-        int id = CabCategoryMapper.cabCategoryToCabCategoryDto(cabCategoryRepository.save(cabCategory)).getId();
-
-        return id;
+        if (!cabCategoryRepository.existsByCabType(cabCategory.getCabType())) {
+            int id = CabCategoryMapper.cabCategoryToCabCategoryDto(cabCategoryRepository.save(cabCategory)).getId();
+            return HelloCabsConstants.CAB_CATEGORY_CREATED + id;
+        }
+        return HelloCabsConstants.CAB_TYPE_ALREADY_EXISTS;
     }
 
     /**
@@ -66,16 +69,17 @@ public class CabCategoryServiceImpl implements CabCategoryService {
      * This method is to update cab category Details.
      * </p>
      *
+     * @param id
+     *        for which the cab category id to be updated is given
      * @param cabCategoryDto
      *        for which the cab category to be updated is given
      * @return CabCategoryDto
      *         updated cab category is returned
      */
-    public CabCategoryDto updateCabCategory(CabCategoryDto cabCategoryDto) {
-        CabCategory cabCategory = CabCategoryMapper.cabCategoryDtoToCabCategory(cabCategoryDto);
-
-        if (cabCategoryRepository.existsByIdAndIsDeleted(cabCategory.getId(), false)) {
-            return CabCategoryMapper.cabCategoryToCabCategoryDto(cabCategoryRepository.save(cabCategory));
+    public CabCategoryDto updateCabCategory(int id, CabCategoryDto cabCategoryDto) {
+        if (cabCategoryRepository.existsByIdAndIsDeleted(id, false)) {
+            return CabCategoryMapper.cabCategoryToCabCategoryDto(cabCategoryRepository
+                    .save( CabCategoryMapper.cabCategoryDtoToCabCategory(cabCategoryDto)));
         } else {
             return null;
         }

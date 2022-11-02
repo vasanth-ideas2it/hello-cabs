@@ -14,15 +14,16 @@ import java.util.List;
 public interface CabCategoryService {
     /**
      * <p>
-     * This method is to add location Details.
+     * This method is to add cab category Details.
      * </p>
      *
      * @param cabCategoryDto
-     *        for which the location to be added is given
-     * @return int
-     *         inserted location id is returned
+     *        for which the cab category to be added is given
+     * @return String
+     *         if cab category inserted cab category id is returned with message
+     *         otherwise returns only not inserted message
      */
-    int createCabCategory(CabCategoryDto cabCategoryDto);
+    String createCabCategory(CabCategoryDto cabCategoryDto);
 
     /**
      * <p>
@@ -34,7 +35,7 @@ public interface CabCategoryService {
      * @return CabCategoryDto
      *         updated location is returned
      */
-    CabCategoryDto updateCabCategory(CabCategoryDto cabCategoryDto);
+    CabCategoryDto updateCabCategory(int id, CabCategoryDto cabCategoryDto);
 
     /**
      * <p>

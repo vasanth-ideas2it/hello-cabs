@@ -12,8 +12,9 @@ import com.hellocabs.exception.HelloCabsException;
 import com.hellocabs.service.CabService;
 import com.hellocabs.service.CustomerService;
 import com.hellocabs.service.impl.CustomerServiceImpl;
-import lombok.AllArgsConstructor;
+
 import lombok.RequiredArgsConstructor;
+
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +45,6 @@ public class LoginController {
     private final CabService cabService;
     private final AuthenticationManager authenticationManager;
     private final CustomerServiceImpl customerServiceImpl;
-
     private final Logger logger = LoggerConfiguration.getInstance("LoginController.class");
 
     /**
@@ -72,17 +72,13 @@ public class LoginController {
         return (cabService.verifyCabDetails(cabDto));
     }
 
-    
-       // @Autowired
-   //     private AuthenticationManager authenticationManager;
-
-  /*      @PostMapping("/login")
-        public ResponseEntity<String> authenticateUser(@RequestBody LoginDto loginDto){
+    /* public ResponseEntity<String> authenticateUser(@RequestBody LoginDto loginDto) {
+            System.out.println(loginDto);
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     loginDto.getMobileNumber(), loginDto.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
             return new ResponseEntity<>("User signed-in successfully!.", HttpStatus.OK);
-        }*/
+    } */
 
     public ResponseEntity<String> authenticateUser(@RequestBody LoginDto loginDto) {
 
@@ -94,7 +90,7 @@ public class LoginController {
                     .authenticate(new UsernamePasswordAuthenticationToken(
                             Long.toString(loginDto.getMobileNumber()), loginDto.getPassword()));
         } catch (BadCredentialsException badCredentialsException) {
-            throw new HelloCabsException(new BadCredentialsException(HelloCabsConstants.INVALID_LOGIN_CREDENTIALS));
+            throw new HelloCabsException(new BadCredentialsException(HelloCabsConstants.INVALID_LOGIN_CREDENTIALS).getMessage());
         }
         UserDetails userDetails = customerServiceImpl.loadUserByUsername(Long.toString(loginDto.getMobileNumber()));
         SecurityContextHolder.getContext().setAuthentication(authentication);

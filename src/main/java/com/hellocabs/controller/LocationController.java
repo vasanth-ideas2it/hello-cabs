@@ -9,9 +9,12 @@ import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.LocationDto;
 import com.hellocabs.exception.HelloCabsException;
 import com.hellocabs.configuration.LoggerConfiguration;
+import com.hellocabs.response.HelloCabsResponseHandler;
 import com.hellocabs.service.LocationService;
 
 import org.apache.log4j.Logger;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,14 +45,14 @@ public class LocationController {
      *
      * @param locationDto
      *        for which the location to be added is given
-     * @return int
+     * @return ResponseEntity<Object>
      *         inserted location id is returned
      */
     @PostMapping("/create")
-    private int addLocation(@Valid @RequestBody LocationDto locationDto) {
-        int id = locationService.createLocation(locationDto);
-        logger.info(HelloCabsConstants.LOCATION_CREATED);
-        return  id;
+    private ResponseEntity<Object> addLocation(@Valid @RequestBody LocationDto locationDto) {
+        String locationCreated = locationService.createLocation(locationDto);
+        logger.info(locationCreated);
+        return  HelloCabsResponseHandler.generateResponse(locationCreated, HttpStatus.CREATED);
     }
 
     /**
@@ -60,11 +63,11 @@ public class LocationController {
      * @param id
      *        for which the id of the location need to
      *        be searched is given
-     * @return LocationDto
+     * @return ResponseEntity<Object>
      *         searched location is returned
      */
     @GetMapping("/search/{id}")
-    private LocationDto searchLocationById(@PathVariable int id) {
+    private ResponseEntity<Object> searchLocationById(@PathVariable int id) {
         LocationDto locationDto = locationService.getLocationById(id);
 
         if (null == locationDto) {
@@ -72,7 +75,7 @@ public class LocationController {
             throw new HelloCabsException(HelloCabsConstants.LOCATION_NOT_FOUND);
         }
         logger.info(HelloCabsConstants.LOCATION_FOUND);
-        return locationDto;
+        return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.LOCATION_FOUND, HttpStatus.FOUND, locationDto);
     }
 
     /**
@@ -82,18 +85,18 @@ public class LocationController {
      *
      * @param locationDto
      *        for which the location to be updated is given
-     * @return LocationDto
+     * @return ResponseEntity<Object>
      *         updated location is returned
      */
-    @PutMapping("/update")
-    private LocationDto updateLocation(@Valid @RequestBody LocationDto locationDto) {
-        LocationDto updatedLocationDto = locationService.updateLocation(locationDto);
+    @PutMapping("/update/{id}")
+    private ResponseEntity<Object> updateLocation(@PathVariable int id, @Valid @RequestBody LocationDto locationDto) {
+        LocationDto updatedLocationDto = locationService.updateLocation(id, locationDto);
         if (null == updatedLocationDto ) {
             logger.error(HelloCabsConstants.LOCATION_NOT_FOUND);
             throw new HelloCabsException(HelloCabsConstants.LOCATION_NOT_FOUND);
         }
         logger.info(HelloCabsConstants.LOCATION_UPDATED);
-        return updatedLocationDto;
+        return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.LOCATION_UPDATED, HttpStatus.OK, updatedLocationDto);
     }
 
     /**
@@ -104,15 +107,15 @@ public class LocationController {
      * @param id
      *        for which the id of the location need to
      *        be deleted is given
-     * @return String
+     * @return ResponseEntity<Object>
      *         gets the message whether the location is
      *         deleted or not
      */
     @DeleteMapping("/delete/{id}")
-    private String deleteLocationById(@PathVariable int id) {
+    private ResponseEntity<Object> deleteLocationById(@PathVariable int id) {
         if (locationService.deleteLocationById(id)) {
             logger.info(HelloCabsConstants.LOCATION_DELETED);
-            return HelloCabsConstants.LOCATION_DELETED;
+            return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.LOCATION_DELETED, HttpStatus.OK);
         } else {
             logger.info(HelloCabsConstants.LOCATION_NOT_FOUND);
             throw new HelloCabsException(HelloCabsConstants.LOCATION_NOT_FOUND);
@@ -124,11 +127,12 @@ public class LocationController {
      * This method is to display all location Details.
      * </p>
      *
-     * @return List<LocationDto>
+     * @return ResponseEntity<Object>
      *         retrieves all the locations
      */
     @GetMapping("/locations")
-    private List<LocationDto> getAllLocations() {
-        return locationService.retrieveAllLocations();
+    private ResponseEntity<Object> getAllLocations() {
+        logger.info(HelloCabsConstants.LOCATION_FOUND);
+        return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.LOCATION_FOUND, HttpStatus.OK, locationService.retrieveAllLocations());
     }
 }
