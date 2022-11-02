@@ -13,5 +13,7 @@ import com.hellocabs.model.Customer;
 public interface CustomerRepository extends JpaRepository<Customer,Integer> {
 
     Customer findByCustomerMobileNumber(long username);
+    boolean existsByCustomerMobileNumber(long mobileNumber);
+    boolean existsByCustomerEmail(String email);
     Customer findByCustomerMobileNumberAndPassword(long number ,String password);
 }

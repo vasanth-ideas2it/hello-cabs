@@ -28,7 +28,7 @@ public class CabDto {
 
     private int id;
     @NotBlank(message = HelloCabsConstants.DRIVER_NAME_NOT_BLANK)
-    @Size(min = 2, max = 30)
+    @Pattern(regexp = ("([a-z][A-Z]){4,}"))
     private String driverName;
 
     @NotBlank(message = HelloCabsConstants.CAB_NUMBER_NOT_BLANK)
@@ -37,6 +37,7 @@ public class CabDto {
 
     @NotBlank(message = HelloCabsConstants.GENDER_NOT_BLANK)
     @Size(min = 4, max = 10)
+    //@Pattern(regexp = ("(^(male)|(female)"))
     private String gender;
 
     @Digits(integer = 10, fraction = 0)
@@ -67,6 +68,8 @@ public class CabDto {
 
     private int cabCategoryId;
 
+    @NotBlank(message = "set password for your security")
+    @Pattern(regexp = ("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*]){8,16}"))
     private String password;
 
     private boolean isActive;

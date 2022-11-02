@@ -9,6 +9,7 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
@@ -27,7 +28,7 @@ public class CustomerDto {
     private int customerId;
 
     @NotBlank(message = "Kindly Enter your name")
-    @Size(min = 2, max = 30)
+    @Pattern(regexp = ("([a-z][A-Z]){4,}"))
     private String customerName;
 
     @NotNull(message = "Kindly Enter your mobile number")
@@ -38,6 +39,7 @@ public class CustomerDto {
     private String customerEmail;
 
     @NotBlank(message = "set password for your security")
+   // @Pattern(regexp = ("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*]){8,16}"))
     private String password;
 
     private boolean isDeleted;

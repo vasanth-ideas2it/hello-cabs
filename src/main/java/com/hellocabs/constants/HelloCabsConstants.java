@@ -55,7 +55,7 @@ public class HelloCabsConstants {
     public static final String CUSTOMER_REGISTERED = "Customer registered successfully with ID: ";
 
     //NOT CREATED
-    public static final String CUSTOMER_NOT_REGISTERED = "Customer is not registered successfully: ";
+    public static final String CUSTOMER_NOT_REGISTERED = "Customer is not registered successfully because mobileNumber or emailId already exist ";
     //UPDATED
     public static final String LOCATION_UPDATED = "Location updated ";
     public static final String CAB_CATEGORY_UPDATED = "Cab category updated";

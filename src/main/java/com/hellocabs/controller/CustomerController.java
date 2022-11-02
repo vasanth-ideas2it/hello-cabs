@@ -5,6 +5,7 @@ package com.hellocabs.controller;
 
 import com.hellocabs.dto.CustomerDto;
 import com.hellocabs.configuration.LoggerConfiguration;
+import com.hellocabs.model.Customer;
 import com.hellocabs.service.CustomerService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,11 +50,12 @@ public class CustomerController {
      */
     @PostMapping("create")
     private String createCustomerDetails(@RequestBody CustomerDto customerDto) {
-        int customerId = customerService.createCustomerDetails(customerDto).getCustomerId();
-        if(0 != customerId) {
-            logger.info(HelloCabsConstants.CUSTOMER_REGISTERED + customerId );
-            return (HelloCabsConstants.CUSTOMER_REGISTERED + customerId + " " + HttpStatus.CREATED);
+        Customer customer = customerService.createCustomerDetails(customerDto);
+        if(null != customer) {
+            logger.info(HelloCabsConstants.CUSTOMER_REGISTERED + customer );
+            return (HelloCabsConstants.CUSTOMER_REGISTERED + customer.getCustomerId() + " " + HttpStatus.CREATED);
         }
+        logger.info(HelloCabsConstants.CUSTOMER_NOT_REGISTERED + customer );
         return (HelloCabsConstants.CUSTOMER_NOT_REGISTERED);
     }
 

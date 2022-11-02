@@ -16,7 +16,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +37,7 @@ public class CustomerServiceImpl implements CustomerService, UserDetailsService 
      CustomerRepository customerRepository;
      @Autowired
     PasswordEncoder passwordEncoder;
+
     /**
      * <h> customerServiceImpl </h>
      * <p>
@@ -53,8 +53,11 @@ public class CustomerServiceImpl implements CustomerService, UserDetailsService 
     public Customer createCustomerDetails(CustomerDto customerDto) {
         customerDto.setPassword(passwordEncoder.encode(customerDto.getPassword()));
         Customer customer = CustomerMapper.convertCustomerDtoToCustomer(customerDto);
-        Customer createdCustomer =  customerRepository.save(customer);
-        return createdCustomer;
+        if (!(customerRepository.existsByCustomerMobileNumber(customer.getCustomerMobileNumber()) || customerRepository.existsByCustomerEmail(customer.getCustomerEmail()) )) {
+            return  customerRepository.save(customer);
+        } else {
+            return null;
+        }
     }
     /**
      * <p>
@@ -136,8 +139,10 @@ public class CustomerServiceImpl implements CustomerService, UserDetailsService 
         Customer customer = CustomerMapper.convertCustomerDtoToCustomer(customerDto);
         long number = customer.getCustomerMobileNumber();
         String password = customer.getPassword();
-        Customer value =  customerRepository.findByCustomerMobileNumberAndPassword(number, password);
-        if(null != value) {
+        //customer.setPassword(passwordEncoder.encode(password));
+        Customer login =  customerRepository.findByCustomerMobileNumberAndPassword(number, password);
+        System.out.println("returns true or false-----------------" + passwordEncoder.matches(password, login.getPassword()));
+        if (passwordEncoder.matches(password, login.getPassword())) {
             return HelloCabsConstants.LOGIN_SUCCESSFUL;
         }
         return HelloCabsConstants.LOGIN_NOT_SUCCESSFUL;
