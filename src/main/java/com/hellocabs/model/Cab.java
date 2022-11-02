@@ -75,7 +75,7 @@ public class Cab {
     private String carModel;
 
     @Column(name = "current_location")
-    private String currentLocation;
+    private String test;
 
     @Column(name = "password")
     private String password;

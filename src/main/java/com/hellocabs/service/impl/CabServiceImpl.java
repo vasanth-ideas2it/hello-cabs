@@ -77,7 +77,7 @@ public class CabServiceImpl implements CabService {
     @Override
     public String updateCabDetailsById(int id, CabDto cabDto) {
 
-        Cab cab = CabMapper.convertCabDtoToCab(cabDto);
+        Cab cab = CabMapper.convertPartialCabDtoIntoCab(cabDto);
 
         if (cabRepository.existsById(id)) {
             Cab cabDetails = cabRepository.save(cab);
@@ -103,10 +103,8 @@ public class CabServiceImpl implements CabService {
         if (cabRepository.existsById(id)) {
             Cab cab = cabRepository.findByIdAndIsActive(id,false);
             logger.info(HelloCabsConstants.CAB_FOUND + cab);
-            return CabMapper.convertCabToCabDto(cab);
-       /* }
-        logger.info(HelloCabsConstants.CAB_NOT_FOUND);
-            return CabMapper.convertPartialCabIntoCabDto(cab);*/
+            //return CabMapper.convertCabToCabDto(cab);
+            return CabMapper.convertPartialCabIntoCabDto(cab);
         }
         throw new HelloCabsException(HelloCabsConstants.CAB_NOT_FOUND);
     }

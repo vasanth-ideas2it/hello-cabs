@@ -28,8 +28,6 @@ import javax.validation.constraints.Size;
 @Validated
 public class RatingDto {
 
-    private int rideId;
-
     private double rating;
 
     @Size(min = 3, message = HelloCabsConstants.FIELD_NOT_BLANK)

@@ -129,4 +129,5 @@ public class HelloCabsConstants {
     public static final String ALREADY_ON_BOARD = "You are already on board";
     public static final String INVALID_LOGIN_CREDENTIALS = "Invalid Login Credentials";
     public static final String CAB_ASSIGNED = "Hoorah! Cab assigned";
+    public static final String RIDE_PICKED_ALREADY = "This ride has been picked already";
 }

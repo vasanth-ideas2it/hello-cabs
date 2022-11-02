@@ -7,14 +7,11 @@
 package com.hellocabs.service;
 
 import com.hellocabs.dto.BookDto;
-import com.hellocabs.dto.CabCategoryDto;
 import com.hellocabs.dto.CabDto;
 import com.hellocabs.dto.FeedBackDto;
-import com.hellocabs.dto.LocationDto;
 import com.hellocabs.dto.RatingDto;
 import com.hellocabs.dto.RideDto;
 import com.hellocabs.dto.StatusDto;
-import org.springframework.http.ResponseEntity;
 
 import java.util.Set;
 
@@ -37,11 +34,11 @@ public interface RideService {
      *   if ride exists return ride else return a new ride object
      * </p>
      *
-     * @param id {@link int} ride's id to be searched
+     * @param id {@link Integer} ride's id to be searched
      * @return {@link RideDto} searched ride object
      *
      */
-    RideDto searchRideById(int id);
+    RideDto searchRideById(Integer id);
 
     /**
      * <p>
@@ -76,11 +73,13 @@ public interface RideService {
      *   the ride from user
      * </p>
      *
-     * @param feedBackDto {@link FeedBackDto} feedback and ride status details
+     * @param rideId {@link Integer} update rating for the ride
+     * @param feedBackDto {@link FeedBackDto} feedback and ride
+     *                                       status details
      * @return {@link String} ride cancellation
      *
      */
-    String deleteRide(FeedBackDto feedBackDto);
+    String deleteRide(Integer rideId, FeedBackDto feedBackDto);
 
     /**
      * <p>
@@ -91,11 +90,11 @@ public interface RideService {
      *   and shows user a message to choose another cab category
      * </p>
      *
-     * @param rideId {@link int}
+     * @param rideId {@link Integer}
      * @return rideDto {@link RideDto} updated rideDto
      *
      */
-    String waitingToConfirmRide(int rideId);
+    String waitingToConfirmRide(Integer rideId);
 
     /**
      * <p>
@@ -105,10 +104,10 @@ public interface RideService {
      *
      * @param statusDto {@link StatusDto} contains information
      *                          about ride status
-     * @param rideId {@link int} status to be changed for the ride id
+     * @param rideId {@link Integer} status to be changed for the ride id
      * @return {@link CabDto} assigned cab details
      */
-    CabDto updateRideStatus(StatusDto statusDto, int rideId);
+    CabDto updateRideStatus(StatusDto statusDto, Integer rideId);
 
     /**
      * <p>
@@ -133,12 +132,13 @@ public interface RideService {
      *   feedback for the ride
      * </p>
      *
+     * @param rideId {@link Integer} update rating for the ride
      * @param ratingDto {@link RatingDto} get the feedback and
      *      rating for the ride when finished
      * @return {@link String} ride's rating
      *
      */
-    RideDto submitFeedBack(RatingDto ratingDto);
+    RideDto submitFeedBack(Integer rideId, RatingDto ratingDto);
 
     /**
      * <p>
@@ -148,10 +148,10 @@ public interface RideService {
      *
      * @param statusDto {@link StatusDto} contains information
      *                          about ride status
-     * @param rideId {@link int} rideId to be confirmed
-     * @param cabId {@link int} cabId to be assigned to pick the ride
+     * @param rideId {@link Integer} rideId to be confirmed
+     * @param cabId {@link Integer} cabId to be assigned to pick the ride
      * @return {@link String} ride confirmation
      *
      */
-    String confirmRide(StatusDto statusDto, int rideId, int cabId);
+    String confirmRide(StatusDto statusDto, Integer rideId, Integer cabId);
 }

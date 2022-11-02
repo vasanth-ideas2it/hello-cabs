@@ -55,12 +55,12 @@ public class RideController {
      *   by passing ride id to service
      * </p>
      *
-     * @param id {@link int} ride's id to be searched
+     * @param id {@link Integer} ride's id to be searched
      * @return {@link ResponseEntity<Object>} searched ride object
      *
      */
     @GetMapping("search/{id}")
-    public ResponseEntity<Object> searchRideById(@PathVariable int id) {
+    public ResponseEntity<Object> searchRideById(@PathVariable Integer id) {
         return HelloCabsResponseHandler
                 .generateResponse(HelloCabsConstants.RIDE_FOUND,
                 HttpStatus.OK,rideService.searchRideById(id));
@@ -131,13 +131,13 @@ public class RideController {
      *
      * @param statusDto {@link StatusDto} contains information
      *                          about ride status
-     * @param rideId {@link int} rideId to be updated
+     * @param rideId {@link Integer} rideId to be updated
      * @return {@link ResponseEntity<Object>} assigned cab details
      *
      */
     @PutMapping("status/{rideId}")
     public ResponseEntity<Object> updateRideStatus(@Valid
-            @RequestBody StatusDto statusDto, @PathVariable int rideId) {
+            @RequestBody StatusDto statusDto, @PathVariable Integer rideId) {
         return HelloCabsResponseHandler.generateResponse(
                 HelloCabsConstants.STATUS_UPDATED,HttpStatus.OK,
                 rideService.updateRideStatus(statusDto, rideId));
@@ -151,17 +151,18 @@ public class RideController {
      *
      * @param statusDto {@link StatusDto} contains information
      *                          about ride status
-     * @param rideId {@link int} rideId to be confirmed
-     * @param cabId {@link int} cabId to be assigned to pick the ride
+     * @param rideId {@link Integer} rideId to be confirmed
+     * @param cabId {@link Integer} cabId to be assigned to pick the ride
      * @return {@link String} ride confirmation
      *
      */
     @PutMapping("confirm/{rideId}/{cabId}")
     public ResponseEntity<Object> confirmRide(@Valid
-            @RequestBody StatusDto statusDto, @PathVariable int rideId,
-            @PathVariable int cabId) {
+            @RequestBody StatusDto statusDto, @PathVariable Integer rideId,
+            @PathVariable Integer cabId) {
         return HelloCabsResponseHandler.generateResponse(
-                rideService.confirmRide(statusDto, rideId, cabId), HttpStatus.OK);
+                rideService.confirmRide(statusDto, rideId, cabId),
+                HttpStatus.OK);
     }
 
 
@@ -173,13 +174,14 @@ public class RideController {
      *   to choose another cab category
      * </p>
      *
-     * @param rideId {@link int}
+     * @param rideId {@link Integer}
      * @return {@link ResponseEntity<Object>} statement on
      *         ride confirmation
      *
      */
     @GetMapping("waiting/{rideId}")
-    public ResponseEntity<Object> waitingToConfirmRide(@PathVariable int rideId) {
+    public ResponseEntity<Object> waitingToConfirmRide(
+            @PathVariable Integer rideId) {
         return HelloCabsResponseHandler.generateResponse(
                 rideService.waitingToConfirmRide(rideId), HttpStatus.OK);
     }
@@ -192,15 +194,16 @@ public class RideController {
      *
      * @param ratingDto {@link RatingDto} get the feedback and
      *      rating for the ride when finished
+     * @param rideId {@link Integer} rating to be updated to ride
      * @return {@link ResponseEntity<Object>} ride's rating
      *
      */
-    @PutMapping("rating")
-    public ResponseEntity<Object> submitFeedback(@Valid
-            @RequestBody RatingDto ratingDto){
+    @PutMapping("rating/{rideId}")
+    public ResponseEntity<Object> submitFeedback(@Valid @RequestBody
+            RatingDto ratingDto, @PathVariable Integer rideId) {
         return HelloCabsResponseHandler.generateResponse(
-                HelloCabsConstants.RIDE_UPDATED,HttpStatus.OK,
-                rideService.submitFeedBack(ratingDto));
+                HelloCabsConstants.RIDE_UPDATED, HttpStatus.OK,
+                rideService.submitFeedBack(rideId, ratingDto));
     }
 
     /**
@@ -210,13 +213,15 @@ public class RideController {
      * </p>
      *
      * @param feedBackDto {@link FeedBackDto} feedback of the ride
+     * @param rideId {@link Integer} update rating for the ride
      * @return {@link ResponseEntity<Object>} ride cancellation
      *
      */
-    @DeleteMapping("cancel")
-    public ResponseEntity<Object> deleteRideById(@Valid
-            @RequestBody FeedBackDto feedBackDto){
+    @DeleteMapping("cancel/{rideId}")
+    public ResponseEntity<Object> deleteRideById(@Valid @RequestBody
+            FeedBackDto feedBackDto, @PathVariable Integer rideId) {
         return HelloCabsResponseHandler.generateResponse(
-                rideService.deleteRide(feedBackDto), HttpStatus.OK);
+                rideService.deleteRide(rideId, feedBackDto),
+                HttpStatus.OK);
     }
 }

@@ -10,7 +10,6 @@ import com.hellocabs.dto.RideDto;
 import com.hellocabs.configuration.LoggerConfiguration;
 import com.hellocabs.model.Cab;
 import com.hellocabs.model.Customer;
-import com.hellocabs.model.Location;
 import com.hellocabs.model.Ride;
 import org.apache.log4j.Logger;
 
@@ -41,6 +40,7 @@ public class RideMapper {
      *
      */
     public static Ride convertRideDtoIntoRide(RideDto rideDto) {
+        logger.info("In conversion " + rideDto.getCabId());
         Ride ride = new Ride();
         ride.setId(rideDto.getId());
         ride.setRideBookedTime(rideDto.getRideBookedTime());
@@ -50,14 +50,12 @@ public class RideMapper {
         ride.setPassengerMobileNumber(rideDto.getPassengerMobileNumber());
         ride.setRating(rideDto.getRating());
         ride.setRideStatus(rideDto.getRideStatus());
-        Location location = new Location();
-        location.setId(rideDto.getPickupLocation());
-        ride.setPickupLocation(location);
+        ride.setPickupLocation(LocationMapper
+                .locationDtoToLocation(rideDto.getPickupLocation()));
         ride.setIsCancelled(rideDto.getIsCancelled());
         ride.setFeedback(rideDto.getFeedback());
-        Location location1 = new Location();
-        location1.setId(rideDto.getDropLocation());
-        ride.setDropLocation(location1);
+        ride.setDropLocation(LocationMapper
+                .locationDtoToLocation(rideDto.getDropLocation()));
         Cab cab = new Cab();
         Customer customer = new Customer();
 
@@ -95,10 +93,10 @@ public class RideMapper {
         rideDto.setRideStatus(ride.getRideStatus());
         rideDto.setIsCancelled(ride.getIsCancelled());
         rideDto.setFeedback(ride.getFeedback());
-        rideDto.setPickupLocation(
-                ride.getPickupLocation().getId());
-        rideDto.setDropLocation(
-                ride.getDropLocation().getId());
+        rideDto.setPickupLocation(LocationMapper
+                .locationToLocationDto(ride.getPickupLocation()));
+        rideDto.setDropLocation(LocationMapper
+                .locationToLocationDto(ride.getDropLocation()));
 
         if (null != ride.getCab()) {
             rideDto.setCabId((ride.getCab().getId()));

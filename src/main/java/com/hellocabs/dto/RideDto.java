@@ -33,7 +33,7 @@ import java.time.LocalDateTime;
 @Validated
 public class RideDto {
 
-    private int id;
+    private Integer id;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime rideBookedTime;
@@ -44,13 +44,11 @@ public class RideDto {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime rideDroppedTime;
 
-    private double price;
+    private Double price;
 
-    //@NotBlank(message = HelloCabsConstants.MOBILE_NUMBER_NOT_BLANK)
-    //@Range(min = 0, max = 10, message = HelloCabsConstants.MOBILE_NUMBER)
-    private long passengerMobileNumber;
+    private Long passengerMobileNumber;
 
-    private double rating;
+    private Double rating;
 
     private String feedback;
 
@@ -61,16 +59,13 @@ public class RideDto {
 
     private boolean isCancelled;
 
-    @NotBlank(message = HelloCabsConstants.PICKUP_LOCATION_NOT_EMPTY)
-    private int pickupLocation;
+    private LocationDto pickupLocation;
 
-    @NotBlank(message = HelloCabsConstants.DROP_LOCATION_NOT_EMPTY)
-    private int  dropLocation;
+    private LocationDto  dropLocation;
 
-    private int cabId;
+    private Integer cabId;
 
-    //@NotBlank(message = HelloCabsConstants.CUSTOMER_ID_NOT_BLANK)
-    private int customerId;
+    private Integer customerId;
 
     public void setIsCancelled(boolean isCancelled) {
         this.isCancelled = isCancelled;

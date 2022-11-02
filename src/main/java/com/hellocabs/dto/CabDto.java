@@ -63,9 +63,9 @@ public class CabDto {
     private String carModel;
 
     @Size(min = 5, max = 15, message = HelloCabsConstants.CURRENT_LOCATION_SIZE)
-    private String currentLocation;
+    private String test;
 
-    private int CabCategoryId ;
+    private int cabCategoryId;
 
     private String password;
 

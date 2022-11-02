@@ -11,6 +11,7 @@ import com.hellocabs.dto.BookDto;
 import com.hellocabs.dto.CabCategoryDto;
 import com.hellocabs.dto.CabDto;
 import com.hellocabs.dto.FeedBackDto;
+import com.hellocabs.dto.LocationDto;
 import com.hellocabs.dto.RatingDto;
 import com.hellocabs.dto.RideDto;
 import com.hellocabs.dto.StatusDto;
@@ -24,7 +25,6 @@ import com.hellocabs.service.CabService;
 import com.hellocabs.service.RideService;
 import lombok.RequiredArgsConstructor;
 import org.apache.log4j.Logger;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -52,8 +52,8 @@ public class RideServiceImpl implements RideService {
     private final CabCategoryService cabCategoryService;
     private final Logger logger = LoggerConfiguration
             .getInstance(HelloCabsConstants.RIDE_SERVICE_CLASS);
-    private static final int MAXIMUM_WAITING_TIME = 5;
-    private static final int MINIMUM_BOOKING_HOUR = 4;
+    private static final Integer MAXIMUM_WAITING_TIME = 5;
+    private static final Integer MINIMUM_BOOKING_HOUR = 4;
 
     /**
      * <p>
@@ -64,7 +64,7 @@ public class RideServiceImpl implements RideService {
      * </p>
      *
      * @param rideDto {@link RideDto} ride details to be created
-     * @return {@link int} created ride id
+     * @return {@link Integer} created ride id
      *
      */
     private Ride createRide(RideDto rideDto) {
@@ -80,11 +80,11 @@ public class RideServiceImpl implements RideService {
      *   if ride exists return ride else return a new ride object
      * </p>
      *
-     * @param id {@link int} ride's id to be searched
+     * @param id {@link Integer} ride's id to be searched
      * @return {@link RideDto} searched ride object
      *
      */
-    public RideDto searchRideById(int id) {
+    public RideDto searchRideById(Integer id) {
         Ride ride = rideRepository.findByIdAndIsCancelled(id, false);
 
         if (ride != null) {
@@ -124,8 +124,10 @@ public class RideServiceImpl implements RideService {
      *
      */
     public RideDto updateRide(RideDto rideDto) {
+        logger.info("Before rideDto update" + rideDto);
         Ride ride = rideRepository.save(RideMapper
                 .convertRideDtoIntoRide(rideDto));
+        logger.info("After update " + ride.getCab().getId());
         logger.info(HelloCabsConstants.RIDE_UPDATED + ride);
         return RideMapper.convertRideIntoRideDto(ride);
     }
@@ -137,12 +139,13 @@ public class RideServiceImpl implements RideService {
      *   the ride from user
      * </p>
      *
+     * @param rideId {@link Integer} feedback to be updated to ride
      * @param feedBackDto {@link FeedBackDto} feedback and ride status details
      * @return {@link String} reason for ride cancellation
      *
      */
-    public String deleteRide(FeedBackDto feedBackDto) {
-        RideDto rideDto = searchRideById(feedBackDto.getRideId());
+    public String deleteRide(Integer rideId, FeedBackDto feedBackDto) {
+        RideDto rideDto = searchRideById(rideId);
 
         if (rideDto != null) {
 
@@ -179,9 +182,14 @@ public class RideServiceImpl implements RideService {
      */
     public String bookRide(BookDto bookDto) {
         RideDto rideDto = new RideDto();
-        rideDto.setPassengerMobileNumber(bookDto.getPassengerMobileNumber());
-        rideDto.setPickupLocation(bookDto.getPickupLocation());
-        rideDto.setDropLocation(bookDto.getDropLocation());
+        rideDto.setPassengerMobileNumber(bookDto
+                .getPassengerMobileNumber());
+        LocationDto locationDto = new LocationDto();
+        locationDto.setId(bookDto.getPickupLocation());
+        rideDto.setPickupLocation(locationDto);
+        LocationDto locationDto1 = new LocationDto();
+        locationDto1.setId(bookDto.getDropLocation());
+        rideDto.setDropLocation(locationDto1);
         rideDto.setCustomerId(bookDto.getCustomerId());
         rideDto.setRideStatus(HelloCabsConstants.RIDE_BOOKED);
         rideDto.setRideBookedTime(LocalDateTime.now());
@@ -197,13 +205,14 @@ public class RideServiceImpl implements RideService {
      *   feedback for the ride
      * </p>
      *
+     * @param rideId {@link Integer} rating for the ride
      * @param ratingDto {@link RatingDto} get the feedback and
      *      rating for the ride when finished
      * @return {@link String} ride's rating
      *
      */
-    public RideDto submitFeedBack(RatingDto ratingDto) {
-        RideDto rideDto = searchRideById(ratingDto.getRideId());
+    public RideDto submitFeedBack(Integer rideId, RatingDto ratingDto) {
+        RideDto rideDto = searchRideById(rideId);
 
         if (HelloCabsConstants.RIDE_COMPLETED
                 .equalsIgnoreCase(rideDto.getRideStatus())) {
@@ -223,12 +232,12 @@ public class RideServiceImpl implements RideService {
      *     and calculate the average driver rating for the cab
      * </p>
      *
-     * @param cabId {@link int} cabDto in which rating has to be updated
+     * @param cabId {@link Integer} cabDto in which rating has to be updated
      * @param ratingDto {@link RatingDto} ratingDto which has ride's rating
      * @return {@link CabDto} updated driver rating
      *
      */
-    private CabDto calculateAverageRating(int cabId, RatingDto ratingDto) {
+    private CabDto calculateAverageRating(Integer cabId, RatingDto ratingDto) {
         CabDto cabDto = cabService.displayCabDetailsById(cabId);
 
         if (null != cabDto.getRides()) {
@@ -251,25 +260,35 @@ public class RideServiceImpl implements RideService {
      *
      * @param statusDto {@link StatusDto} contains information
      *                          about ride status
-     * @param rideId {@link int} rideId to be confirmed
-     * @param cabId {@link int} cabId to be assigned to pick the ride
+     * @param rideId {@link Integer} rideId to be confirmed
+     * @param cabId {@link Integer} cabId to be assigned to pick the ride
      * @return {@link String} ride confirmation
      *
      */
-    public String confirmRide(StatusDto statusDto, int rideId, int cabId) {
+    public String confirmRide(StatusDto statusDto, Integer rideId, Integer cabId) {
         RideDto rideDto = searchRideById(rideId);
         CabDto cabDto = cabService.displayCabDetailsById(cabId);
 
         if (HelloCabsConstants.RIDE_ACCEPTED
-                .equalsIgnoreCase(statusDto.getRideStatus())) {
+                .equalsIgnoreCase(statusDto.getRideStatus())
+                && HelloCabsConstants.CAB_AVAILABLE
+                .equalsIgnoreCase(cabDto.getCabStatus())) {
             rideDto.setRideStatus(statusDto.getRideStatus());
+            logger.info("");
             rideDto.setCabId(cabDto.getId());
             cabDto.setCabStatus(HelloCabsConstants.CAB_UNAVAILABLE);
+            logger.info("In confirm ride " + cabDto.getId());
             updateRide(rideDto);
             cabService.updateCabDetailsById(cabId, cabDto);
             return HelloCabsConstants.CAB_ASSIGNED;
+        } else if (HelloCabsConstants.RIDE_PICKED
+                .equalsIgnoreCase(statusDto.getRideStatus())) {
+            throw new HelloCabsException(HelloCabsConstants
+                    .RIDE_PICKED_ALREADY);
+        } else {
+            throw new HelloCabsException(HelloCabsConstants
+                    .RIDE_NOT_ACCEPTED);
         }
-        throw new HelloCabsException(HelloCabsConstants.RIDE_NOT_ACCEPTED);
     }
 
     /**
@@ -281,11 +300,11 @@ public class RideServiceImpl implements RideService {
      *   and shows user a message to choose another cab category
      * </p>
      *
-     * @param rideId {@link int}
+     * @param rideId {@link Integer}
      * @return rideDto {@link RideDto} updated rideDto
      *
      */
-    public String waitingToConfirmRide(int rideId) {
+    public String waitingToConfirmRide(Integer rideId) {
         RideDto rideDto = searchRideById(rideId);
 
         if (HelloCabsConstants.RIDE_BOOKED
@@ -319,7 +338,7 @@ public class RideServiceImpl implements RideService {
      * @return {@link CabDto} assigned cab details
      *
      */
-    public CabDto updateRideStatus(StatusDto statusDto, int rideId) {
+    public CabDto updateRideStatus(StatusDto statusDto, Integer rideId) {
         RideDto rideDto = searchRideById(rideId);
         logger.info("updateRideStatus " + rideDto.getCabId());
         
@@ -356,6 +375,10 @@ public class RideServiceImpl implements RideService {
                     rideDto.setRidePickedTime(LocalDateTime.now());
                     rideDto.setRideStatus(rideStatus);
                     cabDto.setCabStatus(HelloCabsConstants.CAB_ON_RIDE);
+                } else if (HelloCabsConstants.RIDE_PICKED
+                        .equalsIgnoreCase(rideDto.getRideStatus())) {
+                    throw new HelloCabsException(
+                            HelloCabsConstants.RIDE_PICKED_ALREADY);
                 } else {
                     throw new HelloCabsException(
                             HelloCabsConstants.RIDE_NOT_ACCEPTED);
@@ -367,10 +390,10 @@ public class RideServiceImpl implements RideService {
                         .equalsIgnoreCase(rideDto.getRideStatus())) {
                     Ride ride = RideMapper.convertRideDtoIntoRide(rideDto);
                     rideDto.setRideDroppedTime(LocalDateTime.now());
-                    rideDto.setRideStatus(rideDto.getRideStatus());
+                    rideDto.setRideStatus(statusDto.getRideStatus());
                     cabDto.setCabStatus(HelloCabsConstants.CAB_AVAILABLE);
                     logger.info(ride.getDropLocation());
-                    cabDto.setCurrentLocation(ride.getDropLocation()
+                    cabDto.setTest(ride.getDropLocation()
                             .getLocationName());
                     double price = calculateTravelFare(rideDto,
                             cabDto.getCabCategoryId());
@@ -401,12 +424,12 @@ public class RideServiceImpl implements RideService {
      * </p>
      *
      * @param rideDto {@link RideDto} rideDto
-     * @param cabCategoryId {@link int} id to be searched
+     * @param cabCategoryId {@link Integer} id to be searched
      * @return {@link Double}returns RidePrice by Time Of Travel
      *
      */
     private double calculateTravelFare(RideDto rideDto,
-            int cabCategoryId) {
+            Integer cabCategoryId) {
         logger.info(cabCategoryId);
         CabCategoryDto cabCategoryDto = cabCategoryService
                 .getCabCategoryById(cabCategoryId);
@@ -416,9 +439,9 @@ public class RideServiceImpl implements RideService {
 
         if ((HelloCabsConstants.RIDE_COMPLETED)
                 .equalsIgnoreCase(rideDto.getRideStatus())) {
-            int pickTime = rideDto.getRidePickedTime().getHour();
-            int droppedTime = rideDto.getRideDroppedTime().getHour();
-            int timeDifference = (droppedTime - pickTime);
+            Integer pickTime = rideDto.getRidePickedTime().getHour();
+            Integer droppedTime = rideDto.getRideDroppedTime().getHour();
+            Integer timeDifference = (droppedTime - pickTime);
             double initialFare = cabCategoryDto.getInitialFare();
             double extraHourFare = cabCategoryDto.getExtraFarePerHour();
             double additionalFare = cabCategoryDto.getPeakHourFare();
@@ -438,8 +461,10 @@ public class RideServiceImpl implements RideService {
             }
             logger.info(HelloCabsConstants.TRAVEL_FARE + totalFare);
             return totalFare;
+        } else {
+            logger.info(HelloCabsConstants.CUSTOMER_NOT_DROPPED);
+            throw new HelloCabsException(HelloCabsConstants
+                    .CUSTOMER_NOT_DROPPED);
         }
-        logger.info(HelloCabsConstants.CUSTOMER_NOT_DROPPED);
-        throw new HelloCabsException(HelloCabsConstants.CUSTOMER_NOT_DROPPED);
     }
 }

@@ -18,6 +18,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import java.time.LocalDateTime;
@@ -41,7 +42,7 @@ public class Ride {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime rideBookedTime;
@@ -52,11 +53,11 @@ public class Ride {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime rideDroppedTime;
 
-    private double price;
+    private Double price;
 
-    private long passengerMobileNumber;
+    private Long passengerMobileNumber;
 
-    private double rating;
+    private Double rating;
 
     private String rideStatus;
 
@@ -74,12 +75,12 @@ public class Ride {
     @JoinColumn(name = "drop_location")
     private  Location dropLocation;
 
-    @OneToOne(targetEntity = Cab.class)
+    @ManyToOne(targetEntity = Cab.class)
     @Cascade(CascadeType.SAVE_UPDATE)
     @JoinColumn(name = "cab_id")
     private Cab cab;
 
-    @OneToOne(targetEntity = Customer.class)
+    @ManyToOne(targetEntity = Customer.class)
     @Cascade(CascadeType.SAVE_UPDATE)
     @JoinColumn(name = "customer_id")
     private Customer customer;

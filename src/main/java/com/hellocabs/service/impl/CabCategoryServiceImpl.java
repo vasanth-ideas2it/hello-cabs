@@ -33,8 +33,8 @@ public class CabCategoryServiceImpl implements CabCategoryService {
      *         inserted cab category id is returned
      */
     public int createCabCategory(CabCategoryDto cabCategoryDto) {
-        CabCategory cabCategory = CabCategoryMapper.CabCategoryDtoToCabCategory(cabCategoryDto);
-        int id = CabCategoryMapper.CabCategoryToCabCategoryDto(cabCategoryRepository.save(cabCategory)).getId();
+        CabCategory cabCategory = CabCategoryMapper.cabCategoryDtoToCabCategory(cabCategoryDto);
+        int id = CabCategoryMapper.cabCategoryToCabCategoryDto(cabCategoryRepository.save(cabCategory)).getId();
 
         return id;
     }
@@ -55,7 +55,7 @@ public class CabCategoryServiceImpl implements CabCategoryService {
         CabCategory cabCategory = cabCategoryRepository.findByIdAndIsDeleted(id, false);
 
         if (null != cabCategory) {
-            return CabCategoryMapper.CabCategoryToCabCategoryDto(cabCategory);
+            return CabCategoryMapper.cabCategoryToCabCategoryDto(cabCategory);
         } else {
             return null;
         }
@@ -72,10 +72,10 @@ public class CabCategoryServiceImpl implements CabCategoryService {
      *         updated cab category is returned
      */
     public CabCategoryDto updateCabCategory(CabCategoryDto cabCategoryDto) {
-        CabCategory cabCategory = CabCategoryMapper.CabCategoryDtoToCabCategory(cabCategoryDto);
+        CabCategory cabCategory = CabCategoryMapper.cabCategoryDtoToCabCategory(cabCategoryDto);
 
         if (cabCategoryRepository.existsByIdAndIsDeleted(cabCategory.getId(), false)) {
-            return CabCategoryMapper.CabCategoryToCabCategoryDto(cabCategoryRepository.save(cabCategory));
+            return CabCategoryMapper.cabCategoryToCabCategoryDto(cabCategoryRepository.save(cabCategory));
         } else {
             return null;
         }

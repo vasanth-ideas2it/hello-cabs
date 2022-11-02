@@ -26,8 +26,6 @@ import javax.validation.constraints.Size;
 @Validated
 public class FeedBackDto {
 
-    private int rideId;
-
     @Size(min = 3, message = HelloCabsConstants.FIELD_NOT_BLANK)
     private String feedback;
 }
