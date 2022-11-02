@@ -58,7 +58,8 @@ public class CabController {
     @PostMapping("create")
     private ResponseEntity<Object> addCabDetails(@Valid @RequestBody CabDto cabDto) {
 
-        return  HelloCabsResponseHandler.generateResponse(cabService.createCab(cabDto), HttpStatus.CREATED);
+        return  HelloCabsResponseHandler
+                .generateResponse(cabService.createCab(cabDto), HttpStatus.CREATED);
     }
 
     /**

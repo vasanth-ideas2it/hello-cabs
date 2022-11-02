@@ -5,11 +5,13 @@ package com.hellocabs.controller;
 
 import com.hellocabs.dto.CustomerDto;
 import com.hellocabs.configuration.LoggerConfiguration;
-import com.hellocabs.model.Customer;
+import com.hellocabs.exception.HelloCabsException;
+import com.hellocabs.response.HelloCabsResponseHandler;
 import com.hellocabs.service.CustomerService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,14 +51,15 @@ public class CustomerController {
      * @return {@link String}returns created customerId and status.
      */
     @PostMapping("create")
-    private String createCustomerDetails(@RequestBody CustomerDto customerDto) {
-        Customer customer = customerService.createCustomerDetails(customerDto);
-        if(null != customer) {
-            logger.info(HelloCabsConstants.CUSTOMER_REGISTERED + customer );
-            return (HelloCabsConstants.CUSTOMER_REGISTERED + customer.getCustomerId() + " " + HttpStatus.CREATED);
+
+    private ResponseEntity<Object> createCustomerDetails(@RequestBody CustomerDto customerDto) {
+        int customerId = customerService.createCustomerDetails(customerDto).getCustomerId();
+        if (0 != customerId) {
+            logger.info(HelloCabsConstants.CUSTOMER_REGISTERED + customerId );
+            return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.CUSTOMER_REGISTERED ,HttpStatus.CREATED);
         }
-        logger.info(HelloCabsConstants.CUSTOMER_NOT_REGISTERED + customer );
-        return (HelloCabsConstants.CUSTOMER_NOT_REGISTERED);
+        throw new HelloCabsException(HelloCabsConstants.CUSTOMER_NOT_REGISTERED);
+
     }
 
     /**
@@ -67,14 +70,15 @@ public class CustomerController {
      * @return {@link CustomerDto}returns searched customer details.
      */
     @GetMapping("view/{customerId}")
-    private CustomerDto viewCustomerById(@PathVariable int customerId) throws RuntimeException {
+    private ResponseEntity<Object> viewCustomerById(@PathVariable int customerId) throws RuntimeException {
         CustomerDto customerDto = customerService.viewCustomerById(customerId);
-        if(null == customerDto) {
-            logger.error(HelloCabsConstants.CUSTOMER_NOT_FOUND);
-            throw new RuntimeException(HelloCabsConstants.CUSTOMER_NOT_FOUND);
+        if (null != customerDto) {
+            logger.info(HelloCabsConstants.CUSTOMER_FOUND);
+            return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.CUSTOMER_FOUND,HttpStatus.OK, customerDto);
         }
-        logger.info(HelloCabsConstants.CUSTOMER_FOUND);
-        return customerDto;
+        logger.error(HelloCabsConstants.CUSTOMER_NOT_FOUND);
+        throw new HelloCabsException(HelloCabsConstants.CUSTOMER_NOT_FOUND);
+
     }
 
     /**
@@ -85,14 +89,17 @@ public class CustomerController {
      * @return {@link String}returns updated customerId .
      */
     @PutMapping("update")
-    private String updateCustomerById(@RequestBody CustomerDto customerDto) throws RuntimeException {
-        int customerId = customerService.updateCustomer(customerDto).getCustomerId();
-        if(0 == customerId) {
-            logger.error(HelloCabsConstants.CUSTOMER_NOT_UPDATED);
-            throw new RuntimeException(HelloCabsConstants.CUSTOMER_NOT_UPDATED);
+    private ResponseEntity<Object> updateCustomerById(@RequestBody CustomerDto customerDto) throws RuntimeException {
+        int id = customerDto.getCustomerId();
+        if (0 != id) {
+            customerService.updateCustomer(customerDto);
+            logger.info(HelloCabsConstants.CUSTOMER_UPDATED);
+            return HelloCabsResponseHandler
+                    .generateResponse(HelloCabsConstants.CUSTOMER_UPDATED,HttpStatus.OK);
+
         }
-        logger.info(HelloCabsConstants.CUSTOMER_UPDATED);
-        return(HelloCabsConstants.CUSTOMER_UPDATED+ customerId + HttpStatus.NOT_FOUND);
+        logger.error(HelloCabsConstants.CUSTOMER_NOT_UPDATED);
+        throw new HelloCabsException(HelloCabsConstants.CUSTOMER_NOT_UPDATED);
     }
 
     /**
@@ -103,14 +110,15 @@ public class CustomerController {
      * @return {@link String}returns deleted customerId .
      */
     @DeleteMapping("delete/{customerId}")
-    private String deleteCustomerById(@PathVariable int customerId) {
+    private ResponseEntity<Object> deleteCustomerById(@PathVariable int customerId) {
         boolean deletedCustomer = customerService.deleteCustomerById(customerId);
-        if(true == deletedCustomer) {
+        if ( deletedCustomer) {
             logger.info(HelloCabsConstants.CUSTOMER_DELETED);
-            return(HelloCabsConstants.CUSTOMER_DELETED + customerId + HttpStatus.OK);
+            return HelloCabsResponseHandler
+                    .generateResponse(HelloCabsConstants.CUSTOMER_DELETED, HttpStatus.OK);
         }
         logger.info(HelloCabsConstants.CUSTOMER_NOT_DELETED);
-        return(HelloCabsConstants.CUSTOMER_NOT_DELETED + customerId + HttpStatus.NOT_FOUND);
+        throw new HelloCabsException(HelloCabsConstants.CUSTOMER_NOT_DELETED);
     }
 
     /**
@@ -120,8 +128,10 @@ public class CustomerController {
      * @return {@link List}returns all customers.
      */
     @GetMapping("customers")
-    public List<CustomerDto> retrieveAllCustomers() {
-        return customerService.retrieveCustomers();
+    public ResponseEntity<Object> retrieveAllCustomers() {
+        return HelloCabsResponseHandler
+                .generateResponse(HelloCabsConstants.CUSTOMER_FOUND,
+                        HttpStatus.OK,customerService.retrieveCustomers());
 
     }
 }

@@ -7,7 +7,8 @@ package com.hellocabs.constants;
 
 /**
  * <p>
- *   Constants contains number of constants
+ *   Constants class contains number of constants available which is used for
+ *   Hello-cabs Application
  * </p>
  *
  * @author : Divya

@@ -5,6 +5,8 @@ package com.hellocabs.dto;
 
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
+
+import javax.persistence.Column;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -33,9 +35,11 @@ public class CustomerDto {
 
     @NotNull(message = "Kindly Enter your mobile number")
     @Digits(integer = 10 , fraction = 0)
+    @Column(unique = true)
     private long customerMobileNumber;
 
     @Email(message = "Kindly Enter your EmailId")
+    @Column(unique = true)
     private String customerEmail;
 
     @NotBlank(message = "set password for your security")

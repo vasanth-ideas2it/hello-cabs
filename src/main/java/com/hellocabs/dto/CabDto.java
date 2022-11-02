@@ -6,10 +6,18 @@
 package com.hellocabs.dto;
 
 import java.util.Set;
-import javax.validation.constraints.*;
+import javax.persistence.Column;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+
 
 import com.hellocabs.constants.HelloCabsConstants;
 import lombok.Data;
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.validation.annotation.Validated;
 /**
  * <h> CabDto </h>
@@ -41,14 +49,18 @@ public class CabDto {
     private String gender;
 
     @Digits(integer = 10, fraction = 0)
+    @Column(unique = true)
+    @UniqueElements
     private long mobileNumber;
 
     @Email(message = HelloCabsConstants.ENTER_VALID_EMAIL)
     @Size(min = 10, max = 30)
+    @Column(unique = true)
     private String email;
 
     @NotBlank(message = HelloCabsConstants.LICENSE_NOT_BLANK)
     @Size(min = 15, max = 30)
+    @Column(unique = true)
     private String licenseNumber;
 
     private double driverRating;
@@ -66,7 +78,7 @@ public class CabDto {
     @Size(min = 5, max = 15, message = HelloCabsConstants.CURRENT_LOCATION_SIZE)
     private String test;
 
-    private int cabCategoryId;
+    private int cabCategoryId ;
 
     @NotBlank(message = "set password for your security")
     @Pattern(regexp = ("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*]){8,16}"))
