@@ -28,7 +28,7 @@ public class CustomerDto {
     private Integer customerId;
 
     @NotBlank(message = "Kindly Enter your name")
-    @Pattern(regexp = ("[a-zA-Z]{4,20}"))
+    @Pattern(regexp = ("[a-zA-Z]{3,}"))
     private String customerName;
 
     @Email(message = "Kindly Enter your EmailId")

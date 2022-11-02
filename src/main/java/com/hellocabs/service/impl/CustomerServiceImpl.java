@@ -1,5 +1,5 @@
 /*
- * All copyrights reserved.
+ *  Copyright (c) All rights reserved Ideas2IT
  */
 package com.hellocabs.service.impl;
 
@@ -51,7 +51,7 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public Customer createCustomerDetails(CustomerDto customerDto) {
-        customerDto.setPassword(passwordEncoder.encode(customerDto.getPassword()));
+        //customerDto.setPassword(passwordEncoder.encode(customerDto.getPassword()));
         Customer customer = CustomerMapper.convertCustomerDtoToCustomer(customerDto);
 
         if (!(customerRepository.existsByCustomerMobileNumber(customer.getCustomerMobileNumber())
@@ -141,10 +141,10 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = CustomerMapper.convertCustomerDtoToCustomer(customerDto);
         Long number = customer.getCustomerMobileNumber();
         String password = customer.getPassword();
-        //customer.setPassword(passwordEncoder.encode(password));
-        Customer login =  customerRepository.findByCustomerMobileNumberAndPassword(number, password);
-        System.out.println("returns true or false-----------------" + passwordEncoder.matches(password, login.getPassword()));
-        if (passwordEncoder.matches(password, login.getPassword())) {
+        //String passwordEncode = passwordEncoder.encode(password);
+        //customer.setPassword(passwordEncode);
+        Customer login =  customerRepository.findByCustomerMobileNumberAndPassword(number,  password);
+        if (null != login) {
             return HelloCabsConstants.LOGIN_SUCCESSFUL;
         }
         return HelloCabsConstants.LOGIN_NOT_SUCCESSFUL;

@@ -58,7 +58,6 @@ public class SecurityConfiguration {
                     .antMatchers("/customer/register").permitAll()
                     .antMatchers("/cab/register").permitAll()
                     .antMatchers("/**").permitAll();
-
         return httpSecurity.build();
     }
 

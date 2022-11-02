@@ -1,5 +1,5 @@
 /*
- * All copyrights reserved.
+ *  Copyright (c) All rights reserved Ideas2IT
  */
 package com.hellocabs.controller;
 
@@ -24,8 +24,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.List;
+
+import javax.validation.Valid;
 
 /**
  * <h> customerController </h>
@@ -52,7 +53,6 @@ public class CustomerController {
      * @return {@link String}returns created customerId and status.
      */
     @PostMapping("create")
-
     private ResponseEntity<Object> createCustomerDetails(@Valid @RequestBody CustomerDto customerDto) {
 
         if (null != customerDto) {
@@ -63,7 +63,6 @@ public class CustomerController {
                             + customer.getCustomerId() ,HttpStatus.CREATED);
         }
         throw new HelloCabsException(HelloCabsConstants.CUSTOMER_ALREADY_EXIST);
-
     }
 
     /**
@@ -76,7 +75,6 @@ public class CustomerController {
     @GetMapping("view/{customerId}")
     private ResponseEntity<Object> viewCustomerById(@PathVariable Integer customerId) throws RuntimeException {
         CustomerDto customerDto = customerService.viewCustomerById(customerId);
-
         if (null != customerDto) {
             logger.info(HelloCabsConstants.CUSTOMER_FOUND);
             return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.CUSTOMER_FOUND,HttpStatus.OK, customerDto);
@@ -95,8 +93,13 @@ public class CustomerController {
      */
     @PutMapping("update")
     private ResponseEntity<Object> updateCustomerById(@Valid @RequestBody CustomerDto customerDto) throws RuntimeException {
+<<<<<<< HEAD
         Integer id = customerDto.getCustomerId();
         if (null != id) {
+=======
+        Integer customerId = customerDto.getCustomerId();
+        if (null != customerId) {
+>>>>>>> changes in cab and customer
             customerService.updateCustomer(customerDto);
             logger.info(HelloCabsConstants.CUSTOMER_UPDATED);
             return HelloCabsResponseHandler

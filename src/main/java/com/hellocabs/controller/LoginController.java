@@ -1,5 +1,5 @@
 /*
- * All copyrights reserved.
+ *  Copyright (c) All rights reserved Ideas2IT
  */
 package com.hellocabs.controller;
 
