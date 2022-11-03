@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
@@ -33,7 +34,8 @@ public class LocationDto {
     private Integer id;
 
     @NotBlank(message = "Location name must not be Empty or null")
-    @Size(min=3, message="Location name should have at least 3 characters")
+    @Size(min = 3, message="Location name should have at least 3 characters")
+    @Pattern(regexp = ("([a-zA-Z.]{3,})"))
     private String locationName;
 
     @JsonIgnore

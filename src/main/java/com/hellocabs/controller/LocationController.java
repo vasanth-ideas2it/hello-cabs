@@ -51,7 +51,8 @@ public class LocationController {
     private ResponseEntity<Object> addLocation(@Valid @RequestBody LocationDto locationDto) {
         String locationCreated = locationService.createLocation(locationDto);
         logger.info(locationCreated);
-        return HelloCabsResponseHandler.generateResponse(locationCreated, HttpStatus.CREATED);
+        return HelloCabsResponseHandler.generateResponse(locationCreated,
+                HttpStatus.OK);
     }
 
     /**
@@ -74,7 +75,8 @@ public class LocationController {
             throw new HelloCabsException(HelloCabsConstants.LOCATION_NOT_FOUND);
         }
         logger.info(HelloCabsConstants.LOCATION_FOUND);
-        return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.LOCATION_FOUND, HttpStatus.FOUND, locationDto);
+        return HelloCabsResponseHandler.generateResponse(HelloCabsConstants
+                .LOCATION_FOUND, HttpStatus.FOUND, locationDto);
     }
 
     /**
@@ -95,7 +97,8 @@ public class LocationController {
             throw new HelloCabsException(HelloCabsConstants.LOCATION_NOT_FOUND);
         }
         logger.info(HelloCabsConstants.LOCATION_UPDATED);
-        return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.LOCATION_UPDATED, HttpStatus.OK, updatedLocationDto);
+        return HelloCabsResponseHandler.generateResponse(HelloCabsConstants
+                .LOCATION_UPDATED, HttpStatus.OK, updatedLocationDto);
     }
 
     /**
@@ -114,7 +117,8 @@ public class LocationController {
     private ResponseEntity<Object> deleteLocationById(@PathVariable Integer id) {
         if (locationService.deleteLocationById(id)) {
             logger.info(HelloCabsConstants.LOCATION_DELETED);
-            return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.LOCATION_DELETED, HttpStatus.OK);
+            return HelloCabsResponseHandler.generateResponse(HelloCabsConstants
+                    .LOCATION_DELETED, HttpStatus.OK);
         } else {
             logger.info(HelloCabsConstants.LOCATION_NOT_FOUND);
             throw new HelloCabsException(HelloCabsConstants.LOCATION_NOT_FOUND);
@@ -132,6 +136,8 @@ public class LocationController {
     @GetMapping("/locations")
     private ResponseEntity<Object> getAllLocations() {
         logger.info(HelloCabsConstants.LOCATION_FOUND);
-        return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.LOCATION_FOUND, HttpStatus.OK, locationService.retrieveAllLocations());
+        return HelloCabsResponseHandler.generateResponse(HelloCabsConstants
+                .LOCATION_FOUND, HttpStatus.OK, locationService
+                .retrieveAllLocations());
     }
 }

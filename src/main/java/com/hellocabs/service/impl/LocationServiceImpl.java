@@ -11,17 +11,16 @@ import com.hellocabs.mapper.LocationMapper;
 import com.hellocabs.model.Location;
 import com.hellocabs.repository.LocationRepository;
 import com.hellocabs.service.LocationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class LocationServiceImpl implements LocationService {
-    LocationRepository locationRepository;
 
-    LocationServiceImpl(LocationRepository locationRepository) {
-        this.locationRepository = locationRepository;
-    }
+    private final LocationRepository locationRepository;
 
     /**
      * <p>
@@ -37,7 +36,8 @@ public class LocationServiceImpl implements LocationService {
         Location location = LocationMapper.locationDtoToLocation(locationDto);
 
         if (!locationRepository.existsByLocationName(location.getLocationName())) {
-            Integer id = LocationMapper.locationToLocationDto(locationRepository.save(location)).getId();
+            Integer id = LocationMapper.locationToLocationDto
+                    (locationRepository.save(location)).getId();
             return HelloCabsConstants.LOCATION_CREATED + id;
         }
         return HelloCabsConstants.LOCATION_ALREADY_EXISTS;

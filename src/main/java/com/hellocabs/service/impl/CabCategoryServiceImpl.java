@@ -12,17 +12,15 @@ import com.hellocabs.mapper.CabCategoryMapper;
 import com.hellocabs.model.CabCategory;
 import com.hellocabs.repository.CabCategoryRepository;
 import com.hellocabs.service.CabCategoryService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CabCategoryServiceImpl implements CabCategoryService {
-    CabCategoryRepository cabCategoryRepository;
-
-    CabCategoryServiceImpl(CabCategoryRepository cabCategoryRepository) {
-        this.cabCategoryRepository = cabCategoryRepository;
-    }
+    private final CabCategoryRepository cabCategoryRepository;
 
     /**
      * <p>
@@ -35,9 +33,13 @@ public class CabCategoryServiceImpl implements CabCategoryService {
      *         inserted cab category id is returned
      */
     public String createCabCategory(CabCategoryDto cabCategoryDto) {
-        CabCategory cabCategory = CabCategoryMapper.cabCategoryDtoToCabCategory(cabCategoryDto);
+        CabCategory cabCategory = CabCategoryMapper
+                .cabCategoryDtoToCabCategory(cabCategoryDto);
+
         if (!cabCategoryRepository.existsByCabType(cabCategory.getCabType())) {
-            Integer id = CabCategoryMapper.cabCategoryToCabCategoryDto(cabCategoryRepository.save(cabCategory)).getId();
+            Integer id = CabCategoryMapper.cabCategoryToCabCategoryDto
+                    (cabCategoryRepository.save(cabCategory)).getId();
+
             return HelloCabsConstants.CAB_CATEGORY_CREATED + id;
         }
         return HelloCabsConstants.CAB_TYPE_ALREADY_EXISTS;
@@ -56,7 +58,8 @@ public class CabCategoryServiceImpl implements CabCategoryService {
      *         otherwise null
      */
     public CabCategoryDto getCabCategoryById(Integer id) {
-        CabCategory cabCategory = cabCategoryRepository.findByIdAndIsDeleted(id, false);
+        CabCategory cabCategory = cabCategoryRepository
+                .findByIdAndIsDeleted(id, false);
 
         if (null != cabCategory) {
             return CabCategoryMapper.cabCategoryToCabCategoryDto(cabCategory);
@@ -98,15 +101,15 @@ public class CabCategoryServiceImpl implements CabCategoryService {
      *         otherwise false
      */
     public boolean deleteCabCategoryById(Integer id) {
-        CabCategory cabCategory = cabCategoryRepository.findByIdAndIsDeleted(id, false);
-        System.out.println(cabCategory);
+        CabCategory cabCategory = cabCategoryRepository
+                .findByIdAndIsDeleted(id, false);
+
         if (null == cabCategory) {
             return false;
-        } else {
-            cabCategory.setDeleted(true);
-            cabCategoryRepository.save(cabCategory);
-            return true;
         }
+        cabCategory.setDeleted(true);
+        cabCategoryRepository.save(cabCategory);
+        return true;
     }
 
     /**
@@ -118,6 +121,7 @@ public class CabCategoryServiceImpl implements CabCategoryService {
      *         retrieves all the cab categories
      */
     public List<CabCategoryDto> retrieveAllCabCategories() {
-        return CabCategoryMapper.cabCategoriesToCabCategoryDtos(cabCategoryRepository.findAllByIsDeleted(false));
+        return CabCategoryMapper.cabCategoriesToCabCategoryDtos
+                (cabCategoryRepository.findAllByIsDeleted(false));
     }
 }

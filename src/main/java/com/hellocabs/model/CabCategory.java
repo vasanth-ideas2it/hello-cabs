@@ -7,14 +7,7 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GenerationType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import java.util.List;
 
@@ -35,7 +28,6 @@ import java.util.List;
 public class CabCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Column(name = "id")
     private Integer id;
 
@@ -56,8 +48,6 @@ public class CabCategory {
 
     @JsonIgnore
     @OneToMany
-    @Cascade(CascadeType.ALL)
-    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name = "cab_category_id")
     List<Cab> cabs;
 }

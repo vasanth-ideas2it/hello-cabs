@@ -34,7 +34,6 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class CabDto {
 
-
     private Integer id;
 
     @NotBlank(message = HelloCabsConstants.DRIVER_NAME_NOT_BLANK)

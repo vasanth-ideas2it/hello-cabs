@@ -6,12 +6,16 @@
 package com.hellocabs.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.hellocabs.constants.HelloCabsConstants;
+
 import lombok.Data;
 
-import java.util.List;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
+import java.util.List;
 
 /**
  * <p>
@@ -30,12 +34,16 @@ public class CabCategoryDto {
     private Integer id;
 
     @NotBlank(message = HelloCabsConstants.CAB_TYPE_NOT_BLANK)
+    @Pattern(regexp = ("([a-zA-Z//s]{3,})"))
     private String cabType;
 
+    @DecimalMin(HelloCabsConstants.DECIMAL_MIN)
     private Double initialFare;
 
+    @DecimalMin(HelloCabsConstants.DECIMAL_MIN)
     private Double extraFarePerHour;
 
+    @DecimalMin(HelloCabsConstants.DECIMAL_MIN)
     private Double peakHourFare;
 
     @JsonIgnore

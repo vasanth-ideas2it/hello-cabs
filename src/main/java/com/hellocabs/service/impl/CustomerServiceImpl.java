@@ -51,16 +51,16 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public Customer createCustomerDetails(CustomerDto customerDto) {
-
         customerDto.setPassword(passwordEncoder.encode(customerDto.getPassword()));
         Customer customer = CustomerMapper.convertCustomerDtoToCustomer(customerDto);
+
         if (!(customerRepository.existsByCustomerMobileNumber(customer.getCustomerMobileNumber())
                 && customerRepository.existsByCustomerEmail(customer.getCustomerEmail()) )) {
             return  customerRepository.save(customer);
         }
-            throw new HelloCabsException(HelloCabsConstants.CUSTOMER_ALREADY_EXIST);
-
+        throw new HelloCabsException(HelloCabsConstants.CUSTOMER_ALREADY_EXIST);
     }
+
     /**
      * <p>
      *   This method is used to search customer by its id and
