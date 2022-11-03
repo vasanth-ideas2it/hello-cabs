@@ -12,11 +12,6 @@ import com.hellocabs.repository.CustomerRepository;
 import com.hellocabs.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,8 +29,6 @@ import java.util.List;
 public class CustomerServiceImpl implements CustomerService {
      @Autowired
      CustomerRepository customerRepository;
-     @Autowired
-    PasswordEncoder passwordEncoder;
 
     /**
      * <h> customerServiceImpl </h>
@@ -50,11 +43,8 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public Customer createCustomerDetails(CustomerDto customerDto) {
-        //customerDto.setPassword(passwordEncoder.encode(customerDto.getPassword()));
         Customer customer = CustomerMapper.convertCustomerDtoToCustomer(customerDto);
-
-        if (!(customerRepository.existsByCustomerMobileNumber(customer.getCustomerMobileNumber())
-                || customerRepository.existsByCustomerEmail(customer.getCustomerEmail()) )) {
+        if (!customerRepository.existsByCustomerMobileNumberOrCustomerEmail(customer.getCustomerMobileNumber(), customer.getCustomerEmail() )) {
             return  customerRepository.save(customer);
         }
         throw new HelloCabsException(HelloCabsConstants.CUSTOMER_ALREADY_EXIST);
@@ -142,8 +132,6 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = CustomerMapper.convertCustomerDtoToCustomer(customerDto);
         Long number = customer.getCustomerMobileNumber();
         String password = customer.getPassword();
-        //String passwordEncode = passwordEncoder.encode(password);
-        //customer.setPassword(passwordEncode);
         Customer login =  customerRepository.findByCustomerMobileNumberAndPassword(number,  password);
         if (null != login) {
             return HelloCabsConstants.LOGIN_SUCCESSFUL;

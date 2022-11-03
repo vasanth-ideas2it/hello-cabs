@@ -91,6 +91,8 @@ public class HelloCabsConstants {
     //VALIDATION
     public static final String CAB_TYPE_NOT_BLANK = "Cab type must not be Empty or null";
     public static final String DRIVER_NAME_NOT_BLANK = "Driver Name Not to be Empty :: Please Enter The Name";
+    public static final String CUSTOMER_NAME_NOT_BLANK = "Customer Name Not to be Empty :: Please Enter The Name";
+    public static final String PASSWORD_NOT_BLANK = "Password Should Not be Empty :: Please Set Password For Your Security";
     public static final String CAB_NUMBER_NOT_BLANK = "Cab Number Not to be Empty :: Please Enter The Cab Number";
     public static final String GENDER_NOT_BLANK = "Gender Not to be Empty :: Please Enter The Gender";
     public static final String ENTER_VALID_EMAIL = "Enter the valid Mail";
@@ -104,7 +106,7 @@ public class HelloCabsConstants {
     public static final String PICKUP_LOCATION_NOT_EMPTY = "Pickup location name must not be empty or null :: Please enter pickup location";
     public static final String DROP_LOCATION_NOT_EMPTY = "Drop location name must not be empty or null :: Please enter drop location";
     public static final String RIDE_STATUS_NOT_BLANK = "Ride status should not be empty or null";
-    public static final String MOBILE_NUMBER_NOT_BLANK = "Mobile number should not be empty or null";
+    public static final String MOBILE_NUMBER_NOT_BLANK = "Mobile Number should be exact 10 characters";
     public static final String MOBILE_NUMBER = "Mobile number should have 10 digits";
     public static final String CUSTOMER_ID_NOT_BLANK = "Customer Id should not be null or empty";
     public static final String RIDE_STATUS = "Ride status should have any one these values " + RIDE_STATUS_REGEX;

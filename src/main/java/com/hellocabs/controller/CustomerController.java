@@ -47,9 +47,10 @@ public class CustomerController {
 
     /**
      * <p>
-     *   This method is used to create customer details.
+     *   This is Post call method used to create customer details and passes to customerService.
      * </p>
-     * @param customerDto {@link CustomerDto}contains customer details.
+     *
+     * @param customerDto {@link @RequestBody CustomerDto}contains customer details.
      * @return {@link String}returns created customerId and status.
      */
     @PostMapping("create")
@@ -67,13 +68,15 @@ public class CustomerController {
 
     /**
      * <p>
-     *   This Method is used to search customer by its id.
+     *   This is Get call method used to search customer from database by using its id
+     *   if exist it gets the object related to this id if not gets null.
      * </p>
-     * @param customerId{@link Integer}
-     * @return {@link CustomerDto}returns searched customer details.
+     *
+     * @param customerId {@link @PathVariable Integer}
+     * @return {@link ResponseEntity<Object>}returns searched customer details.
      */
     @GetMapping("view/{customerId}")
-    private ResponseEntity<Object> viewCustomerById(@PathVariable Integer customerId) throws RuntimeException {
+    private ResponseEntity<Object> viewCustomerById(@PathVariable Integer customerId) {
         CustomerDto customerDto = customerService.viewCustomerById(customerId);
         if (null != customerDto) {
             logger.info(HelloCabsConstants.CUSTOMER_FOUND);
@@ -86,13 +89,13 @@ public class CustomerController {
 
     /**
      * <p>
-     *    This Method is used to update customer.
+     *    This is Post call method used to update customer and passes to customerService .
      * </p>
-     * @param customerDto{@link CustomerDto}
-     * @return {@link String}returns updated customerId .
+     * @param customerDto {@link @RequestBody CustomerDto}
+     * @return {@link ResponseEntity<Object>}returns updated customerId .
      */
     @PutMapping("update")
-    private ResponseEntity<Object> updateCustomer(@Valid @RequestBody CustomerDto customerDto) throws RuntimeException {
+    private ResponseEntity<Object> updateCustomerById(@Valid @RequestBody CustomerDto customerDto) {
         Integer customerId = customerDto.getCustomerId();
 
         if (null != customerId) {
@@ -107,10 +110,10 @@ public class CustomerController {
 
     /**
      * <p>
-     *    This Method is used to delete customer by its id.
+     *    This is Delete call method used to delete customer from the database by using its id.
      * </p>
-     * @param customerId{@link Integer}
-     * @return {@link String}returns deleted customerId .
+     * @param customerId {@link @PathVariable Integer}
+     * @return {@link ResponseEntity<Object>}returns deleted customerId .
      */
     @DeleteMapping("delete/{customerId}")
     private ResponseEntity<Object> deleteCustomerById(@PathVariable Integer customerId) {

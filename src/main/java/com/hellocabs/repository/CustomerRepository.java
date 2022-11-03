@@ -15,8 +15,8 @@ import java.util.List;
 public interface CustomerRepository extends JpaRepository<Customer,Integer> {
 
     Customer findByCustomerMobileNumber(Long username);
-    boolean existsByCustomerMobileNumber(Long mobileNumber);
-    boolean existsByCustomerEmail(String email);
+    boolean existsByCustomerMobileNumberOrCustomerEmail(Long mobileNumber, String email);
+    Customer findByCustomerIdAndIsDeleted(Integer customerId, boolean False);
     Customer findByCustomerMobileNumberAndPassword(Long number ,String password);
     Customer findByCustomerIdAndIsDeleted(Integer customerId, boolean False);
     List<Customer> findAllByIsDeleted(boolean False);
