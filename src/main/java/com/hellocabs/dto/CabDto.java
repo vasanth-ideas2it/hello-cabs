@@ -14,11 +14,12 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.hellocabs.constants.HelloCabsConstants;
+
 import lombok.Data;
-import org.hibernate.validator.constraints.UniqueElements;
+
 import org.springframework.validation.annotation.Validated;
 /**
  * <h> CabDto </h>

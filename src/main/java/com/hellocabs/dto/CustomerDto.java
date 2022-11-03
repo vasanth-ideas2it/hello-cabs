@@ -28,10 +28,8 @@ public class CustomerDto {
     private Integer customerId;
 
     @NotBlank(message = "Kindly Enter your name")
-    @Pattern(regexp = ("[a-zA-Z]{3,}"))
+    @Pattern(regexp = ("([a-zA-Z]{3,})"))
     private String customerName;
-
-    @Email(message = "Kindly Enter your EmailId")
 
     @NotNull(message = "Kindly Enter your mobile number")
     private Long customerMobileNumber;
@@ -40,7 +38,7 @@ public class CustomerDto {
     private String customerEmail;
 
     @NotBlank(message = "set password for your security")
-   // @Pattern(regexp = ("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*]){8,16}"))
+    @Pattern(regexp = ("([a-zA-Z0-9!@#$%^&*]{8,16})"))
     private String password;
 
     @JsonIgnore

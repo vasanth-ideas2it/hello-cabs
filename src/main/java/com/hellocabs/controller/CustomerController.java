@@ -93,13 +93,9 @@ public class CustomerController {
      */
     @PutMapping("update")
     private ResponseEntity<Object> updateCustomerById(@Valid @RequestBody CustomerDto customerDto) throws RuntimeException {
-<<<<<<< HEAD
-        Integer id = customerDto.getCustomerId();
-        if (null != id) {
-=======
         Integer customerId = customerDto.getCustomerId();
+
         if (null != customerId) {
->>>>>>> changes in cab and customer
             customerService.updateCustomer(customerDto);
             logger.info(HelloCabsConstants.CUSTOMER_UPDATED);
             return HelloCabsResponseHandler
