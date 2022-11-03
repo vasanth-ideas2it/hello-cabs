@@ -3,12 +3,13 @@
  *   Copyright (c) All rights reserved Ideas2IT
  * </p>
  */
+
 package com.hellocabs.controller;
 
+import com.hellocabs.configuration.LoggerConfiguration;
 import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.LocationDto;
 import com.hellocabs.exception.HelloCabsException;
-import com.hellocabs.configuration.LoggerConfiguration;
 import com.hellocabs.response.HelloCabsResponseHandler;
 import com.hellocabs.service.LocationService;
 
@@ -23,8 +24,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 import javax.validation.Valid;
 

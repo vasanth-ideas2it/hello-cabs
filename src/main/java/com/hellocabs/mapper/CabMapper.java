@@ -36,7 +36,7 @@ public class CabMapper {
         cab.setCabNumber(cabDto.getCabNumber());
         cab.setCabStatus(cabDto.getCabStatus());
         cab.setCarModel(cabDto.getCarModel());
-        cab.setTest(cabDto.getTest());
+        cab.setCurrentLocation(cabDto.getCurrentLocation());
         cab.setDriverName(cabDto.getDriverName());
         cab.setDriverRating(cabDto.getDriverRating());
         cab.setEmail(cabDto.getEmail());
@@ -70,7 +70,7 @@ public class CabMapper {
         cabDto.setGender(cab.getGender());
         cabDto.setEmail(cab.getEmail());
         cabDto.setId(cab.getId());
-        cabDto.setTest(cab.getTest());
+        cabDto.setCurrentLocation(cab.getCurrentLocation());
         cabDto.setLicenseNumber(cab.getLicenseNumber());
         cabDto.setMobileNumber(cab.getMobileNumber());
         cabDto.setPassword(cab.getPassword());

@@ -5,8 +5,11 @@
  */
 package com.hellocabs.dto;
 
+import com.hellocabs.constants.HelloCabsConstants;
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -25,9 +28,12 @@ public class BookDto {
 
     private Long passengerMobileNumber;
 
+    @NotNull(message = HelloCabsConstants.LOCATION_NOT_BLANK)
     private Integer pickupLocation;
 
+    @NotNull(message = HelloCabsConstants.LOCATION_NOT_BLANK)
     private Integer dropLocation;
 
+    @NotNull(message = HelloCabsConstants.CUSTOMER_ID_NOT_BLANK)
     private Integer customerId;
 }

@@ -8,7 +8,7 @@ package com.hellocabs.controller;
 
 import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.BookDto;
-import com.hellocabs.dto.FeedBackDto;
+import com.hellocabs.dto.ReasonDto;
 import com.hellocabs.dto.RatingDto;
 import com.hellocabs.dto.RideDto;
 import com.hellocabs.dto.StatusDto;
@@ -212,14 +212,14 @@ public class RideController {
      *   the ride for some reason
      * </p>
      *
-     * @param feedBackDto {@link FeedBackDto} feedback of the ride
+     * @param feedBackDto {@link ReasonDto} feedback of the ride
      * @param rideId {@link Integer} update rating for the ride
      * @return {@link ResponseEntity<Object>} ride cancellation
      *
      */
     @DeleteMapping("cancel/{rideId}")
     public ResponseEntity<Object> deleteRideById(@Valid @RequestBody
-            FeedBackDto feedBackDto, @PathVariable Integer rideId) {
+                                                 ReasonDto feedBackDto, @PathVariable Integer rideId) {
         return HelloCabsResponseHandler.generateResponse(
                 rideService.deleteRide(rideId, feedBackDto),
                 HttpStatus.OK);

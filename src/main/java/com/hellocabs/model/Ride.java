@@ -75,8 +75,7 @@ public class Ride {
     @JoinColumn(name = "drop_location")
     private  Location dropLocation;
 
-    @ManyToOne//(targetEntity = Cab.class)
-    //@Cascade(CascadeType.SAVE_UPDATE)
+    @ManyToOne
     @JoinColumn(name = "cab_id")
     private Cab cab;
 

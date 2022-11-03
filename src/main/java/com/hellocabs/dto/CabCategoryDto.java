@@ -9,8 +9,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hellocabs.constants.HelloCabsConstants;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
 import java.util.List;
+import javax.validation.constraints.NotBlank;
+
 
 /**
  * <p>
@@ -25,14 +26,18 @@ import java.util.List;
  */
 @Data
 public class CabCategoryDto {
+
     private Integer id;
 
     @NotBlank(message = HelloCabsConstants.CAB_TYPE_NOT_BLANK)
     private String cabType;
 
     private Double initialFare;
+
     private Double extraFarePerHour;
+
     private Double peakHourFare;
+
     @JsonIgnore
     private List<CabDto> cabs;
 }

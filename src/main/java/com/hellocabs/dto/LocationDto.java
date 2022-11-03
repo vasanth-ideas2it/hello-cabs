@@ -29,6 +29,7 @@ import javax.validation.constraints.Size;
 
 @Data
 public class LocationDto {
+
     private Integer id;
 
     @NotBlank(message = "Location name must not be Empty or null")

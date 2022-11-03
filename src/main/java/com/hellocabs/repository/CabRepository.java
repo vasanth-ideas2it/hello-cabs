@@ -28,6 +28,7 @@ public interface CabRepository  extends JpaRepository<Cab, Integer> {
     Cab findCabByMobileNumber(Long username);
     Cab findByMobileNumberAndPassword(Long number, String password);
 
+    boolean existsByMobileNumberAndEmail(Long number, String email);
     Cab findByIdAndIsActive(Integer id, boolean False);
     List<Cab> findAllByIsActive(boolean False);
 }

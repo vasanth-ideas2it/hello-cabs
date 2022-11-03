@@ -11,7 +11,7 @@ import com.hellocabs.dto.BookDto;
 import com.hellocabs.dto.CabCategoryDto;
 import com.hellocabs.dto.CabDto;
 import com.hellocabs.dto.CustomerDto;
-import com.hellocabs.dto.FeedBackDto;
+import com.hellocabs.dto.ReasonDto;
 import com.hellocabs.dto.LocationDto;
 import com.hellocabs.dto.RatingDto;
 import com.hellocabs.dto.RideDto;
@@ -143,11 +143,11 @@ public class RideServiceImpl implements RideService {
      * </p>
      *
      * @param rideId {@link Integer} feedback to be updated to ride
-     * @param feedBackDto {@link FeedBackDto} feedback and ride status details
+     * @param reasonDto {@link ReasonDto} feedback and ride status details
      * @return {@link String} reason for ride cancellation
      *
      */
-    public String deleteRide(Integer rideId, FeedBackDto feedBackDto) {
+    public String deleteRide(Integer rideId, ReasonDto reasonDto) {
         RideDto rideDto = searchRideById(rideId);
 
         if (rideDto != null) {
@@ -155,7 +155,7 @@ public class RideServiceImpl implements RideService {
             if (!HelloCabsConstants.RIDE_COMPLETED
                     .equalsIgnoreCase(rideDto.getRideStatus())) {
                 rideDto.setRideStatus(HelloCabsConstants.RIDE_IGNORED);
-                rideDto.setFeedback(feedBackDto.getFeedback());
+                rideDto.setFeedback(reasonDto.getReason());
                 updateRide(rideDto);
                 logger.info(HelloCabsConstants.RIDE_CANCELLED);
                 return HelloCabsConstants.RIDE_CANCELLED;
@@ -394,7 +394,7 @@ public class RideServiceImpl implements RideService {
                     rideDto.setRideStatus(statusDto.getRideStatus());
                     cabDto.setCabStatus(HelloCabsConstants.CAB_AVAILABLE);
                     logger.info(ride.getDropLocation());
-                    cabDto.setTest(ride.getDropLocation()
+                    cabDto.setCurrentLocation(ride.getDropLocation()
                             .getLocationName());
                     Double price = calculateTravelFare(rideDto,
                             cabDto.getCabCategoryId());

@@ -3,16 +3,14 @@
  */
 package com.hellocabs.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
-import javax.persistence.Column;
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.util.Set;
 
 /**
@@ -30,22 +28,22 @@ public class CustomerDto {
     private Integer customerId;
 
     @NotBlank(message = "Kindly Enter your name")
-    @Pattern(regexp = ("([a-z][A-Z]){4,}"))
+    @Pattern(regexp = ("[a-zA-Z]{4,20}"))
     private String customerName;
 
-    //@NotNull(message = "Kindly Enter your mobile number")
-    //@Digits(integer = 10 , fraction = 0)
-    //@Column(unique = true)
+    @Email(message = "Kindly Enter your EmailId")
+
+    @NotNull(message = "Kindly Enter your mobile number")
     private Long customerMobileNumber;
 
     @Email(message = "Kindly Enter your EmailId")
-    //@Column(unique = true)
     private String customerEmail;
 
     @NotBlank(message = "set password for your security")
    // @Pattern(regexp = ("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*]){8,16}"))
     private String password;
 
+    @JsonIgnore
     private boolean isDeleted;
 
     private Set<RideDto> rides;

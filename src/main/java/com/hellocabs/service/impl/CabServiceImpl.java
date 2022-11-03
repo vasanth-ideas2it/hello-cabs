@@ -17,6 +17,7 @@ import com.hellocabs.service.CabService;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.stream.Collectors;
 /**
@@ -53,15 +54,15 @@ public class CabServiceImpl implements CabService {
     @Override
     public String createCab(CabDto cabDto) {
         Cab cab = CabMapper.convertCabDtoToCab(cabDto);
-        if (null != cab) {
+        if (!cabRepository.existsByMobileNumberAndEmail(cab.getMobileNumber(), cab.getEmail())) {
             Cab cabDetails = cabRepository.save(cab);
             Integer id = cabDetails.getId();
-            logger.info(HelloCabsConstants. CAB_CREATED + cab.getId());
+            logger.info(HelloCabsConstants.CAB_CREATED + cab.getId());
             return (HelloCabsConstants.CAB_CREATED + " " + id);
 
         }
         logger.info(HelloCabsConstants.CAB_NOT_CREATED);
-        return HelloCabsConstants.CAB_NOT_CREATED;
+        return HelloCabsConstants.CAB_NOT_CREATED + HelloCabsConstants.CUSTOMER_ALREADY_EXIST;
     }
 
     /**
@@ -103,8 +104,8 @@ public class CabServiceImpl implements CabService {
         if (cabRepository.existsById(id)) {
             Cab cab = cabRepository.findByIdAndIsActive(id,false);
             logger.info(HelloCabsConstants.CAB_FOUND + cab);
-            //return CabMapper.convertCabToCabDto(cab);
-            return CabMapper.convertPartialCabIntoCabDto(cab);
+            return CabMapper.convertCabToCabDto(cab);
+           // return CabMapper.convertPartialCabIntoCabDto(cab);
         }
         throw new HelloCabsException(HelloCabsConstants.CAB_NOT_FOUND);
     }

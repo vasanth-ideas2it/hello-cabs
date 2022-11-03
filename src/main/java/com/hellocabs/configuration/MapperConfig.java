@@ -1,5 +1,6 @@
 package com.hellocabs.configuration;
 
+import org.apache.log4j.Logger;
 import org.modelmapper.ModelMapper;
 
 /**
@@ -14,6 +15,14 @@ import org.modelmapper.ModelMapper;
  */
 public class MapperConfig {
 
+    /**
+     * <p>
+     * Used to get the logger object to access for
+     * all files within HelloCabApplication
+     * <P/>
+     *
+     * @return object mapper {@link ModelMapper}
+     */
     public static ModelMapper getConfigure() {
         return new ModelMapper();
     }

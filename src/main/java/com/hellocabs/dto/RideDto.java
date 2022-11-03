@@ -6,6 +6,7 @@
 package com.hellocabs.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hellocabs.constants.HelloCabsConstants;
 import lombok.Getter;
 import lombok.Setter;
@@ -57,6 +58,7 @@ public class RideDto {
             message = HelloCabsConstants.RIDE_STATUS)
     private String rideStatus;
 
+    @JsonIgnore
     private boolean isCancelled;
 
     private LocationDto pickupLocation;

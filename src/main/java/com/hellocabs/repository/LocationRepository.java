@@ -16,8 +16,10 @@ import java.util.Optional;
 public interface LocationRepository extends JpaRepository<Location,Integer> {
 
     Location findByIdAndIsDeleted(Integer id, boolean value);
+
     List<Location> findAllByIsDeleted(boolean value);
 
     boolean existsByLocationName(String locationName);
+
     boolean existsByIdAndIsDeleted(Integer id, boolean value);
 }

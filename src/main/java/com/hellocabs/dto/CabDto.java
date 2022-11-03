@@ -15,6 +15,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hellocabs.constants.HelloCabsConstants;
 import lombok.Data;
 import org.hibernate.validator.constraints.UniqueElements;
@@ -35,8 +36,9 @@ public class CabDto {
 
 
     private Integer id;
+
     @NotBlank(message = HelloCabsConstants.DRIVER_NAME_NOT_BLANK)
-    @Pattern(regexp = ("([A-Z]?[a-z]{4,})"))
+    @Pattern(regexp = ("([a-zA-Z]){3,}"))
     private String driverName;
 
     @NotBlank(message = HelloCabsConstants.CAB_NUMBER_NOT_BLANK)
@@ -44,29 +46,22 @@ public class CabDto {
     private String cabNumber;
 
     @NotBlank(message = HelloCabsConstants.GENDER_NOT_BLANK)
-    @Size(min = 4, max = 10)
-    //@Pattern(regexp = ("(^(male)|(female)"))
+    @Size(min = 1, max =10 )
+    @Pattern(regexp = ("male|female|m|f|others"))
     private String gender;
 
-    @Digits(integer = 10, fraction = 0)
-    @Column(unique = true)
-    //@UniqueElements
     private Long mobileNumber;
 
     @Email(message = HelloCabsConstants.ENTER_VALID_EMAIL)
     @Size(min = 10, max = 30)
-    @Column(unique = true)
     private String email;
 
     @NotBlank(message = HelloCabsConstants.LICENSE_NOT_BLANK)
     @Size(min = 15, max = 30)
-    @Column(unique = true)
     private String licenseNumber;
 
     private Double driverRating;
 
-    @NotBlank(message = HelloCabsConstants.CAB_STATUS_NOT_BLANK)
-    @Size(min = 5, max = 20)
     private String cabStatus;
 
     private Set<RideDto> rides;
@@ -76,15 +71,14 @@ public class CabDto {
     private String carModel;
 
     @Size(min = 5, max = 15, message = HelloCabsConstants.CURRENT_LOCATION_SIZE)
-    private String test;
+    private String currentLocation;
 
     private Integer cabCategoryId;
 
     @NotBlank(message = "set password for your security")
-   // @Pattern(regexp = ("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*]){8,16}"))
-   // @Pattern(regexp = "(([A-Z]+[a-z]{3,}+[!@#$%&*]+[0-9]+){8,16})")
     private String password;
 
+    @JsonIgnore
     private boolean isActive;
 
 }

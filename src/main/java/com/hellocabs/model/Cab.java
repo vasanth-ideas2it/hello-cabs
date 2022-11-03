@@ -51,19 +51,20 @@ public class Cab {
     @Column(name = "gender")
     private String gender;
 
-    @Column(name = "mobile_number")
+    @Column(name = "mobile_number",unique = true)
     private Long mobileNumber;
 
-    @Column(name = "email")
+    @Column(name = "email",unique = true)
     private String email;
 
-    @Column(name = "license_number")
+    @Column(name = "license_number",unique = true)
     private String licenseNumber;
 
     @Column(name = "driver_rating")
     private Double driverRating;
 
     @Column(name = "cab_status")
+
     private String cabStatus;
 
     @OneToMany(mappedBy = "cab") //cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -75,7 +76,7 @@ public class Cab {
     private String carModel;
 
     @Column(name = "current_location")
-    private String test;
+    private String currentLocation;
 
     @Column(name = "password")
     private String password;

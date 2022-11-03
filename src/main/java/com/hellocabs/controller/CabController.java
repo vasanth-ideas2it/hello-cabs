@@ -5,10 +5,14 @@
  */
 package com.hellocabs.controller;
 
+import com.hellocabs.configuration.LoggerConfiguration;
+import com.hellocabs.constants.HelloCabsConstants;
+import com.hellocabs.dto.CabDto;
+import com.hellocabs.response.HelloCabsResponseHandler;
+import com.hellocabs.service.CabService;
+
 import javax.validation.Valid;
 
-import com.hellocabs.constants.HelloCabsConstants;
-import com.hellocabs.response.HelloCabsResponseHandler;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +24,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.hellocabs.dto.CabDto;
-import com.hellocabs.configuration.LoggerConfiguration;
-import com.hellocabs.model.Cab;
-import com.hellocabs.service.CabService;
 
 /**
  * <h> CabController </h>
@@ -57,7 +57,6 @@ public class CabController {
      */
     @PostMapping("create")
     private ResponseEntity<Object> addCabDetails(@Valid @RequestBody CabDto cabDto) {
-
         return  HelloCabsResponseHandler
                 .generateResponse(cabService.createCab(cabDto), HttpStatus.CREATED);
     }

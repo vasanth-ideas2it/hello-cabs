@@ -118,7 +118,7 @@ public class HelloCabsConstants {
     public static final String RIDE_IGNORED = "Cancelled";
 
     //NOT CREATED
-    public static final String CAB_NOT_CREATED = "Cab Not Created for given Details";
+    public static final String CAB_NOT_CREATED = "Cab Not Created for given Details ";
     public static final String STATUS_UPDATED = "Status updated ";
     public static final String RIDE_BOOKED_FOR_CUSTOMER = "Ride booked for customer ";
     public static final String CAB_TYPE_ALREADY_EXISTS = "Cab type already exists";
@@ -133,4 +133,5 @@ public class HelloCabsConstants {
     public static final String INVALID_LOGIN_CREDENTIALS = "Invalid Login Credentials";
     public static final String CAB_ASSIGNED = "Hoorah! Cab assigned";
     public static final String RIDE_PICKED_ALREADY = "This ride has been picked already";
+    public static final String CUSTOMER_ALREADY_EXIST = "Email or Mobile Number Already Registered" ;
 }

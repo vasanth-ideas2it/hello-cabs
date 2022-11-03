@@ -7,6 +7,7 @@ package com.hellocabs.service.impl;
 
 import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.CabCategoryDto;
+import com.hellocabs.exception.HelloCabsException;
 import com.hellocabs.mapper.CabCategoryMapper;
 import com.hellocabs.model.CabCategory;
 import com.hellocabs.repository.CabCategoryRepository;
@@ -59,9 +60,8 @@ public class CabCategoryServiceImpl implements CabCategoryService {
 
         if (null != cabCategory) {
             return CabCategoryMapper.cabCategoryToCabCategoryDto(cabCategory);
-        } else {
-            return null;
         }
+        throw new HelloCabsException(HelloCabsConstants.CAB_CATEGORY_NOT_FOUND);
     }
 
     /**

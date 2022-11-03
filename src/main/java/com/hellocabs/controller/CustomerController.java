@@ -3,11 +3,14 @@
  */
 package com.hellocabs.controller;
 
-import com.hellocabs.dto.CustomerDto;
 import com.hellocabs.configuration.LoggerConfiguration;
+import com.hellocabs.constants.HelloCabsConstants;
+import com.hellocabs.dto.CustomerDto;
 import com.hellocabs.exception.HelloCabsException;
+import com.hellocabs.model.Customer;
 import com.hellocabs.response.HelloCabsResponseHandler;
 import com.hellocabs.service.CustomerService;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,11 +23,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 import java.util.List;
-
-import com.hellocabs.constants.HelloCabsConstants;
-
-
 
 /**
  * <h> customerController </h>
@@ -52,13 +53,16 @@ public class CustomerController {
      */
     @PostMapping("create")
 
-    private ResponseEntity<Object> createCustomerDetails(@RequestBody CustomerDto customerDto) {
-        Integer customerId = customerService.createCustomerDetails(customerDto).getCustomerId();
-        if (null != customerId) {
-            logger.info(HelloCabsConstants.CUSTOMER_REGISTERED + customerId );
-            return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.CUSTOMER_REGISTERED ,HttpStatus.CREATED);
+    private ResponseEntity<Object> createCustomerDetails(@Valid @RequestBody CustomerDto customerDto) {
+
+        if (null != customerDto) {
+            Customer customer = customerService.createCustomerDetails(customerDto);
+            logger.info(HelloCabsConstants.CUSTOMER_REGISTERED + customer.getCustomerId());
+            return HelloCabsResponseHandler
+                    .generateResponse(HelloCabsConstants.CUSTOMER_REGISTERED
+                            + customer.getCustomerId() ,HttpStatus.CREATED);
         }
-        throw new HelloCabsException(HelloCabsConstants.CUSTOMER_NOT_REGISTERED);
+        throw new HelloCabsException(HelloCabsConstants.CUSTOMER_ALREADY_EXIST);
 
     }
 
@@ -90,7 +94,7 @@ public class CustomerController {
      * @return {@link String}returns updated customerId .
      */
     @PutMapping("update")
-    private ResponseEntity<Object> updateCustomerById(@RequestBody CustomerDto customerDto) throws RuntimeException {
+    private ResponseEntity<Object> updateCustomerById(@Valid @RequestBody CustomerDto customerDto) throws RuntimeException {
         Integer id = customerDto.getCustomerId();
         if (null != id) {
             customerService.updateCustomer(customerDto);

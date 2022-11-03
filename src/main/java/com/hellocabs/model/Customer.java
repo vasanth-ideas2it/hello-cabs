@@ -39,10 +39,10 @@ public class Customer {
     @Column(name = "name",length = 30)
     private String customerName;
 
-    @Column(name = "mobile_number")
+    @Column(name = "mobile_number",unique = true)
     private Long customerMobileNumber;
 
-    @Column(name = "email",length = 20)
+    @Column(name = "email",length = 20,unique = true)
     private String customerEmail;
 
     @Column(name = "password",length = 20)

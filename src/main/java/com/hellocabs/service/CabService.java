@@ -8,6 +8,7 @@ package com.hellocabs.service;
 import com.hellocabs.dto.CabDto;
 import com.hellocabs.model.Cab;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 /**
  * <h> CabService </h>
