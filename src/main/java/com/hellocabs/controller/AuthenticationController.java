@@ -5,20 +5,12 @@ package com.hellocabs.controller;
 
 import com.hellocabs.configuration.LoggerConfiguration;
 import com.hellocabs.constants.HelloCabsConstants;
-import com.hellocabs.dto.CabDto;
-import com.hellocabs.dto.CustomerDto;
 import com.hellocabs.dto.LoginDto;
 import com.hellocabs.exception.HelloCabsException;
-import com.hellocabs.service.CabService;
-import com.hellocabs.service.CustomerService;
-import com.hellocabs.service.impl.CustomerServiceImpl;
 
-import com.hellocabs.service.impl.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 
 import org.apache.log4j.Logger;
-import org.springframework.context.annotation.Primary;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -43,14 +35,10 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequiredArgsConstructor
-public class LoginController {
+public class AuthenticationController {
 
     private final UserDetailsService userDetailsService;
-
-    private final CustomerService customerService;
-    private final CabService cabService;
     private final AuthenticationManager authenticationManager;
-    private final CustomerServiceImpl customerServiceImpl;
     private final Logger logger = LoggerConfiguration.getInstance("LoginController.class");
 
     /**
@@ -59,44 +47,18 @@ public class LoginController {
      * </p>
      * @param {@link LoginDto}loginDto contains mobileNumber and password.
      * @return {@link String}returns login status.
+     *
      */
-
-
-    @PostMapping("customer/login")
-    public String verifyCustomer(@RequestBody LoginDto loginDto) {
-        CustomerDto customerDto = new CustomerDto();
-        customerDto.setCustomerMobileNumber(loginDto.getMobileNumber());
-        customerDto.setPassword(loginDto.getPassword());
-        return (customerService.verifyCustomerDetails(customerDto));
-    }
-
-    @PostMapping("cab/login")
-    public String verifyCab(@RequestBody LoginDto loginDto) {
-        CabDto cabDto = new CabDto();
-        cabDto.setMobileNumber(loginDto.getMobileNumber());
-        cabDto.setPassword(loginDto.getPassword());
-        return (cabService.verifyCabDetails(cabDto));
-    }
-
-    /* public ResponseEntity<String> authenticateUser(@RequestBody LoginDto loginDto) {
-            System.out.println(loginDto);
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    loginDto.getMobileNumber(), loginDto.getPassword()));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            return new ResponseEntity<>("User signed-in successfully!.", HttpStatus.OK);
-    } */
-
+    @PostMapping("/login")
     public ResponseEntity<String> authenticateUser(@RequestBody LoginDto loginDto) {
-
-        logger.info("In authenticate user()" + loginDto);
-
         Authentication authentication;
+
         try {
             authentication = authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(
                             Long.toString(loginDto.getMobileNumber()), loginDto.getPassword()));
         } catch (BadCredentialsException badCredentialsException) {
-            throw new HelloCabsException(new BadCredentialsException(HelloCabsConstants.INVALID_LOGIN_CREDENTIALS).getMessage());
+            throw new HelloCabsException(new BadCredentialsException(HelloCabsConstants.INVALID_USERNAME_OR_PASSWORD).getMessage());
         }
         UserDetails userDetails = userDetailsService.loadUserByUsername(Long.toString(loginDto.getMobileNumber()));
         SecurityContextHolder.getContext().setAuthentication(authentication);

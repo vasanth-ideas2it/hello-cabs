@@ -25,17 +25,17 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-// @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
 
     private final UserDetailsServiceImpl userDetailsServiceImpl;
 
     /**
      * <p>
-     * This method returns {@link BCryptPasswordEncoder}
+     *   This method returns the object BCryptPasswordEncoder {@link BCryptPasswordEncoder}
      * </p>
      *
      * @return {@link BCryptPasswordEncoder}
+     *
      */
     @Bean
     public static PasswordEncoder passwordEncoder() {
@@ -47,29 +47,46 @@ public class SecurityConfiguration {
      * This method has the security filter that checks and authorize the user.
      * </p>
      *
-     * @param httpSecurity
+     * @param
      * @return {@link SecurityFilterChain}
      * @throws Exception
+     *
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-            httpSecurity.csrf().disable().authorizeRequests().antMatchers("/customer/login").permitAll()
-                    .antMatchers("/cab/login").permitAll()
-                    .antMatchers("/customer/register").permitAll()
-                    .antMatchers("/cab/register").permitAll()
-                    .antMatchers("/**").permitAll();
+            httpSecurity.csrf().disable()
+                .authorizeRequests().antMatchers("/login").permitAll()
+                .antMatchers("/**").permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .httpBasic();
         return httpSecurity.build();
     }
 
+    /**
+     * <p>
+     *   Authenticates the passed object and returns {@link AuthenticationManager}
+     * </p>
+     *
+     * @param authenticationConfiguration {@link AuthenticationConfiguration}
+     * @return AuthenticationManager {@link AuthenticationManager}
+     *
+     */
     @Bean
     public AuthenticationManager authenticationManagerBean(AuthenticationConfiguration authenticationConfiguration) throws Exception {
        return authenticationConfiguration.getAuthenticationManager();
     }
 
+    /**
+     * <p>
+     *   This method creates authentication manager for the given UserDetailsService
+     * </p>
+     *
+     * @param authenticationManagerBuilder {@link AuthenticationManagerBuilder}
+     *
+     */
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder.userDetailsService(userDetailsServiceImpl);
+        authenticationManagerBuilder.userDetailsService(userDetailsServiceImpl).passwordEncoder(passwordEncoder());
     }
-
-
-
 }

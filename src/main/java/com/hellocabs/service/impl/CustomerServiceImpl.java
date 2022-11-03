@@ -148,7 +148,7 @@ public class CustomerServiceImpl implements CustomerService {
         if (null != login) {
             return HelloCabsConstants.LOGIN_SUCCESSFUL;
         }
-        return HelloCabsConstants.LOGIN_NOT_SUCCESSFUL;
+        return HelloCabsConstants.INVALID_LOGIN_CREDENTIALS;
     }
 
     public Customer findByCustomerMobileNumber(long parseLong) {

@@ -188,7 +188,7 @@ public class CabServiceImpl implements CabService {
         if(null != cabDetails) {
             return  HelloCabsConstants.LOGIN_SUCCESSFUL;
         }
-        return  HelloCabsConstants.LOGIN_NOT_SUCCESSFUL;
+        return  HelloCabsConstants.INVALID_LOGIN_CREDENTIALS;
     }
 
     /**

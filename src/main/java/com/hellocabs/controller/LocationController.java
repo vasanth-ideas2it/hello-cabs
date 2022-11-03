@@ -26,7 +26,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-
+/**
+ * <p>
+ * Location controller class has the methods that handles
+ * CRUD operations of location.
+ * </p>
+ *
+ * @author  Divya
+ *
+ * @version 1.0 Oct-26-2022
+ *
+ */
 @RestController
 @RequestMapping("/location")
 public class LocationController {

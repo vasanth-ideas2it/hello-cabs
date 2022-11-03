@@ -85,8 +85,8 @@ public class HelloCabsConstants {
     public static final String SEARCHING_CABS = "Hold on! Searching for cabs nearby";
 
     //LOGIN STATUS
-    public static final String LOGIN_SUCCESSFUL = "Successfully login";
-    public static final String LOGIN_NOT_SUCCESSFUL = "Invalid credentials or not a registered user";
+    public static final String LOGIN_SUCCESSFUL = "Successfully logged in";
+    public static final String INVALID_USERNAME_OR_PASSWORD = "User name or password is incorrect";
 
     //VALIDATION
     public static final String CAB_TYPE_NOT_BLANK = "Cab type must not be Empty or null";
