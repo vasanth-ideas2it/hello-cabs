@@ -82,10 +82,10 @@ public class CabCategoryServiceImpl implements CabCategoryService {
     public CabCategoryDto updateCabCategory(int id, CabCategoryDto cabCategoryDto) {
         if (cabCategoryRepository.existsByIdAndIsDeleted(id, false)) {
             return CabCategoryMapper.cabCategoryToCabCategoryDto(cabCategoryRepository
-                    .save( CabCategoryMapper.cabCategoryDtoToCabCategory(cabCategoryDto)));
-        } else {
-            return null;
+                    .save(CabCategoryMapper.cabCategoryDtoToCabCategory(cabCategoryDto)));
         }
+        throw new HelloCabsException(HelloCabsConstants.CAB_CATEGORY_NOT_FOUND);
+
     }
 
     /**

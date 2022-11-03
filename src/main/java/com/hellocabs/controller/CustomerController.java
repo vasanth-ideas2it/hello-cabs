@@ -92,7 +92,7 @@ public class CustomerController {
      * @return {@link String}returns updated customerId .
      */
     @PutMapping("update")
-    private ResponseEntity<Object> updateCustomerById(@Valid @RequestBody CustomerDto customerDto) throws RuntimeException {
+    private ResponseEntity<Object> updateCustomer(@Valid @RequestBody CustomerDto customerDto) throws RuntimeException {
         Integer customerId = customerDto.getCustomerId();
 
         if (null != customerId) {

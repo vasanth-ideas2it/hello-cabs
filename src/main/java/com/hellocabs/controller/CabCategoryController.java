@@ -96,19 +96,17 @@ public class CabCategoryController {
      * @return {@link CabCategoryDto}
      *         updated cab category is returned
      */
-    @PutMapping("/update/{id}")
-    private ResponseEntity<Object> updateCabCategory(@PathVariable int id,
-            @Valid @RequestBody CabCategoryDto cabCategoryDto) {
-        CabCategoryDto updatedCabCategoryDto = cabCategoryService
-                .updateCabCategory(id, cabCategoryDto);
+    @PutMapping("/update")
+    private ResponseEntity<Object> updateCabCategory( @Valid @RequestBody CabCategoryDto cabCategoryDto) {
+        Integer id = cabCategoryDto.getId();
 
-        if (null == updatedCabCategoryDto) {
-            logger.error(HelloCabsConstants.CAB_CATEGORY_NOT_FOUND);
-            throw new HelloCabsException(HelloCabsConstants.CAB_CATEGORY_NOT_FOUND);
+        if (null != id) {
+            logger.error(HelloCabsConstants.CAB_CATEGORY_UPDATED);
+            return HelloCabsResponseHandler
+                    .generateResponse(HelloCabsConstants.CAB_CATEGORY_UPDATED,
+                            HttpStatus.OK, cabCategoryService.updateCabCategory(id, cabCategoryDto));
         }
-        logger.error(HelloCabsConstants.CAB_CATEGORY_UPDATED);
-        return  HelloCabsResponseHandler.generateResponse(HelloCabsConstants
-                .CAB_CATEGORY_UPDATED, HttpStatus.OK, updatedCabCategoryDto);
+        throw new HelloCabsException(HelloCabsConstants.CAB_CATEGORY_NOT_FOUND);
     }
 
     /**

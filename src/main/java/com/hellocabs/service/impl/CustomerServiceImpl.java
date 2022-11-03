@@ -19,7 +19,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -72,12 +71,12 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public CustomerDto viewCustomerById(Integer customerId) {
-        Customer customer = customerRepository.findById(customerId).orElse(null);
+        Customer customer = customerRepository.findByCustomerIdAndIsDeleted(customerId, false);
         if(null != customer) {
             CustomerDto customerDto = CustomerMapper.convertCustomerToCustomerDto(customer);
             return customerDto;
         }
-        return null;
+        throw new HelloCabsException(HelloCabsConstants.CUSTOMER_NOT_FOUND) ;
     }
 
     /**
@@ -92,10 +91,10 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDto updateCustomer(CustomerDto customerDto) {
         Customer customer = CustomerMapper.convertCustomerDtoToCustomer(customerDto);
-        if(customerRepository.existsById(customer.getCustomerId())) {
+        if (customerRepository.existsById(customer.getCustomerId())) {
             return CustomerMapper.convertCustomerToCustomerDto(customerRepository.save(customer));
         }
-        return null;
+        throw new HelloCabsException(HelloCabsConstants.CUSTOMER_NOT_UPDATED);
     }
 
     /**
@@ -127,14 +126,16 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public List<CustomerDto> retrieveCustomers() {
-        return CustomerMapper.convertCustomersToCustomerDtos(customerRepository.findAll());
+        return CustomerMapper
+                .convertCustomersToCustomerDtos(customerRepository
+                        .findAllByIsDeleted(false));
     }
     /**
      * <p>
      *    This Method is used to display all customers and convert
      *    customer into customerDto.
      * </p>
-     * @return {@link List<CustomerDto> }returns all customers.
+     * @return {@link CustomerDto }returns all customers.
      */
     @Override
     public String verifyCustomerDetails(CustomerDto customerDto) {

@@ -7,6 +7,7 @@ package com.hellocabs.service.impl;
 
 import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.LocationDto;
+import com.hellocabs.exception.HelloCabsException;
 import com.hellocabs.mapper.LocationMapper;
 import com.hellocabs.model.Location;
 import com.hellocabs.repository.LocationRepository;
@@ -59,9 +60,8 @@ public class LocationServiceImpl implements LocationService {
 
         if (null != location) {
             return LocationMapper.locationToLocationDto(location);
-        } else {
-            return null;
         }
+        throw new HelloCabsException(HelloCabsConstants.LOCATION_NOT_FOUND);
     }
 
     /**
@@ -69,20 +69,18 @@ public class LocationServiceImpl implements LocationService {
      * This method is to update location Details.
      * </p>
      *
-     * @param id
-     *        for which the id of the location to be updated is given
      * @param locationDto
      *        for which the location to be updated is given
      * @return LocationDto
      *         updated location is returned
      */
-    public LocationDto updateLocation(int id, LocationDto locationDto) {
-        if (locationRepository.existsByIdAndIsDeleted(id, false)) {
+    public LocationDto updateLocation( LocationDto locationDto) {
+
+        if (locationRepository.existsByIdAndIsDeleted(locationDto.getId(), false)) {
             return LocationMapper.locationToLocationDto(locationRepository.
                     save(LocationMapper.locationDtoToLocation(locationDto)));
-        } else {
-            return null;
         }
+        throw new HelloCabsException(HelloCabsConstants.LOCATION_NOT_UPDATED);
     }
 
     /**

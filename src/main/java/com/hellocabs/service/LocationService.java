@@ -27,14 +27,12 @@ public interface LocationService {
      * This method is to update location Details.
      * </p>
      *
-     * @param id
-     *        for which the id of the location to be updated is given
      * @param locationDto
      *        for which the location to be updated is given
      * @return LocationDto
      *         updated location is returned
      */
-    LocationDto updateLocation(int id, LocationDto locationDto);
+    LocationDto updateLocation(LocationDto locationDto);
 
     /**
      * <p>

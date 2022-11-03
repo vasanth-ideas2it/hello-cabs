@@ -89,16 +89,17 @@ public class LocationController {
      * @return ResponseEntity<Object>
      *         updated location is returned
      */
-    @PutMapping("/update/{id}")
-    private ResponseEntity<Object> updateLocation(@PathVariable int id, @Valid @RequestBody LocationDto locationDto) {
-        LocationDto updatedLocationDto = locationService.updateLocation(id, locationDto);
-        if (null == updatedLocationDto ) {
-            logger.error(HelloCabsConstants.LOCATION_NOT_FOUND);
-            throw new HelloCabsException(HelloCabsConstants.LOCATION_NOT_FOUND);
+    @PutMapping("/update")
+    private ResponseEntity<Object> updateLocation( @Valid @RequestBody LocationDto locationDto) {
+
+        if (null != locationDto.getId() ) {
+            LocationDto updatedLocationDto = locationService.updateLocation(locationDto);
+            logger.info(HelloCabsConstants.LOCATION_UPDATED);
+            return HelloCabsResponseHandler.generateResponse(HelloCabsConstants
+                    .LOCATION_UPDATED, HttpStatus.OK, updatedLocationDto);
         }
-        logger.info(HelloCabsConstants.LOCATION_UPDATED);
-        return HelloCabsResponseHandler.generateResponse(HelloCabsConstants
-                .LOCATION_UPDATED, HttpStatus.OK, updatedLocationDto);
+        logger.error(HelloCabsConstants.LOCATION_NOT_FOUND);
+        throw new HelloCabsException(HelloCabsConstants.LOCATION_NOT_FOUND);
     }
 
     /**
