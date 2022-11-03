@@ -3,7 +3,10 @@
  *   Copyright (c) All rights reserved Ideas2IT
  * </p>
  */
+
 package com.hellocabs.constants;
+
+import com.hellocabs.controller.CabCategoryController;
 
 /**
  * <p>
@@ -18,8 +21,11 @@ package com.hellocabs.constants;
 public class HelloCabsConstants {
 
     //LOGGER
-    public static final String RIDE_SERVICE_CLASS = "RideServiceImpl.class";
-    public static final String RIDE_MAPPER = "RideMapper.class";
+    public static final String RIDE_SERVICE_CLASS = "RideServiceImpl";
+    public static final String RIDE_MAPPER = "RideMapper";
+    public static final String CAB_CATEGORY_CONTROLLER = "CabCategoryController";
+    public static final String CAB_SERVICE_CLASS = "CabServiceImpl";
+    public static final String CUSTOMER_CONTROLLER = "CustomerController";
 
     //REGEX
     public static final String PEAK_HOUR_REGEX = "0?[8-9]|1[089]|2[0-1]";
@@ -48,6 +54,7 @@ public class HelloCabsConstants {
 
     //NOT DELETED
     public static final String CUSTOMER_NOT_DELETED = "Customer is not deleted for given id : ";
+
     //CREATED
     public static final String LOCATION_CREATED = "Location created with ID: ";
     public static final String CAB_CATEGORY_CREATED = "Cab category created with ID: ";
@@ -82,7 +89,6 @@ public class HelloCabsConstants {
     public static final String LOGIN_NOT_SUCCESSFUL = "Invalid credentials or not a registered user";
 
     //VALIDATION
-
     public static final String CAB_TYPE_NOT_BLANK = "Cab type must not be Empty or null";
     public static final String DRIVER_NAME_NOT_BLANK = "Driver Name Not to be Empty :: Please Enter The Name";
     public static final String CAB_NUMBER_NOT_BLANK = "Cab Number Not to be Empty :: Please Enter The Cab Number";
@@ -102,8 +108,6 @@ public class HelloCabsConstants {
     public static final String MOBILE_NUMBER = "Mobile number should have 10 digits";
     public static final String CUSTOMER_ID_NOT_BLANK = "Customer Id should not be null or empty";
     public static final String RIDE_STATUS = "Ride status should have any one these values " + RIDE_STATUS_REGEX;
-
-
     public static final String CUSTOMER_NOT_DROPPED = " THE CUSTOMER NOT TO BE DROPPED YET :: Please check the ride status";
     public static final String TRAVEL_FARE = "The PRICE AMOUNT : ";
 
@@ -137,4 +141,10 @@ public class HelloCabsConstants {
 
     //VALIDATION
     public static final String DECIMAL_MIN = "0.0";
+
+    public static final String FEEDBACK_ADDED = "Thanks for giving valuable feedback";
+    public static final String RIDE_ACCEPTED_ALREADY = "This ride already has been accepted by another driver";
+    public static final String RIDE_CANCELLED_ALREADY = "Ride Already Cancelled";
+    public static final String PASSWORD_CRITERIA = "Password should contain atleast one Uppercase, atleast one Number, atleast one Special character, minimum 8 and maximum 16 characters";
+
 }

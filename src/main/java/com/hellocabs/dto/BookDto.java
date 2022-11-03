@@ -36,4 +36,5 @@ public class BookDto {
 
     @NotNull(message = HelloCabsConstants.CUSTOMER_ID_NOT_BLANK)
     private Integer customerId;
+
 }

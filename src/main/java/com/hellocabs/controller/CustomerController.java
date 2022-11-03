@@ -43,7 +43,7 @@ import javax.validation.Valid;
 public class CustomerController {
     @Autowired
     CustomerService customerService;
-    private Logger logger = LoggerConfiguration.getInstance("CustomerController.class");
+    private final Logger logger = LoggerConfiguration.getInstance(HelloCabsConstants.CUSTOMER_CONTROLLER);
 
     /**
      * <p>

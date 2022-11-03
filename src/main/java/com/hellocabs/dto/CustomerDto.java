@@ -4,6 +4,7 @@
 package com.hellocabs.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.hellocabs.constants.HelloCabsConstants;
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
@@ -38,7 +39,7 @@ public class CustomerDto {
     private String customerEmail;
 
     @NotBlank(message = "set password for your security")
-    @Pattern(regexp = ("([a-zA-Z0-9!@#$%^&*]{8,16})"))
+    @Pattern(regexp = ("([a-zA-Z0-9!@#$%^&*]{8,16})"), message = HelloCabsConstants.PASSWORD_CRITERIA)
     private String password;
 
     @JsonIgnore

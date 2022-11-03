@@ -12,14 +12,22 @@ package com.hellocabs.enumeration;
  * </p>
  *
  * @author : Divya
- * created on o1/11/2022
+ * created on 01/11/2022
  * @version 1.0
  *
  */
 public enum Status {
 
     ACCEPTED,
+
     PICKED,
+
     DROPPED,
-    BOOKED;
+
+    BOOKED,
+
+    CANCELLED,
+
+    AVAILABLE
 }
+

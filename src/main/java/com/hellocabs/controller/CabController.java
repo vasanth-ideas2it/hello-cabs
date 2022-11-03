@@ -87,7 +87,6 @@ public class CabController {
      */
     @GetMapping("cabs")
     private ResponseEntity<Object> getAllCabsDetails()  {
-
         return HelloCabsResponseHandler
                 .generateResponse(HelloCabsConstants.CAB_AVAILABLE,
                         HttpStatus.FOUND, cabService.showAllCabDetails());
@@ -100,12 +99,11 @@ public class CabController {
      * with help of GetMapping annotation if id exist returns respective
      * object or returns Record Not found
      * </p>
-     * @param id{@link Integer}to check the respective Cab Object or not
+     * @param id {@link Integer}to check the respective Cab Object or not
      * @return {@link ResponseEntity<Object>}returns respective cab details
      */
     @GetMapping("search/{id}")
     private ResponseEntity<Object> getCabDetailsById(@PathVariable Integer id)  {
-
         return HelloCabsResponseHandler
                 .generateResponse(HelloCabsConstants.CAB_AVAILABLE,
                         HttpStatus.FOUND, cabService.displayCabDetailsById(id));
@@ -122,25 +120,7 @@ public class CabController {
      */
     @DeleteMapping("delete/{id}")
     private ResponseEntity<Object> deleteCabDetailsById(@PathVariable Integer id)  {
-
         return HelloCabsResponseHandler
                 .generateResponse(cabService.deleteCabDetailsById(id), HttpStatus.OK);
-    }
-
-    /**
-     * <p>
-     * Method used to put or update Cab details by using PostMapping with valid
-     * cabDto object and pass to cab Service to update
-     * </p>
-     *
-     * @param id {@link Integer}to check respective cab or not
-     * @param cabStatus{@link String}to change or update the status of cab
-     * @return {@link ResponseEntity<Object>}returns the status of the given details
-     */
-    @PutMapping("update/{id}/{cabStatus}")
-    private ResponseEntity<Object> updateCabStatus(@PathVariable Integer id,
-                                                   @PathVariable String cabStatus) {
-        return HelloCabsResponseHandler
-                .generateResponse(cabService.updateCabStatus(id, cabStatus), HttpStatus.OK);
     }
 }

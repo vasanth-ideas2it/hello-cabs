@@ -2,6 +2,8 @@ package com.hellocabs.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.LazyCollection;
@@ -22,8 +24,9 @@ import java.util.List;
  * @version 1.0 Oct-26-2022
  *
  */
-@Data
 @Entity
+@Getter
+@Setter
 @Table(name = "cab_category")
 public class CabCategory {
     @Id
@@ -47,7 +50,6 @@ public class CabCategory {
     private boolean isDeleted;
 
     @JsonIgnore
-    @OneToMany
-    @JoinColumn(name = "cab_category_id")
+    @OneToMany(mappedBy = "cabCategory")
     List<Cab> cabs;
 }

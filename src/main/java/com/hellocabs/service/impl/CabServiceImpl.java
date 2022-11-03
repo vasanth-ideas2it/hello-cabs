@@ -17,7 +17,6 @@ import com.hellocabs.service.CabService;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.stream.Collectors;
 /**
@@ -33,7 +32,7 @@ import java.util.stream.Collectors;
 @Service
 public class CabServiceImpl implements CabService {
 
-    private static final Logger logger = LoggerConfiguration.getInstance("CabServiceImpl.class");
+    private static final Logger logger = LoggerConfiguration.getInstance(HelloCabsConstants.CAB_SERVICE_CLASS);
     private final CabRepository cabRepository;
 
     public CabServiceImpl(CabRepository cabRepository) {
@@ -67,6 +66,28 @@ public class CabServiceImpl implements CabService {
 
     /**
      * <p>
+     * Method used to update Cab details by using Cab Object
+     * and id to check and update the existing cab details
+     * </p>
+     *
+     * @param cab {@link Cab} object with required details
+     * @param id {@link Integer}used to check the exists details in database
+     * @return {@link Cab}returns status of the cab details
+     */
+    public Cab updateCabDetailsById(Integer id, Cab cab) {
+
+        if (cabRepository.existsById(id)) {
+            Cab cabDetails = cabRepository.save(cab);
+            logger.info(HelloCabsConstants.CAB_UPDATED + cabDetails.getId());
+            return cabDetails;
+            //return HelloCabsConstants.CAB_UPDATED;
+        }
+        logger.info(HelloCabsConstants.CAB_NOT_UPDATED);
+        throw new HelloCabsException(HelloCabsConstants.CAB_NOT_UPDATED);
+    }
+
+    /**
+     * <p>
      * Method used to update Cab  details by using CabDto Object
      * and id to check and update the existing cab details
      * </p>
@@ -78,7 +99,7 @@ public class CabServiceImpl implements CabService {
     @Override
     public String updateCabDetailsById(Integer id, CabDto cabDto) {
 
-        Cab cab = CabMapper.convertPartialCabDtoIntoCab(cabDto);
+        Cab cab = CabMapper.convertCabDtoToCab(cabDto);
 
         if (cabRepository.existsById(id)) {
             Cab cabDetails = cabRepository.save(cab);
@@ -95,8 +116,8 @@ public class CabServiceImpl implements CabService {
      * or returns null to controller
      *</p>
      *
-     * @param id{@link Integer}used to get details from server if exists
-     * @return {Cab}returns cab details object by using cabId
+     * @param id {@link Integer}used to get details from server if exists
+     * @return {@link CabDto}returns cab details object by using cabId
      */
     @Override
     public CabDto displayCabDetailsById(Integer id) {
@@ -105,7 +126,23 @@ public class CabServiceImpl implements CabService {
             Cab cab = cabRepository.findByIdAndIsActive(id,false);
             logger.info(HelloCabsConstants.CAB_FOUND + cab);
             return CabMapper.convertCabToCabDto(cab);
-           // return CabMapper.convertPartialCabIntoCabDto(cab);
+        }
+        throw new HelloCabsException(HelloCabsConstants.CAB_NOT_FOUND);
+    }
+
+    /**
+     * <p>
+     * Method used to get Cab  details by using CabId if exists
+     * or returns null to controller
+     *</p>
+     *
+     * @param id {@link Integer}used to get details from server if exists
+     * @return {@link Cab}returns cab details object by using cabId
+     */
+    public Cab searchCabById(Integer id) {
+
+        if (cabRepository.existsById(id)) {
+            return cabRepository.findByIdAndIsActive(id,false);
         }
         throw new HelloCabsException(HelloCabsConstants.CAB_NOT_FOUND);
     }
@@ -165,27 +202,6 @@ public class CabServiceImpl implements CabService {
     @Override
     public List<CabDto> showAllCabDetails() {
          return cabRepository.findAllByIsActive(false).stream().map(CabMapper :: convertCabToCabDto).collect(Collectors.toList());
-    }
-
-    /**
-     * <p>
-     * Method used to change the cab status with the help of
-     * cabId and updated cabStatus to update in cabDetails
-     * </p>
-     *
-     * @param id{@link Integer}used to check and get the respective cab object
-     * @Param cabStatus{@link String}used to get updated status and pass to respective cab
-     * @return {String}returns the status of the cab status
-     */
-    @Override
-    public String updateCabStatus(Integer id, String cabStatus) {
-
-        if (cabRepository.existsById(id)) {
-            CabDto cabDto = displayCabDetailsById(id);
-            cabDto.setCabStatus(cabStatus);
-            return updateCabDetailsById(id,cabDto);
-        }
-        return HelloCabsConstants.CAB_NOT_FOUND;
     }
 
     @Override

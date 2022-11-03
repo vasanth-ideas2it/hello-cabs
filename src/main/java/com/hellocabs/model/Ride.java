@@ -8,6 +8,7 @@ package com.hellocabs.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import com.hellocabs.enumeration.Status;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
@@ -66,12 +67,10 @@ public class Ride {
     private boolean isCancelled;
 
     @ManyToOne(targetEntity = Location.class)
-    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinColumn(name = "pickup_location")
     private Location pickupLocation;
 
-    @OneToOne(targetEntity = Location.class)
-    @Cascade(CascadeType.SAVE_UPDATE)
+    @ManyToOne(targetEntity = Location.class)
     @JoinColumn(name = "drop_location")
     private  Location dropLocation;
 
@@ -79,8 +78,7 @@ public class Ride {
     @JoinColumn(name = "cab_id")
     private Cab cab;
 
-    @ManyToOne(targetEntity = Customer.class)
-    @Cascade(CascadeType.SAVE_UPDATE)
+    @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
 

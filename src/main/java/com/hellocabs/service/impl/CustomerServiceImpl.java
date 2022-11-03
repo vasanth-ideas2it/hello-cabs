@@ -55,7 +55,7 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = CustomerMapper.convertCustomerDtoToCustomer(customerDto);
 
         if (!(customerRepository.existsByCustomerMobileNumber(customer.getCustomerMobileNumber())
-                && customerRepository.existsByCustomerEmail(customer.getCustomerEmail()) )) {
+                || customerRepository.existsByCustomerEmail(customer.getCustomerEmail()) )) {
             return  customerRepository.save(customer);
         }
         throw new HelloCabsException(HelloCabsConstants.CUSTOMER_ALREADY_EXIST);

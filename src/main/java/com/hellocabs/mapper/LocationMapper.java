@@ -24,6 +24,7 @@ import java.util.List;
  * @version 1.0 Oct-29-2022
  */
 public class LocationMapper {
+
     /**
      * <p>
      *   This method is used to convert location entity into location dto

@@ -6,6 +6,8 @@
 package com.hellocabs.model;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,10 +28,12 @@ import javax.validation.constraints.Pattern;
  * @version 1.0 Oct-26-2022
  *
  */
-@Data
 @Entity
+@Getter
+@Setter
 @Table(name = "location")
 public class Location {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 

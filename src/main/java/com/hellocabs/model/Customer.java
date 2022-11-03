@@ -4,6 +4,8 @@
 package com.hellocabs.model;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import javax.persistence.CascadeType;
@@ -27,8 +29,9 @@ import java.util.Set;
  * @author gautam.
  * @version 1.0.
  */
-@Data
 @Entity
+@Getter
+@Setter
 @Table(name = "customer")
 public class Customer {
     @Id
@@ -51,9 +54,7 @@ public class Customer {
     @Column(name = "is_deleted")
     private boolean isDeleted;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinColumn(name = "customer_id")
+    @OneToMany(mappedBy = "customer")
     private Set<Ride> rides;
 
     public boolean getIsDeleted() {

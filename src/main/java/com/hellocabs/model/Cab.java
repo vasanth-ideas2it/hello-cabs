@@ -6,6 +6,8 @@
 package com.hellocabs.model;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -19,6 +21,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -32,8 +35,9 @@ import javax.persistence.Table;
  * @version 1.0
  * @author Jaganathan R
  */
-@Data
 @Entity
+@Getter
+@Setter
 @Table(name = "cab")
 public class Cab {
 
@@ -67,9 +71,7 @@ public class Cab {
 
     private String cabStatus;
 
-    @OneToMany(mappedBy = "cab") //cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    //@LazyCollection(LazyCollectionOption.FALSE)
-    //@JoinColumn(name = "cab_id")
+    @OneToMany(mappedBy = "cab")
     private Set<Ride> rides;
 
     @Column(name = "car_model")
@@ -84,6 +86,7 @@ public class Cab {
     @Column(name = "is_active")
     private boolean isActive;
 
-    @Column(name = "cab_category_id")
-    private Integer cabCategoryId ;
+    @ManyToOne
+    @JoinColumn(name = "cab_category_id")
+    private CabCategory cabCategory ;
 }

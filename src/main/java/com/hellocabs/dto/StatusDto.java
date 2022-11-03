@@ -32,4 +32,6 @@ public class StatusDto {
             message = HelloCabsConstants.RIDE_STATUS)
     private String rideStatus;
 
+    private Long dropTime;
+
 }

@@ -69,24 +69,4 @@ public class CabCategoryMapper {
         }
         return cabCategoryDtos;
     }
-
-    public static CabCategory convertPartialCabCategoryDtoIntoCabCatogory(CabCategoryDto cabCategoryDto) {
-        CabCategory cabCategory = new CabCategory();
-        cabCategory.setId(cabCategoryDto.getId());
-        cabCategory.setCabType(cabCategoryDto.getCabType());
-        cabCategory.setInitialFare(cabCategoryDto.getInitialFare());
-        cabCategory.setExtraFarePerHour(cabCategoryDto.getExtraFarePerHour());
-        cabCategory.setPeakHourFare(cabCategoryDto.getPeakHourFare());
-        return cabCategory;
-    }
-
-    public static CabCategoryDto convertPartialCabCategoryIntoCabCatogoryDto(CabCategory cabCategory) {
-        CabCategoryDto cabCategoryDto = new CabCategoryDto();
-        cabCategoryDto.setId(cabCategory.getId());
-        cabCategoryDto.setCabType(cabCategory.getCabType());
-        cabCategoryDto.setInitialFare(cabCategory.getInitialFare());
-        cabCategoryDto.setExtraFarePerHour(cabCategory.getExtraFarePerHour());
-        cabCategoryDto.setPeakHourFare(cabCategory.getPeakHourFare());
-        return cabCategoryDto;
-    }
 }

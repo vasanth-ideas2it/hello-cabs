@@ -77,11 +77,5 @@ public class RideDto {
         return isCancelled;
     }
 
-    @Override
-    public String toString() {
-        return id + "" + passengerMobileNumber + pickupLocation
-                + dropLocation + rideStatus + rating
-                + cabDto.getId() + customerDto.getCustomerId();
-    }
 }
 

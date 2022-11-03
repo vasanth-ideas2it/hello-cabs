@@ -13,7 +13,7 @@ import javax.validation.constraints.Pattern;
 @Data
 public class LoginDto {
 
-    private Long MobileNumber;
+    private Long mobileNumber;
 
     @NotBlank(message = "Enter your security password")
     @Pattern(regexp = ("([a-zA-Z0-9!@#$%^&*]{8,16})"))

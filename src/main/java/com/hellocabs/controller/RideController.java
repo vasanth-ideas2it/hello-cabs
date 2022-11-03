@@ -202,8 +202,7 @@ public class RideController {
     public ResponseEntity<Object> submitFeedback(@Valid @RequestBody
             RatingDto ratingDto, @PathVariable Integer rideId) {
         return HelloCabsResponseHandler.generateResponse(
-                HelloCabsConstants.RIDE_UPDATED, HttpStatus.OK,
-                rideService.submitFeedBack(rideId, ratingDto));
+                rideService.submitFeedBack(rideId, ratingDto), HttpStatus.OK);
     }
 
     /**

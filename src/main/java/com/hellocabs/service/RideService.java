@@ -12,6 +12,7 @@ import com.hellocabs.dto.ReasonDto;
 import com.hellocabs.dto.RatingDto;
 import com.hellocabs.dto.RideDto;
 import com.hellocabs.dto.StatusDto;
+import com.hellocabs.model.Ride;
 
 import java.util.Set;
 
@@ -39,6 +40,18 @@ public interface RideService {
      *
      */
     RideDto searchRideById(Integer id);
+
+    /**
+     * <p>
+     *   Implement this method to fetch a particular ride using id
+     *   if ride exists return ride else throw not found exception
+     * </p>
+     *
+     * @param id {@link Integer} ride's id to be searched
+     * @return {@link Ride} searched ride object
+     *
+     */
+    Ride fetchRideById(Integer id);
 
     /**
      * <p>
@@ -135,10 +148,10 @@ public interface RideService {
      * @param rideId {@link Integer} update rating for the ride
      * @param ratingDto {@link RatingDto} get the feedback and
      *      rating for the ride when finished
-     * @return {@link String} ride's rating
+     * @return {@link String} ride's feedback
      *
      */
-    RideDto submitFeedBack(Integer rideId, RatingDto ratingDto);
+    String  submitFeedBack(Integer rideId, RatingDto ratingDto);
 
     /**
      * <p>
