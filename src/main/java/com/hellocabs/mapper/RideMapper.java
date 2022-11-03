@@ -40,7 +40,6 @@ public class RideMapper {
      *
      */
     public static Ride convertRideDtoIntoRide(RideDto rideDto) {
-        logger.info("In conversion " + rideDto.getCabId());
         Ride ride = new Ride();
         ride.setId(rideDto.getId());
         ride.setRideBookedTime(rideDto.getRideBookedTime());
@@ -56,18 +55,13 @@ public class RideMapper {
         ride.setFeedback(rideDto.getFeedback());
         ride.setDropLocation(LocationMapper
                 .locationDtoToLocation(rideDto.getDropLocation()));
-        Cab cab = new Cab();
-        Customer customer = new Customer();
 
-        if (null != rideDto.getCabId()) {
-            cab.setId(rideDto.getCabId());
-            ride.setCab(cab);
+        if (null != rideDto.getCabDto()) {
+            ride.setCab(CabMapper.convertPartialCabDtoIntoCab(
+                    rideDto.getCabDto()));
         }
-
-        if (null != rideDto.getCustomerId()) {
-            customer.setCustomerId(rideDto.getCustomerId());
-            ride.setCustomer(customer);
-        }
+        ride.setCustomer(CustomerMapper.convertPartialCustomerDtoIntoCustomer(
+                rideDto.getCustomerDto()));
         return ride;
     }
 
@@ -99,12 +93,11 @@ public class RideMapper {
                 .locationToLocationDto(ride.getDropLocation()));
 
         if (null != ride.getCab()) {
-            rideDto.setCabId((ride.getCab().getId()));
+            rideDto.setCabDto(CabMapper.convertPartialCabIntoCabDto(
+                    ride.getCab()));
         }
-
-        if (null != ride.getCustomer()) {
-            rideDto.setCustomerId(ride.getCustomer().getCustomerId());
-        }
+        rideDto.setCustomerDto(CustomerMapper.convertPartialCustomerIntoCustomerDto(
+                ride.getCustomer()));
         return rideDto;
     }
 }

@@ -66,9 +66,9 @@ public class Cab {
     @Column(name = "cab_status")
     private String cabStatus;
 
-    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinColumn(name = "cab_id")
+    @OneToMany(mappedBy = "cab") //cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    //@LazyCollection(LazyCollectionOption.FALSE)
+    //@JoinColumn(name = "cab_id")
     private Set<Ride> rides;
 
     @Column(name = "car_model")

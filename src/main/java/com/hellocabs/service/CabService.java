@@ -6,6 +6,7 @@
 package com.hellocabs.service;
 
 import com.hellocabs.dto.CabDto;
+import com.hellocabs.model.Cab;
 
 import java.util.List;
 /**
@@ -89,4 +90,6 @@ public interface CabService {
      * @return {String}returns the status of the cab status
      */
     String updateCabStatus(Integer id, String cabStatus);
+
+    Cab findCabByMobileNumber(long parseLong);
 }

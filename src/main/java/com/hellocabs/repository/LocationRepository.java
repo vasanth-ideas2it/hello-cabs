@@ -18,11 +18,6 @@ public interface LocationRepository extends JpaRepository<Location,Integer> {
     Location findByIdAndIsDeleted(Integer id, boolean value);
     List<Location> findAllByIsDeleted(boolean value);
 
-<<<<<<< HEAD
-    boolean existsByIdAndIsDeleted(int id, boolean value);
-
     boolean existsByLocationName(String locationName);
-=======
     boolean existsByIdAndIsDeleted(Integer id, boolean value);
->>>>>>> Change primitive type to Wrapper class
 }

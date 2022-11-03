@@ -71,7 +71,7 @@ public class CabServiceImpl implements CabService {
      * </p>
      *
      * @param cabDto {@link CabDto} object with required details
-     * @Param id {@link Integer}used to check the exists details in database
+     * @param id {@link Integer}used to check the exists details in database
      * @return {@link String}returns status of the cab details
      */
     @Override
@@ -185,6 +185,11 @@ public class CabServiceImpl implements CabService {
             return updateCabDetailsById(id,cabDto);
         }
         return HelloCabsConstants.CAB_NOT_FOUND;
+    }
+
+    @Override
+    public Cab findCabByMobileNumber(long parseLong) {
+        return cabRepository.findCabByMobileNumber(parseLong);
     }
 
 

@@ -65,7 +65,7 @@ public class Ride {
 
     private boolean isCancelled;
 
-    @OneToOne(targetEntity = Location.class)
+    @ManyToOne(targetEntity = Location.class)
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinColumn(name = "pickup_location")
     private Location pickupLocation;
@@ -75,8 +75,8 @@ public class Ride {
     @JoinColumn(name = "drop_location")
     private  Location dropLocation;
 
-    @ManyToOne(targetEntity = Cab.class)
-    @Cascade(CascadeType.SAVE_UPDATE)
+    @ManyToOne//(targetEntity = Cab.class)
+    //@Cascade(CascadeType.SAVE_UPDATE)
     @JoinColumn(name = "cab_id")
     private Cab cab;
 

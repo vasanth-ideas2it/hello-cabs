@@ -63,9 +63,9 @@ public class RideDto {
 
     private LocationDto  dropLocation;
 
-    private Integer cabId;
+    private CabDto cabDto;
 
-    private Integer customerId;
+    private CustomerDto customerDto;
 
     public void setIsCancelled(boolean isCancelled) {
         this.isCancelled = isCancelled;
@@ -79,7 +79,7 @@ public class RideDto {
     public String toString() {
         return id + "" + passengerMobileNumber + pickupLocation
                 + dropLocation + rideStatus + rating
-                + cabId + customerId;
+                + cabDto.getId() + customerDto.getCustomerId();
     }
 }
 

@@ -24,4 +24,6 @@ public interface CustomerService {
     boolean deleteCustomerById(Integer customerId);
     List<CustomerDto> retrieveCustomers();
     String verifyCustomerDetails(CustomerDto customerDto);
+
+    Customer findByCustomerMobileNumber(long parseLong);
 }

@@ -32,7 +32,7 @@ import java.util.List;
  *  @version 1.0.
  */
 @Service
-public class CustomerServiceImpl implements CustomerService, UserDetailsService {
+public class CustomerServiceImpl implements CustomerService {
      @Autowired
      CustomerRepository customerRepository;
      @Autowired
@@ -148,15 +148,8 @@ public class CustomerServiceImpl implements CustomerService, UserDetailsService 
         return HelloCabsConstants.LOGIN_NOT_SUCCESSFUL;
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Customer customer = customerRepository
-                .findByCustomerMobileNumber(Long.parseLong(username));
-        if (customer != null) {
-            return new User(Long.toString(customer.getCustomerMobileNumber()),
-                    customer.getPassword(), new ArrayList<>());
-        }
-        throw new HelloCabsException(
-                new UsernameNotFoundException(HelloCabsConstants.CUSTOMER_NOT_FOUND));
+    public Customer findByCustomerMobileNumber(long parseLong) {
+        return customerRepository.findByCustomerMobileNumber(parseLong);
     }
+
 }

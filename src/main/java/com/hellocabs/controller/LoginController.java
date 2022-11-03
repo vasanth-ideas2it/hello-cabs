@@ -13,9 +13,12 @@ import com.hellocabs.service.CabService;
 import com.hellocabs.service.CustomerService;
 import com.hellocabs.service.impl.CustomerServiceImpl;
 
+import com.hellocabs.service.impl.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 
 import org.apache.log4j.Logger;
+import org.springframework.context.annotation.Primary;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,6 +27,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,6 +44,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class LoginController {
+
+    private final UserDetailsService userDetailsService;
 
     private final CustomerService customerService;
     private final CabService cabService;
@@ -92,7 +98,7 @@ public class LoginController {
         } catch (BadCredentialsException badCredentialsException) {
             throw new HelloCabsException(new BadCredentialsException(HelloCabsConstants.INVALID_LOGIN_CREDENTIALS).getMessage());
         }
-        UserDetails userDetails = customerServiceImpl.loadUserByUsername(Long.toString(loginDto.getMobileNumber()));
+        UserDetails userDetails = userDetailsService.loadUserByUsername(Long.toString(loginDto.getMobileNumber()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return new ResponseEntity<>(HelloCabsConstants.LOGIN_SUCCESSFUL, HttpStatus.OK);
     }

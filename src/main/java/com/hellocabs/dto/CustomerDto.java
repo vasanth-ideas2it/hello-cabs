@@ -33,13 +33,13 @@ public class CustomerDto {
     @Pattern(regexp = ("([a-z][A-Z]){4,}"))
     private String customerName;
 
-    @NotNull(message = "Kindly Enter your mobile number")
-    @Digits(integer = 10 , fraction = 0)
-    @Column(unique = true)
+    //@NotNull(message = "Kindly Enter your mobile number")
+    //@Digits(integer = 10 , fraction = 0)
+    //@Column(unique = true)
     private Long customerMobileNumber;
 
     @Email(message = "Kindly Enter your EmailId")
-    @Column(unique = true)
+    //@Column(unique = true)
     private String customerEmail;
 
     @NotBlank(message = "set password for your security")

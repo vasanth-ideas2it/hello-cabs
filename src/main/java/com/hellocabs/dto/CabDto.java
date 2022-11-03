@@ -36,7 +36,7 @@ public class CabDto {
 
     private Integer id;
     @NotBlank(message = HelloCabsConstants.DRIVER_NAME_NOT_BLANK)
-    @Pattern(regexp = ("([a-z][A-Z]){4,}"))
+    @Pattern(regexp = ("([A-Z]?[a-z]{4,})"))
     private String driverName;
 
     @NotBlank(message = HelloCabsConstants.CAB_NUMBER_NOT_BLANK)
@@ -50,7 +50,7 @@ public class CabDto {
 
     @Digits(integer = 10, fraction = 0)
     @Column(unique = true)
-    @UniqueElements
+    //@UniqueElements
     private Long mobileNumber;
 
     @Email(message = HelloCabsConstants.ENTER_VALID_EMAIL)
@@ -81,7 +81,8 @@ public class CabDto {
     private Integer cabCategoryId;
 
     @NotBlank(message = "set password for your security")
-    @Pattern(regexp = ("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*]){8,16}"))
+   // @Pattern(regexp = ("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*]){8,16}"))
+   // @Pattern(regexp = "(([A-Z]+[a-z]{3,}+[!@#$%&*]+[0-9]+){8,16})")
     private String password;
 
     private boolean isActive;
