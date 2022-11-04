@@ -61,7 +61,7 @@ public class RideServiceImpl implements RideService {
      * <p>
      *   Implement this method to get the Dto object
      *   and convert to entity object through mapper class
-     *   then send the entity to repository layer to store
+     *   then send the entity to repository layer to store ride
      *   in database
      * </p>
      *

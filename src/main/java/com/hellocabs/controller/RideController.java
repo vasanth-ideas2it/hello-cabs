@@ -156,7 +156,7 @@ public class RideController {
      * @return {@link String} ride confirmation
      *
      */
-    @PutMapping("confirm/{rideId}/{cabId}")
+    @PutMapping("confirm/{rideId}/cab/{cabId}")
     public ResponseEntity<Object> confirmRide(@Valid
             @RequestBody StatusDto statusDto, @PathVariable Integer rideId,
             @PathVariable Integer cabId) {
@@ -179,7 +179,7 @@ public class RideController {
      *         ride confirmation
      *
      */
-    @GetMapping("waiting/{rideId}")
+    @GetMapping("confirmationStatus/{rideId}")
     public ResponseEntity<Object> waitingToConfirmRide(
             @PathVariable Integer rideId) {
         return HelloCabsResponseHandler.generateResponse(

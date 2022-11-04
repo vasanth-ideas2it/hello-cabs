@@ -83,7 +83,7 @@ public class HelloCabsConstants {
 
     //STATUS
     public static final String WAITING_STATUS = " Waiting for driver to accept ";
-    public static final String CANCELLED_DUE_TO_UNAVAILABILITY = "Ride cancelled due to cabs unavailability ";
+    public static final String CANCELLED_DUE_TO_UNAVAILABILITY = "Ride cancelled due to cabs unavailability, Please book again! ";
     public static final String SEARCHING_CABS = "Hold on! Searching for cabs nearby";
 
     //LOGIN STATUS

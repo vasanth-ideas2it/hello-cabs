@@ -46,6 +46,7 @@ public class CabController {
     private final CabService cabService;
 
     private final Logger logger = LoggerConfiguration.getInstance("CabController.class");
+
     /**
      * <p>
      * Method used to post or create Cab details which is get from user as
@@ -72,9 +73,8 @@ public class CabController {
      */
     @PutMapping("updateCab")
     private ResponseEntity<Object> updateCabDetails(@Valid @RequestBody CabDto cabDto) {
-        Integer id = cabDto.getId();
         return HelloCabsResponseHandler
-                .generateResponse(cabService.updateCabDetailsById(id,cabDto), HttpStatus.OK);
+                .generateResponse(cabService.updateCabDetailsById(cabDto.getId(),cabDto), HttpStatus.OK);
     }
 
     /**
