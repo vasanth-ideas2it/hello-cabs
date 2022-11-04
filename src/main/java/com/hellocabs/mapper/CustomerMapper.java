@@ -4,19 +4,14 @@
 package com.hellocabs.mapper;
 
 import com.hellocabs.configuration.MapperConfig;
-import com.hellocabs.dto.CabDto;
 import com.hellocabs.dto.CustomerDto;
-import com.hellocabs.dto.RideDto;
 import com.hellocabs.configuration.LoggerConfiguration;
-import com.hellocabs.model.Cab;
 import com.hellocabs.model.Customer;
-import com.hellocabs.model.Ride;
+
 import org.apache.log4j.Logger;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * <p>

@@ -44,7 +44,7 @@ public class CabDto {
 
     @NotBlank(message = HelloCabsConstants.CAB_NUMBER_NOT_BLANK)
     @Size(min = 5, max = 15)
-    @Pattern(regexp = ("([A-Z]{2}[ -][0-9]{1,2}[ -][A-Z]{1,2}[ -][0-9]{4})"))
+    @Pattern(regexp = ("([A-Z]{2}[-][0-9]{1,2}[-][A-Z]{1,2}[-][0-9]{4})"))
     private String cabNumber;
 
     @NotBlank(message = HelloCabsConstants.GENDER_NOT_BLANK)
