@@ -25,14 +25,16 @@ import org.apache.log4j.Logger;
 public class LoggerConfiguration {
 
     /**
-     * Used to get the logger object
+     * <p>
+     *   Used to get the logger object
+     * </p>
      *
      * @param name {@link String} name of the class in which
      *                           logger has to be implemented
-     * @return logger {@link Logger} created logger
+     * @return {@link Logger} created logger
+     *
      */
     public static Logger getInstance(String name ) {
         return Logger.getLogger(name);
     }
-
 }

@@ -11,6 +11,18 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * <p>
+ *   Interface that provides abstract methods
+ *   to perform CRUD operations for location entity
+ *   to store data in database
+ * </p>
+ *
+ * @author : Divya
+ * created on 20/10/2022
+ * @version 1.0
+ *
+ */
 @Repository
 public interface LocationRepository extends JpaRepository<Location,Integer> {
 

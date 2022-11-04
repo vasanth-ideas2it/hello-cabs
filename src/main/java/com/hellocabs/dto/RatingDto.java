@@ -3,14 +3,15 @@
  *   Copyright (c) All rights reserved Ideas2IT
  * </p>
  */
+
 package com.hellocabs.dto;
 
 import com.hellocabs.constants.HelloCabsConstants;
+
 import lombok.Data;
+
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**

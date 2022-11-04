@@ -3,18 +3,18 @@
  *   Copyright (c) All rights reserved Ideas2IT
  * </p>
  */
+
 package com.hellocabs.mapper;
 
 import com.hellocabs.configuration.MapperConfig;
 import com.hellocabs.dto.CabDto;
 import com.hellocabs.model.Cab;
-import com.hellocabs.model.CabCategory;
 
 /**
  * <h> CabMapper </h>
  * <p>
- * Class is used to convert the cabDto object to cab object and
- * cab object to cabDto object respectively and returns to respected classes
+ *   Class is used to convert the cabDto object to cab object and
+ *   cab object to cabDto object respectively and returns to respected classes
  * </p>
  *
  * @version 1.0
@@ -28,8 +28,8 @@ public class CabMapper {
      * of cabDto entity object and return to respective method
      * </p>
      *
-     * @param cab{@link Cab}get valid information from user
-     * @return {CabDto}returns the cabDto object
+     * @param cab {@link Cab}get valid information from user
+     * @return {@link CabDto}returns the cabDto object
      */
     public static CabDto convertCabToCabDto(Cab cab) {
         return MapperConfig.getConfigure().map(cab, CabDto.class);

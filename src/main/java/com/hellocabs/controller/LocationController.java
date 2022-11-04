@@ -6,14 +6,13 @@
 
 package com.hellocabs.controller;
 
-import com.hellocabs.configuration.LoggerConfiguration;
 import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.LocationDto;
-import com.hellocabs.exception.HelloCabsException;
 import com.hellocabs.response.HelloCabsResponseHandler;
 import com.hellocabs.service.LocationService;
 
-import org.apache.log4j.Logger;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+
 /**
  * <p>
  * Location controller class has the methods that handles
@@ -38,24 +38,21 @@ import javax.validation.Valid;
  *
  */
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/location")
 public class LocationController {
-    private Logger logger = LoggerConfiguration.getInstance("LocationController.class");
-    LocationService locationService;
 
-    LocationController(LocationService locationService) {
-        this.locationService = locationService;
-    }
+    private final LocationService locationService;
 
     /**
      * <p>
-     * This method is to add location Details.
+     *   This method is to add location Details.
      * </p>
      *
-     * @param locationDto
+     * @param locationDto {@link LocationDto}
      *        for which the location to be added is given
-     * @return ResponseEntity<Object>
-     *         inserted location id is returned
+     * @return {@link ResponseEntity<Object>} returned
+     *         created location id
      */
     @PostMapping("/create")
     private ResponseEntity<Object> addLocation(@Valid @RequestBody LocationDto locationDto) {
@@ -65,14 +62,15 @@ public class LocationController {
 
     /**
      * <p>
-     * This method is to search location Details.
+     *   This method is to search location Details.
      * </p>
      *
-     * @param id
+     * @param id {@link Integer}
      *        for which the id of the location need to
      *        be searched is given
-     * @return ResponseEntity<Object>
+     * @return {@link ResponseEntity<Object>}
      *         searched location is returned
+     *
      */
     @GetMapping("/search/{id}")
     private ResponseEntity<Object> searchLocationById(@PathVariable Integer id) {
@@ -82,13 +80,14 @@ public class LocationController {
 
     /**
      * <p>
-     * This method is to update location Details.
+     *   This method is to update location Details.
      * </p>
      *
-     * @param locationDto
+     * @param locationDto {@link LocationDto}
      *        for which the location to be updated is given
-     * @return ResponseEntity<Object>
+     * @return {@link ResponseEntity<Object>}
      *         updated location is returned
+     *
      */
     @PutMapping("/update")
     private ResponseEntity<Object> updateLocation( @Valid @RequestBody LocationDto locationDto) {
@@ -104,9 +103,10 @@ public class LocationController {
      * @param id {@link Integer}
      *        for which the id of the location need to
      *        be deleted is given
-     * @return ResponseEntity<Object>
+     * @return {@link ResponseEntity<Object>}
      *         gets the message whether the location is
      *         deleted or not
+     *
      */
     @DeleteMapping("/delete/{id}")
     private ResponseEntity<Object> deleteLocationById(@PathVariable Integer id) {
@@ -118,8 +118,9 @@ public class LocationController {
      * This method is to display all location Details.
      * </p>
      *
-     * @return ResponseEntity<Object>
+     * @return {@link ResponseEntity<Object>}
      *         retrieves all the locations
+     *
      */
     @GetMapping("/locations")
     private ResponseEntity<Object> getAllLocations() {

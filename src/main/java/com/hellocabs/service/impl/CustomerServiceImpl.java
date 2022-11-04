@@ -1,17 +1,20 @@
 /*
  *  Copyright (c) All rights reserved Ideas2IT
  */
+
 package com.hellocabs.service.impl;
 
 import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.CustomerDto;
 import com.hellocabs.exception.HelloCabsException;
 import com.hellocabs.mapper.CustomerMapper;
+import com.hellocabs.model.Cab;
 import com.hellocabs.model.Customer;
 import com.hellocabs.repository.CustomerRepository;
 import com.hellocabs.service.CustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,9 +29,12 @@ import java.util.List;
  *  @version 1.0.
  */
 @Service
+@RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
-     @Autowired
-     CustomerRepository customerRepository;
+
+     private final CustomerRepository customerRepository;
+
+     private final PasswordEncoder passwordEncoder;
 
     /**
      * <h> customerServiceImpl </h>
@@ -38,13 +44,16 @@ public class CustomerServiceImpl implements CustomerService {
      *   pass to repository.
      * </p>
      *
-     * @param {@link CustomerDto}customerDto contains customer details.
+     * @param customerDto {@link CustomerDto} contains customer details.
      * @return  {@link Customer}returns createdCustomer.
+     *
      */
     @Override
     public Customer createCustomerDetails(CustomerDto customerDto) {
         Customer customer = CustomerMapper.convertCustomerDtoToCustomer(customerDto);
+
         if (!customerRepository.existsByCustomerMobileNumberOrCustomerEmail(customer.getCustomerMobileNumber(), customer.getCustomerEmail() )) {
+            customer.setPassword(passwordEncoder.encode(customer.getPassword()));
             return  customerRepository.save(customer);
         }
         throw new HelloCabsException(HelloCabsConstants.CUSTOMER_ALREADY_EXIST);
@@ -56,27 +65,28 @@ public class CustomerServiceImpl implements CustomerService {
      *   converts customer to customerDto.
      * </p>
      *
-     * @param {@link Integer}customerId.
+     * @param customerId {@link Integer} id to be searched.
      * @return {@link CustomerDto} returns customerDto object.
      */
     @Override
     public CustomerDto viewCustomerById(Integer customerId) {
         Customer customer = customerRepository.findByCustomerIdAndIsDeleted(customerId, false);
+
         if(null != customer) {
-            CustomerDto customerDto = CustomerMapper.convertCustomerToCustomerDto(customer);
-            return customerDto;
+            return CustomerMapper.convertCustomerToCustomerDto(customer);
         }
         throw new HelloCabsException(HelloCabsConstants.CUSTOMER_NOT_FOUND) ;
     }
 
     /**
      * <p>
-     * This method is used to update existing customers and
-     * convert customerDto to customer and add into repository.
+     *   This method is used to update existing customers and
+     *   convert customerDto to customer and add into repository.
      * </p>
      *
-     * @param {@link CustomerDto}customerDto contains updatedCustomer details.
+     * @param  customerDto {@link CustomerDto} contains updatedCustomer details.
      * @return {@link CustomerDto}returns updatedCustomer.
+     *
      */
     @Override
     public CustomerDto updateCustomer(CustomerDto customerDto) {
@@ -93,12 +103,14 @@ public class CustomerServiceImpl implements CustomerService {
      *    and delete if is exist.
      * </p>
      *
-     * @param {@link Integer}customerId.
+     * @param customerId {@link Integer} id to be deleted.
      * @return {@link ResponseEntity<String>}returns true or false.
+     *
      */
     @Override
     public boolean deleteCustomerById(Integer customerId) {
         Customer customer = customerRepository.findById(customerId).orElse(null);
+
         if(null != customer) {
             customer.setIsDeleted(true);
             customerRepository.save(customer);
@@ -112,7 +124,9 @@ public class CustomerServiceImpl implements CustomerService {
      *    This Method is used to display all customers and convert
      *    customer into customerDto.
      * </p>
+     *
      * @return {@link List<CustomerDto> }returns all customers.
+     *
      */
     @Override
     public List<CustomerDto> retrieveCustomers() {
@@ -120,12 +134,13 @@ public class CustomerServiceImpl implements CustomerService {
                 .convertCustomersToCustomerDtos(customerRepository
                         .findAllByIsDeleted(false));
     }
+
     /**
      * <p>
      *    This Method is used to display all customers and convert
      *    customer into customerDto.
      * </p>
-     * @return {@link CustomerDto }returns all customers.
+     * @return {@link String } verified messages.
      */
     @Override
     public String verifyCustomerDetails(CustomerDto customerDto) {
@@ -139,8 +154,18 @@ public class CustomerServiceImpl implements CustomerService {
         return HelloCabsConstants.INVALID_LOGIN_CREDENTIALS;
     }
 
-    public Customer findByCustomerMobileNumber(long parseLong) {
-        return customerRepository.findByCustomerMobileNumber(parseLong);
+    /**
+     * <p>
+     *   Implement this method used to find customer object by
+     *   customer's mobile number
+     * </p>
+     *
+     * @param mobileNumber {@link Long}  mobile number to be searched
+     * @return {@link Customer} returns cab object which contains the given mobile number
+     *
+     */
+    public Customer findByCustomerMobileNumber(long mobileNumber) {
+        return customerRepository.findByCustomerMobileNumber(mobileNumber);
     }
 
 }

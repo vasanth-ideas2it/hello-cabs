@@ -27,12 +27,6 @@ import java.io.IOException;
  */
  public class BasicAuthenticationFilter extends OncePerRequestFilter {
 
-/*    @Bean
-    public PasswordEncoder encoder() {
-        return new BCryptPasswordEncoder();
-    }*/
-
-
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {

@@ -12,8 +12,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 /**
  * <p>
  *   Interface that provides abstract methods
- *   for perform CRUD operations to store data
- *   in database
+ *   to perform CRUD operations for Ride entity
+ *   to store data in database
  * </p>
  *
  * @author : Pradeep

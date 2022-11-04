@@ -3,20 +3,16 @@
  *   Copyright (c) All rights reserved Ideas2IT
  * </p>
  */
+
 package com.hellocabs.model;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,8 +24,8 @@ import javax.persistence.Table;
 /**
  * <h> Cab </h>
  * <p>
- * Class is used to define the cab details and their types by using
- * Entity object with possible information and connect to database
+ *   Class is used to define the cab details and their types by using
+ *   Entity object with possible information and connect to database
  * </p>
  *
  * @version 1.0

@@ -3,6 +3,7 @@
  *   Copyright (c) All rights reserved Ideas2IT
  * </p>
  */
+
 package com.hellocabs.mapper;
 
 import com.hellocabs.configuration.MapperConfig;
@@ -32,7 +33,7 @@ public class LocationMapper {
      * </p>
      *
      * @param location {@link Location} entity object to be converted
-     * @return LocationDto {@link LocationDto} converted dto object
+     * @return {@link LocationDto} converted dto object
      *
      */
     public static LocationDto locationToLocationDto(Location location) {
@@ -46,7 +47,7 @@ public class LocationMapper {
      * </p>
      *
      * @param locationDto {@link LocationDto} dto object to be converted
-     * @return Location {@link Location} converted entity object
+     * @return {@link Location} converted entity object
      *
      */
     public static Location locationDtoToLocation(LocationDto locationDto) {
@@ -60,7 +61,7 @@ public class LocationMapper {
      * </p>
      *
      * @param locations {@link Location} dto object to be converted
-     * @return List<LocationDto> {@link LocationDto} converted entity object
+     * @return {@link LocationDto} converted entity object
      *
      */
     public static List<LocationDto> locationsToLocationDtos(List<Location> locations) {

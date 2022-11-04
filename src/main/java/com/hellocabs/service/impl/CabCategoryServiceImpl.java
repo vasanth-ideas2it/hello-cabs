@@ -3,6 +3,7 @@
  *   Copyright (c) All rights reserved Ideas2IT
  * </p>
  */
+
 package com.hellocabs.service.impl;
 
 import com.hellocabs.configuration.LoggerConfiguration;
@@ -14,6 +15,7 @@ import com.hellocabs.model.CabCategory;
 import com.hellocabs.repository.CabCategoryRepository;
 import com.hellocabs.service.CabCategoryService;
 import lombok.RequiredArgsConstructor;
+
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
@@ -23,18 +25,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CabCategoryServiceImpl implements CabCategoryService {
 
-    private final Logger logger = LoggerConfiguration.getInstance(HelloCabsConstants.CAB_CATEGORY_SERVICE);
+    private final Logger logger = LoggerConfiguration
+            .getInstance(HelloCabsConstants.CAB_CATEGORY_SERVICE);
     private final CabCategoryRepository cabCategoryRepository;
 
     /**
      * <p>
-     * This method is to add cab category Details.
+     *   This method is to add cab category Details.
      * </p>
      *
-     * @param cabCategoryDto
+     * @param cabCategoryDto {@link CabCategoryDto}
      *        for which the cab category to be added is given
      * @return {@link String}
      *         inserted cab category id is returned
+     *
      */
     public String createCabCategory(CabCategoryDto cabCategoryDto) {
         CabCategory cabCategory = CabCategoryMapper
@@ -52,15 +56,16 @@ public class CabCategoryServiceImpl implements CabCategoryService {
 
     /**
      * <p>
-     * This method is to search cab category Details.
+     *   This method is to search cab category Details.
      * </p>
      *
-     * @param id
+     * @param id {@link Integer}
      *        for which the id of the cab category need to
      *        be searched is given
-     * @return CabCategoryDto
+     * @return {@link CabCategoryDto}
      *         searched cab category is returned if present
      *         otherwise null
+     *
      */
     public CabCategoryDto getCabCategoryById(Integer id) {
         CabCategory cabCategory = cabCategoryRepository.findByIdAndIsDeleted(id, false);
@@ -75,13 +80,14 @@ public class CabCategoryServiceImpl implements CabCategoryService {
 
     /**
      * <p>
-     * This method is to update cab category Details.
+     *   This method is to update cab category Details.
      * </p>
      *
-     * @param cabCategoryDto
+     * @param cabCategoryDto {@link CabCategoryDto}
      *        for which the cab category to be updated is given
-     * @return CabCategoryDto
+     * @return {@link CabCategoryDto}
      *         updated cab category is returned
+     *
      */
     public CabCategoryDto updateCabCategory(CabCategoryDto cabCategoryDto) {
         if (cabCategoryRepository.existsByIdAndIsDeleted(cabCategoryDto.getId(), false)) {
@@ -96,18 +102,19 @@ public class CabCategoryServiceImpl implements CabCategoryService {
 
     /**
      * <p>
-     * This method is to delete cab category Details.
+     *   This method is to delete cab category Details.
      * </p>
      *
-     * @param id
+     * @param id {@link Integer}
      *        for which the id of the cab category need to
      *        be deleted is given
-     * @return boolean
-     *         returns true if the cab category of given id is deleted
-     *         otherwise false
+     * @return {@link String}
+     *         returns deleted message if the cab category of given id is deleted
+     *         otherwise throws exception
      */
     public String deleteCabCategoryById(Integer id) {
-        CabCategory cabCategory = cabCategoryRepository.findByIdAndIsDeleted(id, false);
+        CabCategory cabCategory = cabCategoryRepository
+                .findByIdAndIsDeleted(id, false);
 
         if (null == cabCategory) {
             logger.error(HelloCabsConstants.CAB_CATEGORY_NOT_FOUND);
@@ -124,7 +131,7 @@ public class CabCategoryServiceImpl implements CabCategoryService {
      * This method is to display all cab category Details.
      * </p>
      *
-     * @return List<CabCategoryDto>
+     * @return {@link List<CabCategoryDto>}
      *         retrieves all the cab categories
      */
     public List<CabCategoryDto> retrieveAllCabCategories() {

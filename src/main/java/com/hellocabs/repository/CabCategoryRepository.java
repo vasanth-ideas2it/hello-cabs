@@ -3,6 +3,7 @@
  *   Copyright (c) All rights reserved Ideas2IT
  * </p>
  */
+
 package com.hellocabs.repository;
 
 import com.hellocabs.model.CabCategory;

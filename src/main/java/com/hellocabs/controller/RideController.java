@@ -17,6 +17,7 @@ import com.hellocabs.response.HelloCabsResponseHandler;
 import com.hellocabs.service.RideService;
 
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,7 +61,7 @@ public class RideController {
      *
      */
     @GetMapping("search/{id}")
-    public ResponseEntity<Object> searchRideById(@PathVariable Integer id) {
+    private ResponseEntity<Object> searchRideById(@PathVariable Integer id) {
         return HelloCabsResponseHandler
                 .generateResponse(HelloCabsConstants.RIDE_FOUND,
                 HttpStatus.OK,rideService.searchRideById(id));
@@ -76,7 +77,7 @@ public class RideController {
      *
      */
     @GetMapping("rides")
-    public ResponseEntity<Object> retrieveRides() {
+    private ResponseEntity<Object> retrieveRides() {
         return HelloCabsResponseHandler.generateResponse(
                 HelloCabsConstants.RIDE_FOUND,HttpStatus.FOUND,
                 rideService.retrieveRides());
@@ -94,7 +95,7 @@ public class RideController {
      *
      */
     @PutMapping("update")
-    public ResponseEntity<Object> updateRide(@Valid
+    private ResponseEntity<Object> updateRide(@Valid
             @RequestBody RideDto rideDto) {
 
         if (null != rideService.updateRide(rideDto)) {
@@ -116,7 +117,7 @@ public class RideController {
      *
      */
     @PostMapping("book")
-    public ResponseEntity<Object> bookRide(@Valid
+    private ResponseEntity<Object> bookRide(@Valid
             @RequestBody BookDto bookDto) {
         return HelloCabsResponseHandler
                 .generateResponse(rideService.bookRide(bookDto),
@@ -136,7 +137,7 @@ public class RideController {
      *
      */
     @PutMapping("status/{rideId}")
-    public ResponseEntity<Object> updateRideStatus(@Valid
+    private ResponseEntity<Object> updateRideStatus(@Valid
             @RequestBody StatusDto statusDto, @PathVariable Integer rideId) {
         return HelloCabsResponseHandler.generateResponse(
                 HelloCabsConstants.STATUS_UPDATED,HttpStatus.OK,
@@ -157,7 +158,7 @@ public class RideController {
      *
      */
     @PutMapping("confirm/{rideId}/cab/{cabId}")
-    public ResponseEntity<Object> confirmRide(@Valid
+    private ResponseEntity<Object> confirmRide(@Valid
             @RequestBody StatusDto statusDto, @PathVariable Integer rideId,
             @PathVariable Integer cabId) {
         return HelloCabsResponseHandler.generateResponse(
@@ -180,7 +181,7 @@ public class RideController {
      *
      */
     @GetMapping("confirmationStatus/{rideId}")
-    public ResponseEntity<Object> waitingToConfirmRide(
+    private ResponseEntity<Object> waitingToConfirmRide(
             @PathVariable Integer rideId) {
         return HelloCabsResponseHandler.generateResponse(
                 rideService.waitingToConfirmRide(rideId), HttpStatus.OK);
@@ -199,7 +200,7 @@ public class RideController {
      *
      */
     @PutMapping("rating/{rideId}")
-    public ResponseEntity<Object> submitFeedback(@Valid @RequestBody
+    private ResponseEntity<Object> submitFeedback(@Valid @RequestBody
             RatingDto ratingDto, @PathVariable Integer rideId) {
         return HelloCabsResponseHandler.generateResponse(
                 rideService.submitFeedBack(rideId, ratingDto), HttpStatus.OK);
@@ -217,8 +218,8 @@ public class RideController {
      *
      */
     @DeleteMapping("cancel/{rideId}")
-    public ResponseEntity<Object> deleteRideById(@Valid @RequestBody
-                                                 ReasonDto feedBackDto, @PathVariable Integer rideId) {
+    private ResponseEntity<Object> deleteRideById(@Valid @RequestBody
+            ReasonDto feedBackDto, @PathVariable Integer rideId) {
         return HelloCabsResponseHandler.generateResponse(
                 rideService.deleteRide(rideId, feedBackDto),
                 HttpStatus.OK);

@@ -1,14 +1,12 @@
 /*
  * All copyrights reserved.
  */
+
 package com.hellocabs.mapper;
 
 import com.hellocabs.configuration.MapperConfig;
 import com.hellocabs.dto.CustomerDto;
-import com.hellocabs.configuration.LoggerConfiguration;
 import com.hellocabs.model.Customer;
-
-import org.apache.log4j.Logger;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -23,8 +21,6 @@ import java.util.List;
  * @version 1.0.
  */
 public class CustomerMapper {
-
-    private static Logger logger = LoggerConfiguration.getInstance("CustomerMapper.class");
 
     /**
      * <p>

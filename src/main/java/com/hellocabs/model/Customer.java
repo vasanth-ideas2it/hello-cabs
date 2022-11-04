@@ -1,21 +1,16 @@
 /*
  * All copyrights reserved.
  */
+
 package com.hellocabs.model;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.Set;
@@ -23,7 +18,7 @@ import java.util.Set;
 /**
  * <h>Customer entity</h>
  * <p>
- *     Customer class have the dataMembers of customer.
+ *   Customer class have the dataMembers of customer.
  * </p>
  *
  * @author gautam.
@@ -34,6 +29,7 @@ import java.util.Set;
 @Setter
 @Table(name = "customer")
 public class Customer {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -56,10 +52,6 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer")
     private Set<Ride> rides;
-
-    public boolean getIsDeleted() {
-        return isDeleted;
-    }
 
     public void setIsDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;

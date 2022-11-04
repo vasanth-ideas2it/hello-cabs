@@ -3,10 +3,10 @@
  *   Copyright (c) All rights reserved Ideas2IT
  * </p>
  */
+
 package com.hellocabs.repository;
 
 import com.hellocabs.model.Cab;
-import com.hellocabs.model.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,8 +15,8 @@ import java.util.List;
 /**
  * <h> CabRepository </h>
  * <p>
- * Interface CabRepository which extends JpaRepository used to
- * access the abstract method in it to cabRepository to connect the database
+ *   Interface CabRepository which extends JpaRepository used to
+ *   access the abstract method in it to cabRepository to connect the database
  * </p>
  *
  * @version 1.0
@@ -25,10 +25,69 @@ import java.util.List;
 @Repository
 public interface CabRepository  extends JpaRepository<Cab, Integer> {
 
-    Cab findCabByMobileNumber(Long username);
-    Cab findByMobileNumberAndPassword(Long number, String password);
+    /**
+     * <p>
+     *   An abstract method used to find cab object by
+     *   cab driver's mobile number
+     * </p>
+     *
+     * @param mobileNumber {@link Long}  mobile number to be searched
+     * @return {@link Cab} returns cab object which contains the given mobile number
+     *
+     */
+    Cab findCabByMobileNumber(Long mobileNumber);
 
-    boolean existsByMobileNumberOrEmail(Long number, String email);
-    Cab findByIdAndIsActive(Integer id, boolean False);
-    List<Cab> findAllByIsActive(boolean False);
+    /**
+     * <p>
+     *   An abstract method used to find cab object by using
+     *   mobile number and password
+     * </p>
+     *
+     * @param mobileNumber {@link Long}  mobile number to be searched
+     * @param password {@link String} password for the respective mobile number
+     * @return {@link Cab} returns cab object which matches
+     *      the given mobile number and password
+     *
+     */
+    Cab findByMobileNumberAndPassword(Long mobileNumber, String password);
+
+    /**
+     * <p>
+     *   An abstract method used to check if the given mobile number
+     *   and email exists or not, if exists returns true otherwise false.
+     *   This method used to avoid if an user who entered details
+     *   that are already exists
+     * </p>
+     *
+     * @param mobileNumber {@link Long} mobile number to be searched
+     * @param email {@link String} email of the object
+     * @return {@link Boolean} returns true if mobile number and email exists
+     *      else returns false
+     *
+     */
+    boolean existsByMobileNumberOrEmail(Long mobileNumber, String email);
+
+    /**
+     * <p>
+     *   An abstract method used to find the cab object by id
+     *   and returns the object only if it is active
+     * </p>
+     *
+     * @param id {@link Integer} mobile number to be searched
+     * @param flag {@link Boolean} true or false
+     * @return {@link Cab} returns cab object only it is active
+     *
+     */
+    Cab findByIdAndIsActive(Integer id, boolean flag);
+
+    /**
+     * <p>
+     *   An abstract method used to find all the cab object
+     *   and returns the list of object only if it is active
+     * </p>
+     *
+     * @param flag {@link Boolean} true or false
+     * @return {@link List<Cab>} returns list of cab that are available
+     */
+    List<Cab> findAllByIsActive(boolean flag);
 }

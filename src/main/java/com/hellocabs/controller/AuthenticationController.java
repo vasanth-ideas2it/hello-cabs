@@ -1,6 +1,7 @@
 /*
  *  Copyright (c) All rights reserved Ideas2IT
  */
+
 package com.hellocabs.controller;
 
 import com.hellocabs.configuration.LoggerConfiguration;
@@ -28,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
  * <h> LoginController </h>
  * <p>
  *   The class authenticates whether the credentials
- *   entered to login is present in database or not
+ *   entered by user in login is present or not in database
  * </p>
  *
  * @author Gautam
@@ -38,7 +39,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-    private final Logger logger = LoggerConfiguration.getInstance("LoginController.class");
+    private final Logger logger = LoggerConfiguration.getInstance(
+            HelloCabsConstants.AUTHENTICATION_CONTROLLER);
     private final UserDetailsService userDetailsService;
     private final AuthenticationManager authenticationManager;
 
@@ -46,7 +48,8 @@ public class AuthenticationController {
      * <p>
      *   This method authenticate the user for the provided credentials whether the
      *   user already exists with the provided user name and password the account
-     *   will be permitted otherwise throws a {@link BadCredentialsException}.
+     *   will be permitted otherwise throws badCredentialsException
+     *   {@link BadCredentialsException}.
      * </p>
      *
      * @param loginDto {@link LoginDto}loginDto contains mobileNumber and password.
@@ -54,18 +57,20 @@ public class AuthenticationController {
      *
      */
     @PostMapping("/login")
-    public ResponseEntity<String> authenticateUser(@RequestBody LoginDto loginDto) {
+    private ResponseEntity<String> authenticateUser(@RequestBody LoginDto loginDto) {
         Authentication authentication;
 
         try {
-            authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(Long
+            authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(Long
                     .toString(loginDto.getMobileNumber()), loginDto.getPassword()));
         } catch (BadCredentialsException badCredentialsException) {
             logger.error(HelloCabsConstants.INVALID_USERNAME_OR_PASSWORD);
-            throw new HelloCabsException(new BadCredentialsException(HelloCabsConstants.INVALID_USERNAME_OR_PASSWORD)
-                    .getMessage());
+            throw new HelloCabsException(new BadCredentialsException(HelloCabsConstants
+                    .INVALID_USERNAME_OR_PASSWORD).getMessage());
         }
-        UserDetails userDetails = userDetailsService.loadUserByUsername(Long.toString(loginDto.getMobileNumber()));
+        UserDetails userDetails = userDetailsService
+                .loadUserByUsername(Long.toString(loginDto.getMobileNumber()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         logger.info(HelloCabsConstants.LOGIN_SUCCESSFUL);
         return new ResponseEntity<>(HelloCabsConstants.LOGIN_SUCCESSFUL, HttpStatus.OK);

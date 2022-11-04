@@ -3,6 +3,7 @@
  *   Copyright (c) All rights reserved Ideas2IT
  * </p>
  */
+
 package com.hellocabs.service.impl;
 
 import com.hellocabs.configuration.LoggerConfiguration;
@@ -28,13 +29,13 @@ public class LocationServiceImpl implements LocationService {
 
     /**
      * <p>
-     * This method is to add location Details.
+     *   This method is to add location Details.
      * </p>
      *
-     * @param locationDto
+     * @param locationDto {@link LocationDto}
      *        for which the location to be added is given
-     * @return Integer
-     *         inserted location id is returned
+     * @return {@link String} created location id
+     *
      */
     public String createLocation(LocationDto locationDto) {
         Location location = LocationMapper.locationDtoToLocation(locationDto);
@@ -50,14 +51,14 @@ public class LocationServiceImpl implements LocationService {
 
     /**
      * <p>
-     * This method is to search location Details.
+     *   This method is to search location Details.
      * </p>
      *
-     * @param id
+     * @param id {@link Integer}
      *        for which the id of the location need to
      *        be searched is given
-     * @return LocationDto
-     *         searched location is returned
+     * @return {@link LocationDto} searched location
+     *
      */
     public LocationDto getLocationById(Integer id) {
         Location location = locationRepository.findByIdAndIsDeleted(id, false);
@@ -72,13 +73,14 @@ public class LocationServiceImpl implements LocationService {
 
     /**
      * <p>
-     * This method is to update location Details.
+     *   This method is to update location Details.
      * </p>
      *
-     * @param locationDto
+     * @param locationDto {@link LocationDto}
      *        for which the location to be updated is given
-     * @return LocationDto
+     * @return {@link LocationDto}
      *         updated location is returned
+     *
      */
     public LocationDto updateLocation(LocationDto locationDto) {
 
@@ -93,15 +95,16 @@ public class LocationServiceImpl implements LocationService {
 
     /**
      * <p>
-     * This method is to delete location Details.
+     *   This method is to delete location Details.
      * </p>
      *
-     * @param id
+     * @param id {@link Integer}
      *        for which the id of the location need to
      *        be deleted is given
-     * @return String
+     * @return {@link String}
      *         gets the message whether the location is
      *         deleted or not
+     *
      */
     public String deleteLocationById(Integer id) {
         Location location = locationRepository.findByIdAndIsDeleted(id, false);
@@ -118,10 +121,10 @@ public class LocationServiceImpl implements LocationService {
 
     /**
      * <p>
-     * This method is to display all location Details.
+     *   This method is to display all location Details.
      * </p>
      *
-     * @return List<LocationDto>
+     * @return {@link List<LocationDto>}
      *         retrieves all the locations
      */
     public List<LocationDto> retrieveAllLocations() {

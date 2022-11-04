@@ -3,23 +3,27 @@
  *   Copyright (c) All rights reserved Ideas2IT
  * </p>
  */
+
 package com.hellocabs.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hellocabs.constants.HelloCabsConstants;
+
 import lombok.Getter;
 import lombok.Setter;
+
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+
 import java.time.LocalDateTime;
 
 /**
  * <p>
  *   A Dto object which is responsible for collect and display
- *   all possible information regarding to a ride from user through
+ *   all possible information regarding ride from user through
  *   controller and further convert to Entity object through
  *   service using mapper classes
  * </p>
@@ -68,14 +72,5 @@ public class RideDto {
     private CabDto cabDto;
 
     private CustomerDto customerDto;
-
-    public void setIsCancelled(boolean isCancelled) {
-        this.isCancelled = isCancelled;
-    }
-
-    public boolean getIsCancelled() {
-        return isCancelled;
-    }
-
 }
 

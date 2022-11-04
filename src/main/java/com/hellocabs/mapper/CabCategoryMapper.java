@@ -62,7 +62,7 @@ public class CabCategoryMapper {
      * </p>
      *
      * @param cabCategories {@link CabCategory} dto object to be converted
-     * @return List<CabCategoryDto> {@link CabCategoryDto} converted entity object
+     * @return {@link CabCategoryDto} converted entity object
      *
      */
     public static List<CabCategoryDto> cabCategoriesToCabCategoryDtos(List<CabCategory> cabCategories) {

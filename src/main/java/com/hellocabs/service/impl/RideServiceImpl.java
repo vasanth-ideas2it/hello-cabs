@@ -26,7 +26,9 @@ import com.hellocabs.model.Ride;
 import com.hellocabs.repository.RideRepository;
 import com.hellocabs.service.CabService;
 import com.hellocabs.service.RideService;
+
 import lombok.RequiredArgsConstructor;
+
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
@@ -371,8 +373,6 @@ public class RideServiceImpl implements RideService {
         }
         return cab;
     }
-
-
 
     /**
      * <p>

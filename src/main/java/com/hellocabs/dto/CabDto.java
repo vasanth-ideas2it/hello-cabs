@@ -3,11 +3,11 @@
  *   Copyright (c) All rights reserved Ideas2IT
  * </p>
  */
+
 package com.hellocabs.dto;
 
 import java.util.Set;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotEmpty;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.Email;
@@ -22,11 +22,12 @@ import lombok.Data;
 
 import org.hibernate.validator.constraints.Range;
 import org.springframework.validation.annotation.Validated;
+
 /**
  * <h> CabDto </h>
  * <p>
- * Class is an Dto class which is define the possible field with respect to cab
- * and validate the user data by using validated annotation respectively
+ *   Class is an Dto class which is define the possible field with respect to cab
+ *   and validate the user data by using validated annotation respectively
  * </p>
  *
  * @version 1.0
@@ -39,22 +40,21 @@ public class CabDto {
     private Integer id;
 
     @NotBlank(message = HelloCabsConstants.DRIVER_NAME_NOT_BLANK)
-    @Pattern(regexp = ("([a-zA-Z]){3,}"))
+    @Pattern(regexp = HelloCabsConstants.NAME)
     private String driverName;
 
     @NotBlank(message = HelloCabsConstants.CAB_NUMBER_NOT_BLANK)
     @Size(min = 5, max = 15)
-    @Pattern(regexp = ("([A-Z]{2}[ -][0-9]{1,2}[ -][A-Z]{1,2}[ -][0-9]{4})"), message = HelloCabsConstants.VALID_VEHICLE_NUMBER)
+    @Pattern(regexp = HelloCabsConstants.CAB_NUMBER, message = HelloCabsConstants.VALID_VEHICLE_NUMBER)
     private String cabNumber;
 
     @NotBlank(message = HelloCabsConstants.GENDER_NOT_BLANK)
     @Size(min = 1, max =10 )
-    @Pattern(regexp = ("male|female|m|f|others"))
+    @Pattern(regexp = HelloCabsConstants.VALID_GENDER, message = HelloCabsConstants.INVALID_GENDER)
     private String gender;
 
     @NotNull(message = HelloCabsConstants.MOBILE_NUMBER_NOT_BLANK)
-   // @Pattern(regexp = ("([6-9][0-9]{9})"))
-    @Digits(integer = 10, fraction = 0)
+    @Range(min = 10, message = HelloCabsConstants.VALID_PHONE_NUMBER)
     private Long mobileNumber;
 
     @Email(message = HelloCabsConstants.ENTER_VALID_EMAIL)
@@ -68,14 +68,12 @@ public class CabDto {
     @Range(min = 0, max = 5)
     private Double driverRating;
 
-   // @Pattern(regexp = ("([a-zA-Z]){3,}"))
     private String cabStatus;
 
     private Set<RideDto> rides;
 
     @NotBlank(message = HelloCabsConstants.CAR_MODEL_NOT_BLANK)
     @Size(min = 5, max = 20, message = HelloCabsConstants.CAR_MODEL_SIZE)
-    @Pattern(regexp = ("([a-zA-Z]){3,}"))
     private String carModel;
 
     @Size(min = 5, max = 15, message = HelloCabsConstants.CURRENT_LOCATION_SIZE)
@@ -84,7 +82,7 @@ public class CabDto {
     private Integer cabCategoryId;
 
     @NotBlank(message = HelloCabsConstants.PASSWORD_NOT_BLANK)
-    @Pattern(regexp = ("([a-zA-Z0-9!@#$%^&*]{8,16})"))
+    @Pattern(regexp = HelloCabsConstants.PASSWORD, message = HelloCabsConstants.PASSWORD_CRITERIA)
     private String password;
 
     @JsonIgnore

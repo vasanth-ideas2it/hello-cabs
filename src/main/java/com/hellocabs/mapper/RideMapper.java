@@ -7,11 +7,8 @@
 package com.hellocabs.mapper;
 
 import com.hellocabs.configuration.MapperConfig;
-import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.RideDto;
-import com.hellocabs.configuration.LoggerConfiguration;
 import com.hellocabs.model.Ride;
-import org.apache.log4j.Logger;
 
 /**
  * <p>
@@ -25,9 +22,6 @@ import org.apache.log4j.Logger;
  *
  */
 public class RideMapper {
-
-    private static final  Logger logger = LoggerConfiguration
-            .getInstance(HelloCabsConstants.RIDE_MAPPER);
 
     /**
      * <p>

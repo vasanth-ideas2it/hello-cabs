@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -47,12 +46,14 @@ public class SecurityConfiguration {
 
     /**
      * <p>
-     * This method has the security filter that checks and authorize the user.
+     *   This method has the security filter that checks and authorize the user.
      * </p>
      *
-     * @param
+     * @param httpSecurity {@link HttpSecurity} httpSecurity
+     *      object required to authenticate and authorization
      * @return {@link SecurityFilterChain}
-     * @throws Exception
+     * @throws Exception that occur while any one of the credentials
+     *      given by user is invalid
      *
      */
     @Bean
@@ -73,11 +74,14 @@ public class SecurityConfiguration {
      * </p>
      *
      * @param authenticationConfiguration {@link AuthenticationConfiguration}
-     * @return AuthenticationManager {@link AuthenticationManager}
+     *      configuration object that is used to get authentication manager
+     * @return  {@link AuthenticationManager} returns authentication manager
+     * @throws Exception when error occur in creating bean
      *
      */
     @Bean
-    public AuthenticationManager authenticationManagerBean(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManagerBean(
+            AuthenticationConfiguration authenticationConfiguration) throws Exception {
        return authenticationConfiguration.getAuthenticationManager();
     }
 
@@ -87,9 +91,11 @@ public class SecurityConfiguration {
      * </p>
      *
      * @param authenticationManagerBuilder {@link AuthenticationManagerBuilder}
+     * @throws Exception when error occur in creating bean
      *
      */
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder.userDetailsService(userDetailsServiceImpl).passwordEncoder(passwordEncoder());
+        authenticationManagerBuilder.userDetailsService(userDetailsServiceImpl)
+                .passwordEncoder(passwordEncoder());
     }
 }

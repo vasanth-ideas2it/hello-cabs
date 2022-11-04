@@ -3,6 +3,7 @@
  *   Copyright (c) All rights reserved Ideas2IT
  * </p>
  */
+
 package com.hellocabs.exceptionHandler;
 
 import com.hellocabs.exception.HelloCabsException;
@@ -37,7 +38,8 @@ public class HelloCabsAdvisor {
      *   with the help of exception handler method
      * </p>
      *
-     * @param {@link MethodArgumentNotValidException} exception thrown due to validation
+     * @param methodArgNotValidException {@link MethodArgumentNotValidException}
+     *      exception thrown due to validation
      * @return {@link String} returns the message of the exception
      *
      */

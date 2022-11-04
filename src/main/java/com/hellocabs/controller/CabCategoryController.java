@@ -9,7 +9,7 @@ package com.hellocabs.controller;
 import com.hellocabs.response.HelloCabsResponseHandler;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.log4j.Logger;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,14 +21,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.CabCategoryDto;
-import com.hellocabs.exception.HelloCabsException;
-import com.hellocabs.configuration.LoggerConfiguration;
 import com.hellocabs.service.CabCategoryService;
 
 @RestController
@@ -39,8 +35,8 @@ public class CabCategoryController {
 
     /**
      * <p>
-     * This method is to add cab category Details if the
-     * location is not already exist
+     *   This method is to add cab category Details if the
+     *   location is not already exist
      * </p>
      *
      * @param cabCategoryDto {@link CabCategoryDto}
@@ -57,13 +53,13 @@ public class CabCategoryController {
 
     /**
      * <p>
-     * This method is to search cab category Details.
+     *   This method is to search cab category Details using id.
      * </p>
      *
      * @param id {@link Integer}
      *        for which the id of the cab category need to
      *        be searched is given
-     * @return {@link CabCategoryDto}
+     * @return {@link ResponseEntity<Object>}
      *         searched cab category is returned
      *
      */
@@ -75,12 +71,12 @@ public class CabCategoryController {
 
     /**
      * <p>
-     * This method is to update cab category Details.
+     *   This method is to update cab category Details.
      * </p>
      *
      * @param cabCategoryDto {@link CabCategoryDto}
      *        for which the cab category to be updated is given
-     * @return {@link CabCategoryDto}
+     * @return {@link ResponseEntity<Object>}
      *         updated cab category is returned
      */
     @PutMapping("/update")
@@ -91,13 +87,13 @@ public class CabCategoryController {
 
     /**
      * <p>
-     * This method is to delete cab category Details.
+     *   This method is to delete cab category Details.
      * </p>
      *
      * @param id {@link Integer}
      *        for which the id of the cab category need to
      *        be deleted is given
-     * @return {@link String}
+     * @return {@link ResponseEntity<Object>}
      *         gets the message whether the cab category is
      *         deleted or not
      */
@@ -111,7 +107,7 @@ public class CabCategoryController {
      *   This method is to display all cab category Details.
      * </p>
      *
-     * @return {@link List<CabCategoryDto>}
+     * @return {@link ResponseEntity<Object>}
      *         retrieves all the cab categories
      */
     @GetMapping("/cabcategories")
