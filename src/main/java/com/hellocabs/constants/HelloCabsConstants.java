@@ -36,6 +36,7 @@ public class HelloCabsConstants {
     public static final String CAB_NUMBER = ("([A-Z]{2}[ -][0-9]{1,2}[ -][A-Z]{1,2}[ -][0-9]{4})");
     public static final String VALID_GENDER = ("male|female|m|f|others");
     public static final String PASSWORD = ("([a-zA-Z0-9!@#$%^&*]{8,16})");
+    public static final String MOBILE_NUMBER = "([6-9][0-9]{9})";
 
     //SEARCH NOT FOUND
     public static final String LOCATION_NOT_FOUND = "Location not found for given id";
@@ -156,5 +157,6 @@ public class HelloCabsConstants {
     public static final String VALID_PHONE_NUMBER = "Phone number should be exact 10 characters.";
     public static final String INVALID_GENDER = "Please enter valid Gender " + VALID_GENDER;
     public static final String PASSWORD_REQUIRED = "Enter your security password";
+    public static final String INVALID_MOBILE_NUMBER = "Invalid mobile number, Mobile number starts with 6-9 and followed by 9 digits";
 
 }

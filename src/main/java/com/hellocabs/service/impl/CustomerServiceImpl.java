@@ -8,7 +8,6 @@ import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.CustomerDto;
 import com.hellocabs.exception.HelloCabsException;
 import com.hellocabs.mapper.CustomerMapper;
-import com.hellocabs.model.Cab;
 import com.hellocabs.model.Customer;
 import com.hellocabs.repository.CustomerRepository;
 import com.hellocabs.service.CustomerService;
@@ -50,6 +49,11 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public Customer createCustomerDetails(CustomerDto customerDto) {
+
+        if (!customerDto.getCustomerMobileNumber().toString()
+                .matches(HelloCabsConstants.MOBILE_NUMBER)) {
+            throw new HelloCabsException(HelloCabsConstants.INVALID_MOBILE_NUMBER);
+        }
         Customer customer = CustomerMapper.convertCustomerDtoToCustomer(customerDto);
 
         if (!customerRepository.existsByCustomerMobileNumberOrCustomerEmail(customer.getCustomerMobileNumber(), customer.getCustomerEmail() )) {
@@ -90,7 +94,13 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public CustomerDto updateCustomer(CustomerDto customerDto) {
+
+        if (!customerDto.getCustomerMobileNumber().toString()
+                .matches(HelloCabsConstants.MOBILE_NUMBER)) {
+            throw new HelloCabsException(HelloCabsConstants.INVALID_MOBILE_NUMBER);
+        }
         Customer customer = CustomerMapper.convertCustomerDtoToCustomer(customerDto);
+
         if (customerRepository.existsById(customer.getCustomerId())) {
             return CustomerMapper.convertCustomerToCustomerDto(customerRepository.save(customer));
         }

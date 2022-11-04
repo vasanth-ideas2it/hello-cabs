@@ -53,6 +53,11 @@ public class CabServiceImpl implements CabService {
      */
     @Override
     public String createCab(CabDto cabDto) {
+
+        if (!cabDto.getMobileNumber().toString()
+                .matches(HelloCabsConstants.MOBILE_NUMBER)) {
+            throw new HelloCabsException(HelloCabsConstants.INVALID_MOBILE_NUMBER);
+        }
         Cab cab = CabMapper.convertCabDtoToCab(cabDto);
 
         if (!cabRepository.existsByMobileNumberOrEmail(cab.getMobileNumber(), cab.getEmail())) {
@@ -101,6 +106,11 @@ public class CabServiceImpl implements CabService {
      */
     @Override
     public String updateCabDetailsById(Integer id, CabDto cabDto) {
+
+        if (!cabDto.getMobileNumber().toString()
+                .matches(HelloCabsConstants.MOBILE_NUMBER)) {
+            throw new HelloCabsException(HelloCabsConstants.INVALID_MOBILE_NUMBER);
+        }
         Cab cab = CabMapper.convertCabDtoToCab(cabDto);
 
         if (cabRepository.existsById(id)) {
