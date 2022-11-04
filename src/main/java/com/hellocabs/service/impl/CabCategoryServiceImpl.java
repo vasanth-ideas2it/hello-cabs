@@ -5,6 +5,7 @@
  */
 package com.hellocabs.service.impl;
 
+import com.hellocabs.configuration.LoggerConfiguration;
 import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.CabCategoryDto;
 import com.hellocabs.exception.HelloCabsException;
@@ -13,6 +14,7 @@ import com.hellocabs.model.CabCategory;
 import com.hellocabs.repository.CabCategoryRepository;
 import com.hellocabs.service.CabCategoryService;
 import lombok.RequiredArgsConstructor;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +22,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CabCategoryServiceImpl implements CabCategoryService {
+
+    private final Logger logger = LoggerConfiguration.getInstance(HelloCabsConstants.CAB_CATEGORY_SERVICE);
     private final CabCategoryRepository cabCategoryRepository;
 
     /**
@@ -39,10 +43,11 @@ public class CabCategoryServiceImpl implements CabCategoryService {
         if (!cabCategoryRepository.existsByCabType(cabCategory.getCabType())) {
             Integer id = CabCategoryMapper.cabCategoryToCabCategoryDto
                     (cabCategoryRepository.save(cabCategory)).getId();
-
+            logger.info(HelloCabsConstants.CAB_CATEGORY_CREATED + id);
             return HelloCabsConstants.CAB_CATEGORY_CREATED + id;
         }
-        return HelloCabsConstants.CAB_TYPE_ALREADY_EXISTS;
+        logger.error(HelloCabsConstants.CAB_CATEGORY_NOT_CREATED);
+        throw new HelloCabsException(HelloCabsConstants.CAB_TYPE_ALREADY_EXISTS);
     }
 
     /**
@@ -58,12 +63,13 @@ public class CabCategoryServiceImpl implements CabCategoryService {
      *         otherwise null
      */
     public CabCategoryDto getCabCategoryById(Integer id) {
-        CabCategory cabCategory = cabCategoryRepository
-                .findByIdAndIsDeleted(id, false);
+        CabCategory cabCategory = cabCategoryRepository.findByIdAndIsDeleted(id, false);
 
         if (null != cabCategory) {
+            logger.info(HelloCabsConstants.CAB_CATEGORY_FOUND + id);
             return CabCategoryMapper.cabCategoryToCabCategoryDto(cabCategory);
         }
+        logger.error(HelloCabsConstants.CAB_CATEGORY_NOT_FOUND);
         throw new HelloCabsException(HelloCabsConstants.CAB_CATEGORY_NOT_FOUND);
     }
 
@@ -72,18 +78,18 @@ public class CabCategoryServiceImpl implements CabCategoryService {
      * This method is to update cab category Details.
      * </p>
      *
-     * @param id
-     *        for which the cab category id to be updated is given
      * @param cabCategoryDto
      *        for which the cab category to be updated is given
      * @return CabCategoryDto
      *         updated cab category is returned
      */
-    public CabCategoryDto updateCabCategory(int id, CabCategoryDto cabCategoryDto) {
-        if (cabCategoryRepository.existsByIdAndIsDeleted(id, false)) {
+    public CabCategoryDto updateCabCategory(CabCategoryDto cabCategoryDto) {
+        if (cabCategoryRepository.existsByIdAndIsDeleted(cabCategoryDto.getId(), false)) {
+            logger.info(HelloCabsConstants.CAB_CATEGORY_UPDATED + cabCategoryDto.getId());
             return CabCategoryMapper.cabCategoryToCabCategoryDto(cabCategoryRepository
                     .save(CabCategoryMapper.cabCategoryDtoToCabCategory(cabCategoryDto)));
         }
+        logger.error(HelloCabsConstants.CAB_CATEGORY_NOT_FOUND);
         throw new HelloCabsException(HelloCabsConstants.CAB_CATEGORY_NOT_FOUND);
 
     }
@@ -100,16 +106,17 @@ public class CabCategoryServiceImpl implements CabCategoryService {
      *         returns true if the cab category of given id is deleted
      *         otherwise false
      */
-    public boolean deleteCabCategoryById(Integer id) {
-        CabCategory cabCategory = cabCategoryRepository
-                .findByIdAndIsDeleted(id, false);
+    public String deleteCabCategoryById(Integer id) {
+        CabCategory cabCategory = cabCategoryRepository.findByIdAndIsDeleted(id, false);
 
         if (null == cabCategory) {
-            return false;
+            logger.error(HelloCabsConstants.CAB_CATEGORY_NOT_FOUND);
+            throw new HelloCabsException(HelloCabsConstants.CAB_CATEGORY_NOT_FOUND);
         }
         cabCategory.setDeleted(true);
         cabCategoryRepository.save(cabCategory);
-        return true;
+        logger.info(HelloCabsConstants.CAB_CATEGORY_DELETED + cabCategory.getId());
+        return HelloCabsConstants.CAB_CATEGORY_DELETED;
     }
 
     /**
@@ -121,6 +128,7 @@ public class CabCategoryServiceImpl implements CabCategoryService {
      *         retrieves all the cab categories
      */
     public List<CabCategoryDto> retrieveAllCabCategories() {
+        logger.info(HelloCabsConstants.ALL_CAB_CATEGORIES_FOUND);
         return CabCategoryMapper.cabCategoriesToCabCategoryDtos
                 (cabCategoryRepository.findAllByIsDeleted(false));
     }

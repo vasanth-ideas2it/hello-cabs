@@ -1,27 +1,30 @@
 package com.hellocabs.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GenerationType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.OneToMany;
 
 import java.util.List;
 
 /**
  * <p>
- * CabCategory class has the getters and setters for
- * CabCategory
- *</p>
+ *   CabCategory class has the getters and setters meant to hold the
+ *   cab category object consists the fields that are related to
+ *   cab category
+ * </p>
  *
- * @author Divya
- *
- * @version 1.0 Oct-26-2022
+ * @author : Divya
+ * created on 20/10/2022
+ * @version 1.0
  *
  */
 @Entity
@@ -29,6 +32,7 @@ import java.util.List;
 @Setter
 @Table(name = "cab_category")
 public class CabCategory {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

@@ -5,7 +5,6 @@
  */
 package com.hellocabs.model;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,17 +14,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Pattern;
 
 /**
  * <p>
- * Location class has the getters and setters for
- * Location
- *</p>
+ *   Location class has the getters and setters meant to hold the
+ *   location object consists the fields that are related to
+ *   location
+ * </p>
  *
- * @author Divya
- *
- * @version 1.0 Oct-26-2022
+ * @author : Divya
+ * created on 20/10/2022
+ * @version 1.0
  *
  */
 @Entity

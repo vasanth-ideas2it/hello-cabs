@@ -59,9 +59,7 @@ public class LocationController {
      */
     @PostMapping("/create")
     private ResponseEntity<Object> addLocation(@Valid @RequestBody LocationDto locationDto) {
-        String locationCreated = locationService.createLocation(locationDto);
-        logger.info(locationCreated);
-        return HelloCabsResponseHandler.generateResponse(locationCreated,
+        return HelloCabsResponseHandler.generateResponse(locationService.createLocation(locationDto),
                 HttpStatus.OK);
     }
 
@@ -78,15 +76,8 @@ public class LocationController {
      */
     @GetMapping("/search/{id}")
     private ResponseEntity<Object> searchLocationById(@PathVariable Integer id) {
-        LocationDto locationDto = locationService.getLocationById(id);
-
-        if (null == locationDto) {
-            logger.error(HelloCabsConstants.LOCATION_NOT_FOUND);
-            throw new HelloCabsException(HelloCabsConstants.LOCATION_NOT_FOUND);
-        }
-        logger.info(HelloCabsConstants.LOCATION_FOUND);
         return HelloCabsResponseHandler.generateResponse(HelloCabsConstants
-                .LOCATION_FOUND, HttpStatus.FOUND, locationDto);
+                .LOCATION_FOUND, HttpStatus.FOUND, locationService.getLocationById(id));
     }
 
     /**
@@ -101,15 +92,8 @@ public class LocationController {
      */
     @PutMapping("/update")
     private ResponseEntity<Object> updateLocation( @Valid @RequestBody LocationDto locationDto) {
-
-        if (null != locationDto.getId() ) {
-            LocationDto updatedLocationDto = locationService.updateLocation(locationDto);
-            logger.info(HelloCabsConstants.LOCATION_UPDATED);
-            return HelloCabsResponseHandler.generateResponse(HelloCabsConstants
-                    .LOCATION_UPDATED, HttpStatus.OK, updatedLocationDto);
-        }
-        logger.error(HelloCabsConstants.LOCATION_NOT_FOUND);
-        throw new HelloCabsException(HelloCabsConstants.LOCATION_NOT_FOUND);
+        return HelloCabsResponseHandler.generateResponse(HelloCabsConstants
+                    .LOCATION_UPDATED, HttpStatus.OK, locationService.updateLocation(locationDto));
     }
 
     /**
@@ -126,14 +110,7 @@ public class LocationController {
      */
     @DeleteMapping("/delete/{id}")
     private ResponseEntity<Object> deleteLocationById(@PathVariable Integer id) {
-        if (locationService.deleteLocationById(id)) {
-            logger.info(HelloCabsConstants.LOCATION_DELETED);
-            return HelloCabsResponseHandler.generateResponse(HelloCabsConstants
-                    .LOCATION_DELETED, HttpStatus.OK);
-        } else {
-            logger.info(HelloCabsConstants.LOCATION_NOT_FOUND);
-            throw new HelloCabsException(HelloCabsConstants.LOCATION_NOT_FOUND);
-        }
+        return HelloCabsResponseHandler.generateResponse(locationService.deleteLocationById(id), HttpStatus.OK);
     }
 
     /**
@@ -146,7 +123,6 @@ public class LocationController {
      */
     @GetMapping("/locations")
     private ResponseEntity<Object> getAllLocations() {
-        logger.info(HelloCabsConstants.LOCATION_FOUND);
         return HelloCabsResponseHandler.generateResponse(HelloCabsConstants
                 .LOCATION_FOUND, HttpStatus.OK, locationService
                 .retrieveAllLocations());

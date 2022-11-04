@@ -9,19 +9,21 @@ import lombok.NoArgsConstructor;
 
 /**
  * <p>
- * HelloCabsException is the class of those exceptions that can be thrown
- * during the normal operation of the hello cabs application.
+ *   HelloCabsException is the class of those exceptions that can be thrown
+ *   during the normal operation of the hello cabs application.
  * </p>
  *
- * @author Divya S
+ * @author : Divya
+ * created on 25/10/2022
+ * @version 1.0
  *
- * @version 1.0 Oct-29-2022
  */
 @NoArgsConstructor
 public class HelloCabsException extends RuntimeException {
+
     /**
      * <p>
-     * Constructs a new HelloCabs exception with the specified detail message.
+     *   Constructs a new HelloCabs exception with the specified detail message.
      * </p>
      *
      * @param message
@@ -33,7 +35,7 @@ public class HelloCabsException extends RuntimeException {
 
     /**
      * <p>
-     * Constructs a new HelloCabs exception with the specified detail message and cause.
+     *   Constructs a new HelloCabs exception with the specified detail message and cause.
      * </p>
      *
      * @param message
@@ -47,7 +49,7 @@ public class HelloCabsException extends RuntimeException {
 
     /**
      * <p>
-     * Constructs a new HelloCabs exception with the throwable cause.
+     *   Constructs a new HelloCabs exception with the throwable cause.
      * </p>
      *
      * @param cause

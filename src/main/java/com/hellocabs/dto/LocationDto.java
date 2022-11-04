@@ -7,9 +7,8 @@ package com.hellocabs.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.Data;
+import com.hellocabs.constants.HelloCabsConstants;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
@@ -18,24 +17,26 @@ import javax.validation.constraints.Size;
 
 /**
  * <p>
- * LocationDto class has the getters and setters that holds the
- * data of the fields related to Location
+ *   LocationDto class has the getters and setters meant to hold the
+ *   location dto object consists the fields that are related to
+ *   location and it is used to transfer data between user
+ *   and database.
  * </p>
  *
- * @author Divya
- *
- * @version 1.0 Oct-26-2022
+ * @author : Divya
+ * created on 20/10/2022
+ * @version 1.0
  *
  */
-
-@Data
+@Getter
+@Setter
 public class LocationDto {
 
     private Integer id;
 
-    @NotBlank(message = "Location name must not be Empty or null")
-    @Size(min = 3, message="Location name should have at least 3 characters")
-    @Pattern(regexp = ("([a-zA-Z.]{3,})"))
+    @NotBlank(message = HelloCabsConstants.LOCATION_NOT_BLANK)
+    @Size(min = HelloCabsConstants.NAME_SIZE_MIN, message = HelloCabsConstants.LOCATION_NAME_SIZE)
+    @Pattern(regexp = (HelloCabsConstants.LOCATION_NAME_REGEX), message = HelloCabsConstants.INVALID_LOCATION_NAME)
     private String locationName;
 
     @JsonIgnore

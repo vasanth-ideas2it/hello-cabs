@@ -19,13 +19,15 @@ import java.util.List;
 
 /**
  * <p>
- * CabCategoryDto class has the getters and setters that holds the
- * data of the fields related to cab category.
+ *   CabCategoryDto class has the getters and setters meant to hold the
+ *   cab category dto object consists the fields that are related to
+ *   cab category and it is used to transfer data between user
+ *   and database.
  * </p>
  *
- * @author  Divya
- *
- * @version 1.0 Oct-26-2022
+ * @author : Divya
+ * created on 20/10/2022
+ * @version 1.0
  *
  */
 @Data
@@ -34,16 +36,16 @@ public class CabCategoryDto {
     private Integer id;
 
     @NotBlank(message = HelloCabsConstants.CAB_TYPE_NOT_BLANK)
-    @Pattern(regexp = ("([a-zA-Z//s]{3,})"))
+    @Pattern(regexp = (HelloCabsConstants.CAB_TYPE_REGEX), message = HelloCabsConstants.ENTER_VALID_CAB_TYPE)
     private String cabType;
 
-    @DecimalMin(HelloCabsConstants.DECIMAL_MIN)
+    @DecimalMin(value = HelloCabsConstants.DECIMAL_MIN, message = HelloCabsConstants.INVALID_FARE)
     private Double initialFare;
 
-    @DecimalMin(HelloCabsConstants.DECIMAL_MIN)
+    @DecimalMin(value = HelloCabsConstants.DECIMAL_MIN, message = HelloCabsConstants.INVALID_FARE)
     private Double extraFarePerHour;
 
-    @DecimalMin(HelloCabsConstants.DECIMAL_MIN)
+    @DecimalMin(value = HelloCabsConstants.DECIMAL_MIN, message = HelloCabsConstants.INVALID_FARE)
     private Double peakHourFare;
 
     @JsonIgnore

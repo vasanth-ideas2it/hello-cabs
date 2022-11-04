@@ -35,7 +35,7 @@ public interface CabCategoryService {
      * @return CabCategoryDto
      *         updated location is returned
      */
-    CabCategoryDto updateCabCategory(int id, CabCategoryDto cabCategoryDto);
+    CabCategoryDto updateCabCategory(CabCategoryDto cabCategoryDto);
 
     /**
      * <p>
@@ -57,13 +57,13 @@ public interface CabCategoryService {
      * </p>
      *
      * @param id
-     *        for which the id of the location need to
+     *        for which the id of the cab category need to
      *        be deleted is given
-     * @return boolean
-     *         returns true if the location of given id is deleted
-     *         otherwise false
+     * @return String
+     *         returns message if the cab category of given id is deleted
+     *         otherwise throws exception
      */
-    boolean deleteCabCategoryById(Integer id);
+    String deleteCabCategoryById(Integer id);
 
     /**
      * <p>

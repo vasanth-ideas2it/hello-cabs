@@ -59,7 +59,7 @@ public interface LocationService {
      *         gets the message whether the location is
      *         deleted or not
      */
-    boolean deleteLocationById(Integer id);
+    String deleteLocationById(Integer id);
 
     /**
      * <p>

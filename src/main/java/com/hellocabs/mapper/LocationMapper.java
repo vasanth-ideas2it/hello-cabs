@@ -33,6 +33,7 @@ public class LocationMapper {
      *
      * @param location {@link Location} entity object to be converted
      * @return LocationDto {@link LocationDto} converted dto object
+     *
      */
     public static LocationDto locationToLocationDto(Location location) {
         return MapperConfig.getConfigure().map(location, LocationDto.class);
@@ -46,6 +47,7 @@ public class LocationMapper {
      *
      * @param locationDto {@link LocationDto} dto object to be converted
      * @return Location {@link Location} converted entity object
+     *
      */
     public static Location locationDtoToLocation(LocationDto locationDto) {
         return MapperConfig.getConfigure().map(locationDto, Location.class);
@@ -59,6 +61,7 @@ public class LocationMapper {
      *
      * @param locations {@link Location} dto object to be converted
      * @return List<LocationDto> {@link LocationDto} converted entity object
+     *
      */
     public static List<LocationDto> locationsToLocationDtos(List<Location> locations) {
         List<LocationDto> locationDtos = new ArrayList<LocationDto>();

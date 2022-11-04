@@ -5,6 +5,7 @@
  */
 package com.hellocabs.service.impl;
 
+import com.hellocabs.configuration.LoggerConfiguration;
 import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.LocationDto;
 import com.hellocabs.exception.HelloCabsException;
@@ -13,6 +14,7 @@ import com.hellocabs.model.Location;
 import com.hellocabs.repository.LocationRepository;
 import com.hellocabs.service.LocationService;
 import lombok.RequiredArgsConstructor;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LocationServiceImpl implements LocationService {
 
+    private final Logger logger = LoggerConfiguration.getInstance(HelloCabsConstants.LOCATION_SERVICE);
     private final LocationRepository locationRepository;
 
     /**
@@ -37,11 +40,12 @@ public class LocationServiceImpl implements LocationService {
         Location location = LocationMapper.locationDtoToLocation(locationDto);
 
         if (!locationRepository.existsByLocationName(location.getLocationName())) {
-            Integer id = LocationMapper.locationToLocationDto
-                    (locationRepository.save(location)).getId();
+            Integer id = LocationMapper.locationToLocationDto(locationRepository.save(location)).getId();
+            logger.info(HelloCabsConstants.LOCATION_CREATED + id);
             return HelloCabsConstants.LOCATION_CREATED + id;
         }
-        return HelloCabsConstants.LOCATION_ALREADY_EXISTS;
+        logger.error(HelloCabsConstants.LOCATION_ALREADY_EXISTS);
+        throw new HelloCabsException(HelloCabsConstants.LOCATION_ALREADY_EXISTS);
     }
 
     /**
@@ -59,8 +63,10 @@ public class LocationServiceImpl implements LocationService {
         Location location = locationRepository.findByIdAndIsDeleted(id, false);
 
         if (null != location) {
+            logger.info(HelloCabsConstants.LOCATION_FOUND + id);
             return LocationMapper.locationToLocationDto(location);
         }
+        logger.error(HelloCabsConstants.LOCATION_NOT_FOUND);
         throw new HelloCabsException(HelloCabsConstants.LOCATION_NOT_FOUND);
     }
 
@@ -74,12 +80,14 @@ public class LocationServiceImpl implements LocationService {
      * @return LocationDto
      *         updated location is returned
      */
-    public LocationDto updateLocation( LocationDto locationDto) {
+    public LocationDto updateLocation(LocationDto locationDto) {
 
         if (locationRepository.existsByIdAndIsDeleted(locationDto.getId(), false)) {
+            logger.info(HelloCabsConstants.LOCATION_UPDATED + locationDto.getId());
             return LocationMapper.locationToLocationDto(locationRepository.
                     save(LocationMapper.locationDtoToLocation(locationDto)));
         }
+        logger.error(HelloCabsConstants.LOCATION_NOT_UPDATED);
         throw new HelloCabsException(HelloCabsConstants.LOCATION_NOT_UPDATED);
     }
 
@@ -95,16 +103,17 @@ public class LocationServiceImpl implements LocationService {
      *         gets the message whether the location is
      *         deleted or not
      */
-    public boolean deleteLocationById(Integer id) {
+    public String deleteLocationById(Integer id) {
         Location location = locationRepository.findByIdAndIsDeleted(id, false);
 
         if (null != location) {
             location.setDeleted(true);
             locationRepository.save(location);
-            return true;
-        } else {
-            return false;
+            logger.info(HelloCabsConstants.LOCATION_DELETED + id);
+            return HelloCabsConstants.LOCATION_DELETED;
         }
+        logger.error(HelloCabsConstants.LOCATION_NOT_FOUND);
+        throw new HelloCabsException(HelloCabsConstants.LOCATION_NOT_FOUND);
     }
 
     /**
@@ -116,6 +125,7 @@ public class LocationServiceImpl implements LocationService {
      *         retrieves all the locations
      */
     public List<LocationDto> retrieveAllLocations() {
+        logger.info(HelloCabsConstants.ALL_LOCATIONS_FOUND);
         return LocationMapper.locationsToLocationDtos(locationRepository.findAllByIsDeleted(false));
     }
 }

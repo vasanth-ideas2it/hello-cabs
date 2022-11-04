@@ -15,14 +15,15 @@ import java.util.List;
 
 /**
  * <p>
- * CabCategoryMapper class consists of the functions that converts
- * dto of the CabCategory object to entity and vice versa which is
- * used during the normal operation of the hello cabs application.
+ *   CabCategoryMapper class consists of the functions that converts
+ *   dto of the CabCategory object to entity and vice versa which is
+ *   used during the normal operation of the hello cabs application.
  * </p>
  *
- * @author Divya S
+ * @author : Divya
+ * created on 21/10/2022
+ * @version 1.0
  *
- * @version 1.0 Oct-29-2022
  */
 public class CabCategoryMapper {
 
@@ -34,6 +35,7 @@ public class CabCategoryMapper {
      *
      * @param cabCategory {@link CabCategory} entity object to be converted
      * @return CabCategoryDto {@link CabCategoryDto} converted dto object
+     *
      */
     public static CabCategoryDto  cabCategoryToCabCategoryDto(CabCategory cabCategory) {
         return MapperConfig.getConfigure().map(cabCategory, CabCategoryDto.class);
@@ -47,6 +49,7 @@ public class CabCategoryMapper {
      *
      * @param cabCategoryDto {@link CabCategoryDto} dto object to be converted
      * @return CabCategory {@link CabCategory} converted entity object
+     *
      */
     public static CabCategory cabCategoryDtoToCabCategory(CabCategoryDto cabCategoryDto) {
         return MapperConfig.getConfigure().map(cabCategoryDto, CabCategory.class);
@@ -60,6 +63,7 @@ public class CabCategoryMapper {
      *
      * @param cabCategories {@link CabCategory} dto object to be converted
      * @return List<CabCategoryDto> {@link CabCategoryDto} converted entity object
+     *
      */
     public static List<CabCategoryDto> cabCategoriesToCabCategoryDtos(List<CabCategory> cabCategories) {
         List<CabCategoryDto> cabCategoryDtos = new ArrayList<>();

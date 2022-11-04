@@ -23,13 +23,16 @@ public class HelloCabsConstants {
     //LOGGER
     public static final String RIDE_SERVICE_CLASS = "RideServiceImpl";
     public static final String RIDE_MAPPER = "RideMapper";
-    public static final String CAB_CATEGORY_CONTROLLER = "CabCategoryController";
+    public static final String CAB_CATEGORY_SERVICE = "CabCategoryService";
+    public static final String LOCATION_SERVICE = "LocationService";
     public static final String CAB_SERVICE_CLASS = "CabServiceImpl";
     public static final String CUSTOMER_CONTROLLER = "CustomerController";
 
     //REGEX
     public static final String PEAK_HOUR_REGEX = "0?[8-9]|1[089]|2[0-1]";
     public static final String RIDE_STATUS_REGEX = "Booked|Accepted|Picked|Dropped|Cancelled";
+    public static final String LOCATION_NAME_REGEX = "([a-zA-Z.\\s]{3,})";
+    public static final String CAB_TYPE_REGEX = "([a-zA-Z\\s]{3,})";
 
     //SEARCH NOT FOUND
     public static final String LOCATION_NOT_FOUND = "Location not found for given id";
@@ -44,12 +47,14 @@ public class HelloCabsConstants {
     public static final String CAB_FOUND = "Cab found for given id";
     public static final String CUSTOMER_FOUND = "Customer found for given id";
     public static final String RIDE_FOUND = "Ride found ";
+    public static final String ALL_CAB_CATEGORIES_FOUND = "Found all cab categories";
+    public static final String ALL_LOCATIONS_FOUND = "Found all locations";
 
     //DELETED
-    public static final String LOCATION_DELETED = "Location deleted for given id";
-    public static final String CAB_CATEGORY_DELETED = "Cab category deleted for given id";
-    public static final String CAB_DELETED = "Cab deleted for given id";
-    public static final String CUSTOMER_DELETED = "Customer deleted for given id";
+    public static final String LOCATION_DELETED = "Location deleted for given id ";
+    public static final String CAB_CATEGORY_DELETED = "Cab category deleted for given id ";
+    public static final String CAB_DELETED = "Cab deleted for given id ";
+    public static final String CUSTOMER_DELETED = "Customer deleted for given id ";
     public static final String RIDE_CANCELLED = "Ride cancelled successfully";
 
     //NOT DELETED
@@ -61,9 +66,6 @@ public class HelloCabsConstants {
     public static final String CAB_CREATED = "Cab created with ID: ";
     public static final String RIDE_CREATED = "Ride created with ID: ";
     public static final String CUSTOMER_REGISTERED = "Customer registered successfully with ID: ";
-
-    //NOT CREATED
-    public static final String CUSTOMER_NOT_REGISTERED = "Customer is not registered successfully because mobileNumber or emailId already exist ";
 
     //UPDATED
     public static final String LOCATION_UPDATED = "Location updated ";
@@ -102,7 +104,6 @@ public class HelloCabsConstants {
     public static final String CAR_MODEL_SIZE = "CarModel Should be in 5 to 20 characters";
     public static final String CURRENT_LOCATION_SIZE = "Current Location Should be in between 10 to 15 Characters";
     public static final String LOCATION_NOT_BLANK = "Location name should not be Empty or null";
-    public static final String LOCATION_SIZE = "Location name should have at least 3 characters";
     public static final String PICKUP_LOCATION_NOT_EMPTY = "Pickup location name must not be empty or null :: Please enter pickup location";
     public static final String DROP_LOCATION_NOT_EMPTY = "Drop location name must not be empty or null :: Please enter drop location";
     public static final String RIDE_STATUS_NOT_BLANK = "Ride status should not be empty or null";
@@ -139,14 +140,21 @@ public class HelloCabsConstants {
     public static final String INVALID_LOGIN_CREDENTIALS = "Invalid Login Credentials";
     public static final String CAB_ASSIGNED = "Hoorah! Cab assigned";
     public static final String RIDE_PICKED_ALREADY = "This ride has been picked already";
-    public static final String CUSTOMER_ALREADY_EXIST = "Email or Mobile number already registered" ;
+    public static final String CUSTOMER_ALREADY_EXIST = "Email or Mobile number already registered";
+    public static final String CUSTOMER_NOT_REGISTERED = "Customer is not registered successfully because mobileNumber or emailId already exist";
+
+    public static final String CAB_CATEGORY_NOT_CREATED = "Cab category not created";
 
     //VALIDATION
     public static final String DECIMAL_MIN = "0.0";
-
+    public static final int NAME_SIZE_MIN = 3;
+    public static final String ENTER_VALID_CAB_TYPE ="Enter valid cab type Ex: Mini";
     public static final String FEEDBACK_ADDED = "Thanks for giving valuable feedback";
     public static final String RIDE_ACCEPTED_ALREADY = "This ride already has been accepted by another driver";
     public static final String RIDE_CANCELLED_ALREADY = "Ride Already Cancelled";
     public static final String PASSWORD_CRITERIA = "Password should contain atleast one Uppercase, atleast one Number, atleast one Special character, minimum 8 and maximum 16 characters";
 
+    public static final String LOCATION_NAME_SIZE = "Location name should have at least 3 characters";
+    public static final String INVALID_LOCATION_NAME = "Location name should not contain any special characters or numbers";
+    public static final String INVALID_FARE = "Fare should not be less than zero";
 }
