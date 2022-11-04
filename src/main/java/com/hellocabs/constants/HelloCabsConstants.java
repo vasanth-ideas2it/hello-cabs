@@ -157,4 +157,5 @@ public class HelloCabsConstants {
     public static final String LOCATION_NAME_SIZE = "Location name should have at least 3 characters";
     public static final String INVALID_LOCATION_NAME = "Location name should not contain any special characters or numbers";
     public static final String INVALID_FARE = "Fare should not be less than zero";
+    public static final String VALID_VEHICLE_NUMBER = "Vehicle number should be valid (ex : TN 33 RD 4532)";
 }

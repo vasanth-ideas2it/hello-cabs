@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -32,6 +33,6 @@ public class StatusDto {
             message = HelloCabsConstants.RIDE_STATUS)
     private String rideStatus;
 
-    private Long dropTime;
+    private LocalDateTime dropTime;
 
 }

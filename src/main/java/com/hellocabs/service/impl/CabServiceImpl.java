@@ -53,7 +53,7 @@ public class CabServiceImpl implements CabService {
     @Override
     public String createCab(CabDto cabDto) {
         Cab cab = CabMapper.convertCabDtoToCab(cabDto);
-        if (!cabRepository.existsByMobileNumberAndEmail(cab.getMobileNumber(), cab.getEmail())) {
+        if (!cabRepository.existsByMobileNumberOrEmail(cab.getMobileNumber(), cab.getEmail())) {
             Cab cabDetails = cabRepository.save(cab);
             Integer id = cabDetails.getId();
             logger.info(HelloCabsConstants.CAB_CREATED + cab.getId());

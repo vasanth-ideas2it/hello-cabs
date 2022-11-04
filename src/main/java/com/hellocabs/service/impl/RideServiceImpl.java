@@ -295,8 +295,7 @@ public class RideServiceImpl implements RideService {
 
             case DROPPED:
                 if (Status.PICKED.toString().equalsIgnoreCase(ride.getRideStatus())) {
-                    ride.setRideDroppedTime(LocalDateTime.now()
-                            .plusHours(statusDto.getDropTime()));
+                    ride.setRideDroppedTime(statusDto.getDropTime());
 
                     if (null == ride.getRideDroppedTime()) {
                         ride.setRideDroppedTime(LocalDateTime.now());
