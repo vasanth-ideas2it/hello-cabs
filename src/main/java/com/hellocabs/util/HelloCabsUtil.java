@@ -14,7 +14,6 @@ import com.hellocabs.exception.HelloCabsException;
 import com.hellocabs.model.Cab;
 import com.hellocabs.model.CabCategory;
 import com.hellocabs.model.Ride;
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -38,8 +37,8 @@ public class HelloCabsUtil {
 
     /**
      * <p>
-     *     Method used to get the ride rating from user
-     *     and calculate the average driver rating for the cab
+     *   Method used to get the ride rating from user
+     *   and calculate the average driver rating for the cab
      * </p>
      *
      * @param cab {@link Cab} cabDto in which rating has to be updated
@@ -79,13 +78,11 @@ public class HelloCabsUtil {
 
         if ((Status.DROPPED.toString()).equalsIgnoreCase(ride.getRideStatus())) {
             Long timeDifference = (ChronoUnit.HOURS.between(
-                    ride.getRideDroppedTime(), ride.getRidePickedTime()));
+                    ride.getRidePickedTime(), ride.getRideDroppedTime()));
             Double[] price = {cabCategory.getInitialFare(),
                     cabCategory.getExtraFarePerHour(), cabCategory.getPeakHourFare()};
             boolean isPeakHour = (Integer.toString(ride.getRideBookedTime().getHour())
                     .matches(HelloCabsConstants.PEAK_HOUR_REGEX));
-            Double fare = price[0] + ((timeDifference
-                    - HelloCabsConstants.MINIMUM_BOOKING_HOUR) * price[1]);
             /*
              *   Calculate the difference between picked and dropped time,
              *   if difference is lesser than minimum booking hour and if
@@ -97,9 +94,14 @@ public class HelloCabsUtil {
              *   peak hour fare together with base fare
              *   else adds the additional fare with base fare
              */
-            return  (HelloCabsConstants.MINIMUM_BOOKING_HOUR > (timeDifference))
-                    ? isPeakHour ? (price[0] + price[2]) : price[0]
-                    : isPeakHour ? (fare + price[2]) : fare;
+
+            if (HelloCabsConstants.MINIMUM_BOOKING_HOUR > (timeDifference)) {
+                return isPeakHour ? (price[0] + price[2]) : price[0];
+            } else if (HelloCabsConstants.MINIMUM_BOOKING_HOUR < (timeDifference)) {
+                Double fare = price[0] + ((timeDifference
+                        - HelloCabsConstants.MINIMUM_BOOKING_HOUR) * price[1]);
+                return isPeakHour ? (fare + price[2]) : fare;
+            }
         }
         logger.info(HelloCabsConstants.CUSTOMER_NOT_DROPPED);
         /*throws exception stated that customer is not dropped yet*/

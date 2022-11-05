@@ -68,6 +68,7 @@ public class CabCategoryMapper {
     public static List<CabCategoryDto> cabCategoriesToCabCategoryDtos(List<CabCategory> cabCategories) {
         List<CabCategoryDto> cabCategoryDtos = new ArrayList<>();
 
+        /*Iterate list of cabcategory and convert those cabcategories into list of cabcategoryDto*/
         for (CabCategory cabCategory: cabCategories) {
             cabCategoryDtos.add(cabCategoryToCabCategoryDto(cabCategory));
         }

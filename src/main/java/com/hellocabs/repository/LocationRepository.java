@@ -3,6 +3,7 @@
  *   Copyright (c) All rights reserved Ideas2IT
  * </p>
  */
+
 package com.hellocabs.repository;
 
 import com.hellocabs.model.Location;
@@ -26,11 +27,55 @@ import java.util.List;
 @Repository
 public interface LocationRepository extends JpaRepository<Location,Integer> {
 
-    Location findByIdAndIsDeleted(Integer id, boolean value);
+    /**
+     * <p>
+     *   This method used to find active cab by using id
+     * </p>
+     *
+     * @param id {@link Integer} for which the cab category to be added is given
+     * @param flag {@link Boolean} value to check whether the cab is active or not
+     * @return {@link Location} location object one and only if the given id is
+     *      active else returns null
+     *
+     */
+    Location findByIdAndIsDeleted(Integer id, boolean flag);
 
-    List<Location> findAllByIsDeleted(boolean value);
+    /**
+     * <p>
+     *   This method used to find list active cab
+     * </p>
+     *
+     * @param flag {@link Boolean} value to check whether the cab is active or not
+     * @return {@link List<Location>} list of active location object else empty list
+     *
+     */
+    List<Location> findAllByIsDeleted(boolean flag);
 
+    /**
+     * <p>
+     *   This method used to check whether the given
+     *   location is exists or not
+     * </p>
+     *
+     * @param locationName {@link String} location name to be checked
+     * @return {@link Boolean} returns true if the given name is
+     *      already exists else false
+     *
+     */
     boolean existsByLocationName(String locationName);
 
-    boolean existsByIdAndIsDeleted(Integer id, boolean value);
+    /**
+     * <p>
+     *   This method used to check whether the given
+     *   location is exists or not
+     * </p>
+     *
+     * @param id {@link Integer} for which the cab category
+     *                          to be added is given
+     * @param flag {@link Boolean} value to check whether the cab is active or not
+     * @return {@link Boolean} returns true if the given name is
+     *       already exists else false
+     *
+     */
+    boolean existsByIdAndIsDeleted(Integer id, boolean flag);
 }

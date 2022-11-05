@@ -22,7 +22,6 @@ public class HelloCabsConstants {
 
     //LOGGER
     public static final String RIDE_SERVICE_CLASS = "RideServiceImpl";
-    public static final String RIDE_MAPPER = "RideMapper";
     public static final String CAB_CATEGORY_SERVICE = "CabCategoryService";
     public static final String LOCATION_SERVICE = "LocationService";
     public static final String CAB_SERVICE_CLASS = "CabServiceImpl";
@@ -143,7 +142,6 @@ public class HelloCabsConstants {
     public static final String CAB_ASSIGNED = "Hoorah! Cab assigned";
     public static final String RIDE_PICKED_ALREADY = "This ride has been picked already";
     public static final String CUSTOMER_ALREADY_EXIST = "Email or Mobile number already registered";
-
     public static final String CAB_CATEGORY_NOT_CREATED = "Cab category not created";
 
     //VALIDATION
@@ -155,7 +153,6 @@ public class HelloCabsConstants {
     public static final String RIDE_CANCELLED_ALREADY = "Ride Already Cancelled";
     public static final String PASSWORD_CRITERIA = "Password should contain atleast one Uppercase, atleast one Number, "
             + "atleast one Special character, minimum 8 and maximum 16 characters";
-
     public static final String LOCATION_NAME_SIZE = "Location name should have at least 3 characters";
     public static final String INVALID_LOCATION_NAME = "Location name should not contain any special characters or numbers";
     public static final String INVALID_FARE = "Fare should not be less than zero";

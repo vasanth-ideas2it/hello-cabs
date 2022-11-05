@@ -65,6 +65,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             String userName = Long.toString(cab.getMobileNumber());
             return new User(userName, cab.getPassword(), new ArrayList<>());
         }
+        /*throws exception when the given credentials are invalid*/
         throw new UsernameNotFoundException(HelloCabsConstants.INVALID_USERNAME_OR_PASSWORD);
     }
 }

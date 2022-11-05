@@ -8,7 +8,7 @@ import com.hellocabs.configuration.MapperConfig;
 import com.hellocabs.dto.CustomerDto;
 import com.hellocabs.model.Customer;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,11 +24,12 @@ public class CustomerMapper {
 
     /**
      * <p>
-     *     Converting customerDto to customer.
+     *   Converting customerDto to customer.
      * </p>
      *
-     * @param customerDto
-     * @return converted customer
+     * @param customerDto {@link CustomerDto} dto object to be converted
+     * @return {@link Customer} converted customer object
+     *
      */
     public static Customer convertCustomerDtoToCustomer(CustomerDto customerDto) {
         return MapperConfig.getConfigure().map(customerDto, Customer.class);
@@ -36,11 +37,12 @@ public class CustomerMapper {
 
     /**
      * <p>
-     *     Converting customer to customerDto.
+     *   Converting customer to customerDto.
      * </p>
      *
-     * @param customer
-     * @return converted customerDto
+     * @param customer {@link Customer} entity object to be converted
+     * @return {@link CustomerDto} converted customerDto object
+     *
      */
     public static CustomerDto convertCustomerToCustomerDto(Customer customer) {
         return MapperConfig.getConfigure().map(customer, CustomerDto.class);
@@ -48,14 +50,17 @@ public class CustomerMapper {
 
     /**
      * <p>
-     *     Converting customers to customerDtos.
+     *   This method is used to convert list of customers into list of customer dto
      * </p>
      *
-     * @param customers
-     * @return converted customerDtos.
+     * @param customers {@link Customer} list of customers to be converted
+     * @return {@link List<CustomerDto>} converted list of customerDto
+     *
      */
     public static List<CustomerDto> convertCustomersToCustomerDtos(List<Customer> customers) {
-        List<CustomerDto> customerDtos = new LinkedList<CustomerDto>();
+        List<CustomerDto> customerDtos = new ArrayList<>();
+
+        /*Iterate list of customer and convert those customer into list of customerDto*/
         for (Customer customer : customers) {
             CustomerDto customerDto = CustomerMapper.convertCustomerToCustomerDto(customer);
             customerDtos.add(customerDto);  

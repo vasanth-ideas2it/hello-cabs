@@ -31,6 +31,7 @@ import com.hellocabs.service.CabCategoryService;
 @RequestMapping("/cabcategory")
 @RequiredArgsConstructor
 public class CabCategoryController {
+
     private final CabCategoryService cabCategoryService;
 
     /**
@@ -90,12 +91,10 @@ public class CabCategoryController {
      *   This method is to delete cab category Details.
      * </p>
      *
-     * @param id {@link Integer}
-     *        for which the id of the cab category need to
+     * @param id {@link Integer} for which the id of the cab category need to
      *        be deleted is given
-     * @return {@link ResponseEntity<Object>}
-     *         gets the message whether the cab category is
-     *         deleted or not
+     * @return {@link ResponseEntity<Object>} gets the message whether the
+     *         cab category is deleted or not
      */
     @DeleteMapping("/delete/{id}")
     private ResponseEntity<Object> deleteCabCategoryById(@PathVariable Integer id) {
@@ -107,8 +106,7 @@ public class CabCategoryController {
      *   This method is to display all cab category Details.
      * </p>
      *
-     * @return {@link ResponseEntity<Object>}
-     *         retrieves all the cab categories
+     * @return {@link ResponseEntity<Object>} retrieves all the cab categories
      */
     @GetMapping("/cabcategories")
     private ResponseEntity<Object> getAllCabCategories() {

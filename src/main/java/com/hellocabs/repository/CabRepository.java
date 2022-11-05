@@ -39,20 +39,6 @@ public interface CabRepository  extends JpaRepository<Cab, Integer> {
 
     /**
      * <p>
-     *   An abstract method used to find cab object by using
-     *   mobile number and password
-     * </p>
-     *
-     * @param mobileNumber {@link Long}  mobile number to be searched
-     * @param password {@link String} password for the respective mobile number
-     * @return {@link Cab} returns cab object which matches
-     *      the given mobile number and password
-     *
-     */
-    Cab findByMobileNumberAndPassword(Long mobileNumber, String password);
-
-    /**
-     * <p>
      *   An abstract method used to check if the given mobile number
      *   and email exists or not, if exists returns true otherwise false.
      *   This method used to avoid if an user who entered details

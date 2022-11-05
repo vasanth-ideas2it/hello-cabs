@@ -20,20 +20,35 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * <h> LocationServiceImpl </h>
+ * <p>
+ *   Class is used to define the implemented methods from LocationService interface
+ *   and used to perform CRUD operations for Location object Details
+ *   given by the user with help of locationDto object
+ * </p>
+ *
+ * @author : Divya
+ * created on 20/10/2022
+ * @version 1.0
+ *
+ */
 @Service
 @RequiredArgsConstructor
 public class LocationServiceImpl implements LocationService {
 
-    private final Logger logger = LoggerConfiguration.getInstance(HelloCabsConstants.LOCATION_SERVICE);
+    private final Logger logger = LoggerConfiguration
+            .getInstance(HelloCabsConstants.LOCATION_SERVICE);
     private final LocationRepository locationRepository;
 
     /**
      * <p>
-     *   This method is to add location Details.
+     *   This method is used to add location Details by converting the
+     *   locationDto into location entity through mapper class
      * </p>
      *
-     * @param locationDto {@link LocationDto}
-     *        for which the location to be added is given
+     * @param locationDto {@link LocationDto} for which the location
+     *                                      to be added is given
      * @return {@link String} created location id
      *
      */

@@ -27,8 +27,9 @@ public class HelloCabsException extends RuntimeException {
      *   Constructs a new HelloCabs exception with the specified detail message.
      * </p>
      *
-     * @param message {@link String}
-     *        the detail message (which is saved for later retrieval by the getMessage() method).
+     * @param message {@link String} the detail message (which is saved for
+     *                             later retrieval by the getMessage() method).
+     *
      */
     public HelloCabsException(String message) {
         super(message);
@@ -39,10 +40,11 @@ public class HelloCabsException extends RuntimeException {
      *   Constructs a new HelloCabs exception with the specified detail message and cause.
      * </p>
      *
-     * @param message {@link String}
-     *        the detail message (which is saved for later retrieval by the getMessage() method).
-     * @param cause {@link Throwable}
-     *        the cause (which is saved for later retrieval by the getCause() method).
+     * @param message {@link String} the detail message (which is saved for
+     *                             later retrieval by the getMessage() method).
+     * @param cause {@link Throwable} the cause (which is saved for later
+     *                               retrieval by the getCause() method).
+     *
      */
     public HelloCabsException(String message, Throwable cause) {
         super(message,cause);
@@ -53,8 +55,9 @@ public class HelloCabsException extends RuntimeException {
      *   Constructs a new HelloCabs exception with the throwable cause.
      * </p>
      *
-     * @param cause {@link Throwable}
-     *        the cause (which is saved for later retrieval by the getCause() method).
+     * @param cause {@link Throwable} the cause (which is saved for
+     *                               later retrieval by the getCause() method).
+     *
      */
     public HelloCabsException(Throwable cause) {
         super(cause);

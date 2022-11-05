@@ -24,8 +24,8 @@ public class CabMapper {
 
     /**
      * <p>
-     * Method used to change the cab object into cabDto with the help
-     * of cabDto entity object and return to respective method
+     *   Method used to change the cab object into cabDto with the help
+     *   of cabDto entity object and return to respective method
      * </p>
      *
      * @param cab {@link Cab}get valid information from user
@@ -37,12 +37,12 @@ public class CabMapper {
 
     /**
      * <p>
-     * Method used to change the cabDto object into cab with the help
-     * of cab entity object and return to respective method
+     *   Method used to change the cabDto object into cab with the help
+     *   of cab entity object and return to respective method
      * </p>
      *
-     * @param cabDto{@link CabDto}get valid information from user
-     * @return {Cab}returns the cab object
+     * @param cabDto {@link CabDto}get valid information from user
+     * @return {@link Cab}returns the cab object
      */
     public static Cab convertCabDtoToCab(CabDto cabDto) {
         return MapperConfig.getConfigure().map(cabDto, Cab.class);

@@ -30,7 +30,7 @@ public class HelloCabsValidation {
      * </p>
      *
      * @param mobileNumber {@link Long} mobile number to be validated
-     * @return {@link Boolean} if valid else throws exception
+     * @return {@link Boolean} if valid retuns true else throws exception
      *
      */
     public static boolean isValidMobileNumber(Long mobileNumber) {
