@@ -164,8 +164,6 @@ public class HelloCabsConstants {
     public static final String INVALID_GENDER = "Please enter valid Gender " + VALID_GENDER;
     public static final String PASSWORD_REQUIRED = "Enter your security password";
     public static final String INVALID_MOBILE_NUMBER = "Invalid mobile number, Mobile number starts with 6-9 and followed by 9 digits";
-
-
     public static final String VALID_CONSTRAINT = "check you have enter a valid id";
     public static final String MESSAGE = "message";
     public static final String SOMETHING_WENT_WRONG = "Sorry, Something went wrong";

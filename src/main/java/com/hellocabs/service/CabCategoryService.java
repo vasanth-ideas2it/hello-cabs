@@ -17,11 +17,10 @@ public interface CabCategoryService {
      * This method is to add cab category Details.
      * </p>
      *
-     * @param cabCategoryDto
-     *        for which the cab category to be added is given
-     * @return String
-     *         if cab category inserted cab category id is returned with message
+     * @param cabCategoryDto {@link CabCategoryDto} for which the cab category to be added is given
+     * @return {@link String} if cab category inserted cab category id is returned with message
      *         otherwise returns only not inserted message
+     *         
      */
     String createCabCategory(CabCategoryDto cabCategoryDto);
 
