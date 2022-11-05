@@ -9,6 +9,8 @@ import com.hellocabs.constants.HelloCabsConstants;
 
 import lombok.Data;
 
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.validation.annotation.Validated;
 
@@ -29,7 +31,12 @@ import java.util.Set;
  */
 @Data
 @Validated
+@NoArgsConstructor
 public class CustomerDto {
+
+    public CustomerDto(Integer customerId) {
+        this.customerId = customerId;
+    }
 
     private Integer customerId;
 
@@ -52,4 +59,6 @@ public class CustomerDto {
     private boolean isDeleted;
 
     private Set<RideDto> rides;
+
+
 }

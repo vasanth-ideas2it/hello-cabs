@@ -100,9 +100,8 @@ public class CustomerController {
      */
     @PutMapping("update")
     private ResponseEntity<Object> updateCustomerById(@Valid @RequestBody CustomerDto customerDto) {
-        Integer customerId = customerDto.getCustomerId();
 
-        if (null != customerId) {
+        if (null != customerDto.getCustomerId()) {
             customerService.updateCustomer(customerDto);
             logger.info(HelloCabsConstants.CUSTOMER_UPDATED);
             return HelloCabsResponseHandler
@@ -123,8 +122,8 @@ public class CustomerController {
      */
     @DeleteMapping("delete/{customerId}")
     private ResponseEntity<Object> deleteCustomerById(@PathVariable Integer customerId) {
-        boolean deletedCustomer = customerService.deleteCustomerById(customerId);
-        if ( deletedCustomer) {
+
+        if ( customerService.deleteCustomerById(customerId)) {
             logger.info(HelloCabsConstants.CUSTOMER_DELETED);
             return HelloCabsResponseHandler
                     .generateResponse(HelloCabsConstants.CUSTOMER_DELETED, HttpStatus.OK);

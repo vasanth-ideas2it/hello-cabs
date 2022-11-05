@@ -19,11 +19,14 @@ import java.util.List;
 public interface CustomerService {
 
     Customer createCustomerDetails(CustomerDto customerDto);
+
     CustomerDto viewCustomerById(Integer customerId);
+
     CustomerDto updateCustomer(CustomerDto customerDto);
+
     boolean deleteCustomerById(Integer customerId);
+
     List<CustomerDto> retrieveCustomers();
-    String verifyCustomerDetails(CustomerDto customerDto);
 
     Customer findByCustomerMobileNumber(long parseLong);
 }

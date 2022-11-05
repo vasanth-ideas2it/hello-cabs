@@ -6,6 +6,8 @@
 
 package com.hellocabs.constants;
 
+import com.hellocabs.util.HelloCabsUtil;
+
 /**
  * <p>
  *   Constants class contains number of constants available which is used
@@ -26,6 +28,10 @@ public class HelloCabsConstants {
     public static final String CAB_SERVICE_CLASS = "CabServiceImpl";
     public static final String CUSTOMER_CONTROLLER = "CustomerController";
     public static final String AUTHENTICATION_CONTROLLER = "AuthenticationController";
+    public static final String UTIL_CLASS = "HelloCabsUtil";
+
+    public static final Integer MAXIMUM_WAITING_TIME = 5;
+    public static final Integer MINIMUM_BOOKING_HOUR = 3;
 
     //REGEX
     public static final String PEAK_HOUR_REGEX = "0?[8-9]|1[089]|2[0-1]";
@@ -159,4 +165,9 @@ public class HelloCabsConstants {
     public static final String PASSWORD_REQUIRED = "Enter your security password";
     public static final String INVALID_MOBILE_NUMBER = "Invalid mobile number, Mobile number starts with 6-9 and followed by 9 digits";
 
+
+    public static final String VALID_CONSTRAINT = "check you have enter a valid id";
+    public static final String MESSAGE = "message";
+    public static final String SOMETHING_WENT_WRONG = "Sorry, Something went wrong";
+    public static final String TIME_STAMP = "timestamp";
 }

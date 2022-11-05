@@ -11,6 +11,7 @@ import com.hellocabs.mapper.CustomerMapper;
 import com.hellocabs.model.Customer;
 import com.hellocabs.repository.CustomerRepository;
 import com.hellocabs.service.CustomerService;
+import com.hellocabs.validation.HelloCabsValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -50,15 +51,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer createCustomerDetails(CustomerDto customerDto) {
 
-        if (!customerDto.getCustomerMobileNumber().toString()
-                .matches(HelloCabsConstants.MOBILE_NUMBER)) {
-            throw new HelloCabsException(HelloCabsConstants.INVALID_MOBILE_NUMBER);
-        }
-        Customer customer = CustomerMapper.convertCustomerDtoToCustomer(customerDto);
-
-        if (!customerRepository.existsByCustomerMobileNumberOrCustomerEmail(customer.getCustomerMobileNumber(), customer.getCustomerEmail() )) {
-            customer.setPassword(passwordEncoder.encode(customer.getPassword()));
-            return  customerRepository.save(customer);
+        if (HelloCabsValidation.isValidMobileNumber(customerDto.getCustomerMobileNumber())
+                && !customerRepository.existsByCustomerMobileNumberOrCustomerEmail(
+                customerDto.getCustomerMobileNumber(), customerDto.getCustomerEmail())) {
+            customerDto.setPassword(passwordEncoder.encode(customerDto.getPassword()));
+            return customerRepository.save(CustomerMapper.convertCustomerDtoToCustomer(customerDto));
         }
         throw new HelloCabsException(HelloCabsConstants.CUSTOMER_ALREADY_EXIST);
     }
@@ -95,13 +92,9 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDto updateCustomer(CustomerDto customerDto) {
 
-        if (!customerDto.getCustomerMobileNumber().toString()
-                .matches(HelloCabsConstants.MOBILE_NUMBER)) {
-            throw new HelloCabsException(HelloCabsConstants.INVALID_MOBILE_NUMBER);
-        }
-        Customer customer = CustomerMapper.convertCustomerDtoToCustomer(customerDto);
-
-        if (customerRepository.existsById(customer.getCustomerId())) {
+        if (HelloCabsValidation.isValidMobileNumber(customerDto.getCustomerMobileNumber())
+                && customerRepository.existsById(customerDto.getCustomerId())) {
+            Customer customer = CustomerMapper.convertCustomerDtoToCustomer(customerDto);
             return CustomerMapper.convertCustomerToCustomerDto(customerRepository.save(customer));
         }
         throw new HelloCabsException(HelloCabsConstants.CUSTOMER_NOT_UPDATED);
@@ -126,7 +119,7 @@ public class CustomerServiceImpl implements CustomerService {
             customerRepository.save(customer);
             return true;
         }
-         return false;
+        return false;
     }
 
     /**
@@ -140,28 +133,8 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public List<CustomerDto> retrieveCustomers() {
-        return CustomerMapper
-                .convertCustomersToCustomerDtos(customerRepository
-                        .findAllByIsDeleted(false));
-    }
-
-    /**
-     * <p>
-     *    This Method is used to display all customers and convert
-     *    customer into customerDto.
-     * </p>
-     * @return {@link String } verified messages.
-     */
-    @Override
-    public String verifyCustomerDetails(CustomerDto customerDto) {
-        Customer customer = CustomerMapper.convertCustomerDtoToCustomer(customerDto);
-        Long number = customer.getCustomerMobileNumber();
-        String password = customer.getPassword();
-        Customer login =  customerRepository.findByCustomerMobileNumberAndPassword(number,  password);
-        if (null != login) {
-            return HelloCabsConstants.LOGIN_SUCCESSFUL;
-        }
-        return HelloCabsConstants.INVALID_LOGIN_CREDENTIALS;
+        return CustomerMapper.convertCustomersToCustomerDtos(customerRepository
+                .findAllByIsDeleted(false));
     }
 
     /**
@@ -177,5 +150,4 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer findByCustomerMobileNumber(long mobileNumber) {
         return customerRepository.findByCustomerMobileNumber(mobileNumber);
     }
-
 }

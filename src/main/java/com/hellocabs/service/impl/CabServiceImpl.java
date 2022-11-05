@@ -14,6 +14,7 @@ import com.hellocabs.mapper.CabMapper;
 import com.hellocabs.model.Cab;
 import com.hellocabs.repository.CabRepository;
 import com.hellocabs.service.CabService;
+import com.hellocabs.validation.HelloCabsValidation;
 import lombok.RequiredArgsConstructor;
 import org.apache.log4j.Logger;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -54,18 +55,13 @@ public class CabServiceImpl implements CabService {
     @Override
     public String createCab(CabDto cabDto) {
 
-        if (!cabDto.getMobileNumber().toString()
-                .matches(HelloCabsConstants.MOBILE_NUMBER)) {
-            throw new HelloCabsException(HelloCabsConstants.INVALID_MOBILE_NUMBER);
-        }
-        Cab cab = CabMapper.convertCabDtoToCab(cabDto);
-
-        if (!cabRepository.existsByMobileNumberOrEmail(cab.getMobileNumber(), cab.getEmail())) {
-            cab.setPassword(passwordEncoder.encode(cab.getPassword()));
-            Cab cabDetails = cabRepository.save(cab);
-            Integer id = cabDetails.getId();
+        if (HelloCabsValidation.isValidMobileNumber(cabDto.getMobileNumber())
+                && !cabRepository.existsByMobileNumberOrEmail(
+                        cabDto.getMobileNumber(), cabDto.getEmail())) {
+            cabDto.setPassword(passwordEncoder.encode(cabDto.getPassword()));
+            Cab cab = cabRepository.save(CabMapper.convertCabDtoToCab(cabDto));
             logger.info(HelloCabsConstants.CAB_CREATED + cab.getId());
-            return (HelloCabsConstants.CAB_CREATED + " " + id);
+            return (HelloCabsConstants.CAB_CREATED + " " + cab.getId());
         }
         logger.info(HelloCabsConstants.CAB_NOT_CREATED);
         return HelloCabsConstants.CAB_NOT_CREATED + HelloCabsConstants.CUSTOMER_ALREADY_EXIST;
@@ -85,9 +81,7 @@ public class CabServiceImpl implements CabService {
     public Cab updateCabDetailsById(Integer id, Cab cab) {
 
         if (cabRepository.existsById(id)) {
-            Cab cabDetails = cabRepository.save(cab);
-            logger.info(HelloCabsConstants.CAB_UPDATED + cabDetails.getId());
-            return cabDetails;
+            return cabRepository.save(cab);
         }
         logger.info(HelloCabsConstants.CAB_NOT_UPDATED);
         throw new HelloCabsException(HelloCabsConstants.CAB_NOT_UPDATED);
@@ -107,15 +101,10 @@ public class CabServiceImpl implements CabService {
     @Override
     public String updateCabDetailsById(Integer id, CabDto cabDto) {
 
-        if (!cabDto.getMobileNumber().toString()
-                .matches(HelloCabsConstants.MOBILE_NUMBER)) {
-            throw new HelloCabsException(HelloCabsConstants.INVALID_MOBILE_NUMBER);
-        }
-        Cab cab = CabMapper.convertCabDtoToCab(cabDto);
-
-        if (cabRepository.existsById(id)) {
-            Cab cabDetails = cabRepository.save(cab);
-            logger.info(HelloCabsConstants.CAB_UPDATED + cabDetails.getId());
+        if (HelloCabsValidation.isValidMobileNumber(cabDto.getMobileNumber())
+                && cabRepository.existsById(id)) {
+            Cab cab = cabRepository.save(CabMapper.convertCabDtoToCab(cabDto));
+            logger.info(HelloCabsConstants.CAB_UPDATED + cab.getId());
             return HelloCabsConstants.CAB_UPDATED;
         }
         logger.info(HelloCabsConstants.CAB_NOT_UPDATED);
@@ -167,7 +156,7 @@ public class CabServiceImpl implements CabService {
      *   if it exists returns the status of the cabId or returns the id not found
      * </p>
      *
-     * @param id{@link Integer}used to delete details if exists
+     * @param id {@link Integer}used to delete details if exists
      * @return {String}returns Status of the cab id
      *
      */
@@ -183,29 +172,6 @@ public class CabServiceImpl implements CabService {
         }
         logger.error(HelloCabsConstants.CAB_NOT_FOUND);
         throw new HelloCabsException(HelloCabsConstants.CAB_NOT_FOUND);
-    }
-
-    /**
-     * <p>
-     *   Method used to verify Cab details by using CabId
-     *   if it exists returns the status of the cabId or returns the id not found
-     * </p>
-     *
-     * @param cabDto {@link CabDto}used to verify details if exists
-     * @return {@link String} returns Status of the login
-     *
-     */
-    @Override
-    public String verifyCabDetails(CabDto cabDto) {
-        Cab cab = CabMapper.convertCabDtoToCab(cabDto);
-        Long number = cab.getMobileNumber();
-        String password = cab.getPassword();
-        Cab cabDetails =  cabRepository.findByMobileNumberAndPassword(number,password);
-
-        if(null != cabDetails) {
-            return  HelloCabsConstants.LOGIN_SUCCESSFUL;
-        }
-        return  HelloCabsConstants.INVALID_LOGIN_CREDENTIALS;
     }
 
     /**
@@ -236,6 +202,4 @@ public class CabServiceImpl implements CabService {
     public Cab findCabByMobileNumber(long mobileNumber) {
         return cabRepository.findCabByMobileNumber(mobileNumber);
     }
-
-
 }

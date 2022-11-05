@@ -6,7 +6,9 @@
 
 package com.hellocabs.exceptionHandler;
 
+import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.exception.HelloCabsException;
+import org.hibernate.HibernateException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -45,9 +47,11 @@ public class HelloCabsAdvisor {
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = MethodArgumentNotValidException.class )
-    public Map<String,String> exceptionHandler(MethodArgumentNotValidException methodArgNotValidException) {
-        Map<String,String> errors = new HashMap<>();
+    public Map<String,Object> exceptionHandler(MethodArgumentNotValidException methodArgNotValidException) {
+        Map<String,Object> errors = new HashMap<>();
         methodArgNotValidException.getBindingResult().getFieldErrors().forEach(error -> {
+            errors.put(HelloCabsConstants.TIME_STAMP, LocalDateTime.now());
+            errors.put(HelloCabsConstants.MESSAGE, methodArgNotValidException.getMessage());
             errors.put(error.getField(), error.getDefaultMessage());
         });
         return errors;
@@ -67,9 +71,47 @@ public class HelloCabsAdvisor {
     @ExceptionHandler(value = HelloCabsException.class)
     public Map<String, Object> exceptionHandler(HelloCabsException helloCabsException) {
         Map<String, Object> errors = new LinkedHashMap<>();
-
-        errors.put("timestamp", LocalDateTime.now());
-        errors.put("message", helloCabsException.getMessage());
+        errors.put(HelloCabsConstants.TIME_STAMP, LocalDateTime.now());
+        errors.put(HelloCabsConstants.MESSAGE, helloCabsException.getMessage());
         return errors;
     }
+
+    /**
+     * <p>
+     *   Method used to handle the exception which is thrown by hibernate
+     *   with the help of exception handler method
+     * </p>
+     *
+     * @param hibernateException {@link HibernateException} exception thrown in hello cab application
+     * @return {@link String} returns the message of the exception
+     *
+     */
+    @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
+    @ExceptionHandler(value = HibernateException.class)
+    public Map<String, Object> exceptionHandler(HibernateException hibernateException) {
+        Map<String, Object> errors = new LinkedHashMap<>();
+        errors.put(HelloCabsConstants.TIME_STAMP, LocalDateTime.now());
+        errors.put(HelloCabsConstants.MESSAGE, HelloCabsConstants.VALID_CONSTRAINT);
+        return errors;
+    }
+
+    /**
+     * <p>
+     *   Method used to handle the exception which is thrown by the application
+     *   with the help of exception handler method
+     * </p>
+     *
+     * @param exception {@link Exception} exception thrown in hello cab application
+     * @return {@link Map<>} returns the message of the exception
+     *
+     */
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(value = HibernateException.class)
+    public Map<String, Object> exceptionHandler(Exception exception) {
+        Map<String, Object> errors = new LinkedHashMap<>();
+        errors.put(HelloCabsConstants.TIME_STAMP, LocalDateTime.now());
+        errors.put(HelloCabsConstants.MESSAGE, HelloCabsConstants.SOMETHING_WENT_WRONG);
+        return errors;
+    }
+
 }

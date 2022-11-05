@@ -50,7 +50,7 @@ public class CabController {
      * </p>
      *
      * @param cabDto {@link RequestBody CabDto}valid object with required details
-     * @return {@link ResponseEntity<Object>}returns the status of the given details if valid
+     * @return {@link ResponseEntity<Object>} the status of the given details if valid
      *
      */
     @PostMapping("create")

@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import com.hellocabs.constants.HelloCabsConstants;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
@@ -31,7 +32,12 @@ import javax.validation.constraints.Size;
  */
 @Getter
 @Setter
+@NoArgsConstructor
 public class LocationDto {
+
+    public LocationDto(Integer id) {
+        this.id = id;
+    }
 
     private Integer id;
 
@@ -42,4 +48,6 @@ public class LocationDto {
 
     @JsonIgnore
     private boolean isDeleted;
+
+
 }
