@@ -12,62 +12,67 @@ import java.util.List;
 public interface LocationService {
     /**
      * <p>
-     * This method is to add location Details.
+     *   This method is to add location Details by getting and converting the location
+     *   dto into location entity and  saves into the location repository and returns
+     *   message with created location id only if the location name is not already
+     *   exits otherwise it throws exception.
      * </p>
      *
-     * @param locationDto
-     *        for which the location to be added is given
-     * @return Integer
-     *         inserted location id is returned
+     * @param locationDto {@link LocationDto} for which the location to be added is given
+     * @return {@link String} inserted location id is returned with message
+     *
      */
     String createLocation(LocationDto locationDto);
 
     /**
      * <p>
-     * This method is to update location Details.
+     *   This method is to update location Details by getting and converting the location
+     *   dto into location entity and saves into the location repository and returns
+     *   updated location as dto only if the given id is already exits otherwise
+     *   it throws exception.
      * </p>
      *
-     * @param locationDto
-     *        for which the location to be updated is given
-     * @return LocationDto
-     *         updated location is returned
+     * @param locationDto {@link LocationDto} for which the location to be updated is given
+     * @return {@link LocationDto} updated location is returned
+     *
      */
     LocationDto updateLocation(LocationDto locationDto);
 
     /**
      * <p>
-     * This method is to search location Details.
+     *   This method is to get location Details by getting location id
+     *   and retrieves the location from the location repository and
+     *   returns searched location as dto only if the given id is
+     *   already exits otherwise it throws exception.
      * </p>
      *
-     * @param id
-     *        for which the id of the location need to
-     *        be searched is given
-     * @return LocationDto
-     *         searched location is returned
+     * @param id {@link Integer} for which the id of the location need to be searched is given
+     * @return {@link LocationDto} searched location is returned
+     *
      */
     LocationDto getLocationById(Integer id);
 
     /**
      * <p>
-     * This method is to delete location Details.
+     *   This method is to delete location Details by getting the id to be deleted
+     *   and deletes the location in location repository and returns the message
+     *   only if the given id is already exits otherwise it throws exception.
      * </p>
      *
-     * @param id
-     *        for which the id of the location need to
-     *        be deleted is given
-     * @return String
-     *         gets the message whether the location is
-     *         deleted or not
+     * @param id {@link Integer} for which the id of the location need to be deleted is given
+     * @return {@link String} returns the message if the location is deleted
      */
     String deleteLocationById(Integer id);
 
     /**
      * <p>
-     * This method is to display all location Details.
+     *   This method is to retrieve location Details and converts the location
+     *   entity into location dto and returns the locations from the location
+     *   repository
      * </p>
      *
-     * @return List<LocationDto>
-     *         retrieves all the locations
+     * @return {@link List<LocationDto>} retrieves all the locations
+     *
      */
     List<LocationDto> retrieveAllLocations();
 }
