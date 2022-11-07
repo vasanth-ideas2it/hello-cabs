@@ -32,6 +32,7 @@ import org.springframework.validation.annotation.Validated;
  *
  * @version 1.0
  * @author Jaganathan R
+ *
  */
 @Data
 @Validated

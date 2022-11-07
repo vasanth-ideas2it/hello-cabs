@@ -21,6 +21,7 @@ import java.util.List;
  *
  * @version 1.0
  * @author Jaganathan R
+ *
  */
 public interface CabService {
 
@@ -35,6 +36,7 @@ public interface CabService {
      *
      * @param cabDto {@link CabDto} object with required details
      * @return {@link String}returns cab details object
+     *
      */
     String createCab(CabDto cabDto);
 
@@ -105,6 +107,7 @@ public interface CabService {
      *
      * @param id {@link Integer} for which the id of the cab need to be deleted is given
      * @return {@link String} returns the message if the cab is deleted
+     *
      */
     String deleteCabDetailsById(Integer id);
 
@@ -115,6 +118,7 @@ public interface CabService {
      * </p>
      *
      * @return {@link List<CabDto>}returns all the cab details in the form of list
+     *
      */
     List<CabDto> showAllCabDetails();
 

@@ -30,6 +30,7 @@ import javax.persistence.Table;
  *
  * @version 1.0
  * @author Jaganathan R
+ *
  */
 @Entity
 @Getter

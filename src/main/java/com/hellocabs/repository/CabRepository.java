@@ -21,6 +21,7 @@ import java.util.List;
  *
  * @version 1.0
  * @author Jaganathan R
+ *
  */
 @Repository
 public interface CabRepository  extends JpaRepository<Cab, Integer> {
