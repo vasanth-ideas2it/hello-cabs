@@ -52,7 +52,7 @@ public class HelloCabsUtil {
             List<Double> ratings = cab.getRides().stream()
                     .map(Ride:: getRating).toList();
             Double averageRating = ratings.stream().mapToDouble(
-                    rating -> rating).summaryStatistics().getAverage();
+                    rating -> rating).average().orElse(HelloCabsConstants.BASE_RATING);
             cab.setDriverRating(averageRating);
         } else {
             cab.setDriverRating(ratingDto.getRating());

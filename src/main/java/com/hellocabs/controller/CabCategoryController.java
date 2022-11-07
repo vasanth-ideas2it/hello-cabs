@@ -27,6 +27,17 @@ import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.CabCategoryDto;
 import com.hellocabs.service.CabCategoryService;
 
+/**
+ * <p>
+ * CabCategory controller class has the methods that handles
+ * CRUD operations of location.
+ * </p>
+ *
+ * @author  Divya
+ *
+ * @version 1.0 Oct-26-2022
+ *
+ */
 @RestController
 @RequestMapping("/cabcategory")
 @RequiredArgsConstructor
@@ -54,7 +65,7 @@ public class CabCategoryController {
 
     /**
      * <p>
-     *   This method is to search cab category Details using id.
+     *   This method is get the cab category Details if the given id exits
      * </p>
      *
      * @param id {@link Integer}
@@ -72,7 +83,7 @@ public class CabCategoryController {
 
     /**
      * <p>
-     *   This method is to update cab category Details.
+     *   This method is to update cab category Details if the given id exits
      * </p>
      *
      * @param cabCategoryDto {@link CabCategoryDto}
@@ -88,7 +99,7 @@ public class CabCategoryController {
 
     /**
      * <p>
-     *   This method is to delete cab category Details.
+     *   This method is to delete cab category Details only if the given id exits.
      * </p>
      *
      * @param id {@link Integer} for which the id of the cab category need to

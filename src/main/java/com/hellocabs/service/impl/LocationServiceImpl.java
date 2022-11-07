@@ -55,6 +55,7 @@ public class LocationServiceImpl implements LocationService {
     public String createLocation(LocationDto locationDto) {
         Location location = LocationMapper.locationDtoToLocation(locationDto);
 
+        /* checks whether the location name already exits */
         if (!locationRepository.existsByLocationName(location.getLocationName())) {
             Integer id = LocationMapper.locationToLocationDto(locationRepository.save(location)).getId();
             logger.info(HelloCabsConstants.LOCATION_CREATED + id);
@@ -99,6 +100,7 @@ public class LocationServiceImpl implements LocationService {
      */
     public LocationDto updateLocation(LocationDto locationDto) {
 
+        /* checks whether the location not deleted already */
         if (locationRepository.existsByIdAndIsDeleted(locationDto.getId(), false)) {
             logger.info(HelloCabsConstants.LOCATION_UPDATED + locationDto.getId());
             return LocationMapper.locationToLocationDto(locationRepository.

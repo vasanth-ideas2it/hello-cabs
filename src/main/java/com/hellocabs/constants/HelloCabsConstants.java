@@ -163,5 +163,5 @@ public class HelloCabsConstants {
     public static final String MESSAGE = "message";
     public static final String SOMETHING_WENT_WRONG = "Sorry, Something went wrong";
     public static final String TIME_STAMP = "timestamp";
-    
+    public static final Double BASE_RATING = 0.0;
 }

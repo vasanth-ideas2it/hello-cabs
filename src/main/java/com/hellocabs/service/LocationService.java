@@ -74,6 +74,7 @@ public interface LocationService {
      *
      * @param id {@link Integer} for which the id of the location need to be deleted is given
      * @return {@link String} returns the message if the location is deleted
+     *
      */
     String deleteLocationById(Integer id);
 

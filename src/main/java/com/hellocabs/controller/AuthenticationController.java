@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * <h> LoginController </h>
+ * <h> AuthenticationController </h>
  * <p>
  *   The class authenticates whether the credentials
  *   entered by user in login is present or not in database
