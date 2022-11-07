@@ -34,10 +34,9 @@ public class CabCategoryServiceImpl implements CabCategoryService {
      *   This method is to add cab category Details.
      * </p>
      *
-     * @param cabCategoryDto {@link CabCategoryDto}
-     *        for which the cab category to be added is given
-     * @return {@link String}
-     *         inserted cab category id is returned
+     * @param cabCategoryDto {@link CabCategoryDto} for which the
+     *                           cab category to be added is given
+     * @return {@link String} inserted cab category id is returned
      *
      */
     public String createCabCategory(CabCategoryDto cabCategoryDto) {
@@ -59,11 +58,9 @@ public class CabCategoryServiceImpl implements CabCategoryService {
      *   This method is to search cab category Details.
      * </p>
      *
-     * @param id {@link Integer}
-     *        for which the id of the cab category need to
-     *        be searched is given
-     * @return {@link CabCategoryDto}
-     *         searched cab category is returned if present
+     * @param id {@link Integer} for which the id of the cab category need to
+     *                           be searched is given
+     * @return {@link CabCategoryDto} searched cab category is returned if present
      *         otherwise null
      *
      */
@@ -83,10 +80,9 @@ public class CabCategoryServiceImpl implements CabCategoryService {
      *   This method is to update cab category Details.
      * </p>
      *
-     * @param cabCategoryDto {@link CabCategoryDto}
-     *        for which the cab category to be updated is given
-     * @return {@link CabCategoryDto}
-     *         updated cab category is returned
+     * @param cabCategoryDto {@link CabCategoryDto}  for which the cab category
+     *                                    to be updated is given
+     * @return {@link CabCategoryDto} updated cab category is returned
      *
      */
     public CabCategoryDto updateCabCategory(CabCategoryDto cabCategoryDto) {
@@ -105,12 +101,10 @@ public class CabCategoryServiceImpl implements CabCategoryService {
      *   This method is to delete cab category Details.
      * </p>
      *
-     * @param id {@link Integer}
-     *        for which the id of the cab category need to
+     * @param id {@link Integer} for which the id of the cab category need to
      *        be deleted is given
-     * @return {@link String}
-     *         returns deleted message if the cab category of given id is deleted
-     *         otherwise throws exception
+     * @return {@link String} returns deleted message if the cab category of
+     *         given id is deleted otherwise throws exception
      */
     public String deleteCabCategoryById(Integer id) {
         CabCategory cabCategory = cabCategoryRepository

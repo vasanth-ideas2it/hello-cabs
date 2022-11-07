@@ -16,6 +16,19 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 
+/**
+ * <p>
+ *   LoginDto class has the getters and setters meant to hold the
+ *   login object consists of fields that are related to
+ *   login and these values used to verify that the valid user logged
+ *   into the application
+ * </p>
+ *
+ * @author : Pradeep
+ * created on 03/11/2022
+ * @version 1.0
+ *
+ */
 @Getter
 @Setter
 public class LoginDto {

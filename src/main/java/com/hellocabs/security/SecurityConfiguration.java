@@ -1,3 +1,9 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
+
 package com.hellocabs.security;
 
 import com.hellocabs.service.impl.UserDetailsServiceImpl;

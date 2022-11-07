@@ -6,8 +6,6 @@
 
 package com.hellocabs.constants;
 
-import com.hellocabs.util.HelloCabsUtil;
-
 /**
  * <p>
  *   Constants class contains number of constants available which is used

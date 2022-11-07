@@ -9,6 +9,19 @@ import com.hellocabs.dto.LocationDto;
 
 import java.util.List;
 
+/**
+ * <h> LocationServiceImpl </h>
+ * <p>
+ *   Interface that contains abstract methods which are used
+ *   to perform CRUD operations for Location object Details
+ *   given by the user with help of locationDto object
+ * </p>
+ *
+ * @author : Divya
+ * created on 20/10/2022
+ * @version 1.0
+ *
+ */
 public interface LocationService {
     /**
      * <p>

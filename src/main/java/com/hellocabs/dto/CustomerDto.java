@@ -10,7 +10,6 @@ import com.hellocabs.constants.HelloCabsConstants;
 import lombok.Data;
 
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.validation.annotation.Validated;
 
