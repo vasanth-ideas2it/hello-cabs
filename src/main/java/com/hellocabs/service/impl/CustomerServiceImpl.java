@@ -93,7 +93,6 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDto updateCustomer(CustomerDto customerDto) {
 
-
         if (HelloCabsValidation.isValidMobileNumber(customerDto.getCustomerMobileNumber())
                 && customerRepository.existsById(customerDto.getCustomerId())) {
             Customer customer = CustomerMapper.convertCustomerDtoToCustomer(customerDto);
