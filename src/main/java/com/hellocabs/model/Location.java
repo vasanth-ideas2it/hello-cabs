@@ -36,12 +36,20 @@ public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Column(name = "id")
     private Integer id;
 
+    @Column(name = "landmark")
+    private String landmark;
+
     @Column(name = "location_name")
     private String locationName;
+
+    @Column(name = "address_type")
+    private String addressType;
+
+    @Column(name = "postal_code")
+    private Integer postalCode;
 
     @Column(name = "is_deleted")
     private boolean isDeleted;

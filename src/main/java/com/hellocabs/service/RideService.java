@@ -134,10 +134,10 @@ public interface RideService {
      * </p>
      *
      * @param bookDto {@link BookDto} ride details of a customer
-     * @return  {@link String} booking id
+     * @return  {@link RideDto} booking id
      *
      */
-    String bookRide(BookDto bookDto);
+    RideDto bookRide(BookDto bookDto);
 
     /**
      * <p>
@@ -148,10 +148,10 @@ public interface RideService {
      * @param rideId {@link Integer} update rating for the ride
      * @param ratingDto {@link RatingDto} get the feedback and
      *      rating for the ride when finished
-     * @return {@link String} ride's feedback
+     * @return {@link RideDto} ride's feedback
      *
      */
-    String  submitFeedBack(Integer rideId, RatingDto ratingDto);
+    RideDto  submitFeedBack(Integer rideId, RatingDto ratingDto);
 
     /**
      * <p>
@@ -163,7 +163,7 @@ public interface RideService {
      *                          about ride status
      * @param rideId {@link Integer} rideId to be confirmed
      * @param cabId {@link Integer} cabId to be assigned to pick the ride
-     * @return {@link String} ride confirmation
+     * @return {@link RideDto} ride confirmation
      *
      */
     String confirmRide(StatusDto statusDto, Integer rideId, Integer cabId);

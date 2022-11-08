@@ -68,11 +68,11 @@ public class HelloCabsConstants {
     public static final String CUSTOMER_NOT_DELETED = "Customer is not deleted for given id : ";
 
     //CREATED
-    public static final String LOCATION_CREATED = "Location created with ID: ";
-    public static final String CAB_CATEGORY_CREATED = "Cab category created with ID: ";
-    public static final String CAB_CREATED = "Cab created with ID: ";
-    public static final String RIDE_CREATED = "Ride created with ID: ";
-    public static final String CUSTOMER_REGISTERED = "Customer registered successfully with ID: ";
+    public static final String LOCATION_CREATED = "Location created Successfully ";
+    public static final String CAB_CATEGORY_CREATED = "Cab category created Successfully ";
+    public static final String CAB_CREATED = "Cab created Successfully ";
+    public static final String RIDE_CREATED = "Ride created with Successfully ";
+    public static final String CUSTOMER_REGISTERED = "Customer registered successfully ";
 
     //UPDATED
     public static final String LOCATION_UPDATED = "Location updated ";

@@ -51,19 +51,19 @@ public class CabCategoryServiceImpl implements CabCategoryService {
      *
      * @param cabCategoryDto {@link CabCategoryDto} for which the
      *                           cab category to be added is given
-     * @return {@link String} inserted cab category id is returned
+     * @return {@link CabCategoryDto} inserted cab category id is returned
      *
      */
-    public String createCabCategory(CabCategoryDto cabCategoryDto) {
+    public CabCategoryDto createCabCategory(CabCategoryDto cabCategoryDto) {
         CabCategory cabCategory = CabCategoryMapper
                 .cabCategoryDtoToCabCategory(cabCategoryDto);
 
         /* checks whether the cab type not exists already */
         if (!cabCategoryRepository.existsByCabType(cabCategory.getCabType())) {
-            Integer id = CabCategoryMapper.cabCategoryToCabCategoryDto
-                    (cabCategoryRepository.save(cabCategory)).getId();
-            logger.info(HelloCabsConstants.CAB_CATEGORY_CREATED + id);
-            return HelloCabsConstants.CAB_CATEGORY_CREATED + id;
+            CabCategoryDto cabCategoryDto1 = CabCategoryMapper.cabCategoryToCabCategoryDto
+                    (cabCategoryRepository.save(cabCategory));
+            logger.info(HelloCabsConstants.CAB_CATEGORY_CREATED + cabCategoryDto1.getId());
+            return cabCategoryDto1;
         }
         logger.error(HelloCabsConstants.CAB_CATEGORY_NOT_CREATED);
         throw new HelloCabsException(HelloCabsConstants.CAB_TYPE_ALREADY_EXISTS);
@@ -106,6 +106,29 @@ public class CabCategoryServiceImpl implements CabCategoryService {
      * @return {@link CabCategoryDto} updated cab category is returned 
      *
      */
+    public CabCategoryDto updateCabCategoryById(CabCategoryDto cabCategoryDto, Integer id) {
+
+        /* checks whether the cab id exits already */
+        if (cabCategoryRepository.existsByIdAndIsDeleted(cabCategoryDto.getId(), false)) {
+            logger.info(HelloCabsConstants.CAB_CATEGORY_UPDATED + cabCategoryDto.getId());
+            return CabCategoryMapper.cabCategoryToCabCategoryDto(cabCategoryRepository
+                    .save(CabCategoryMapper.cabCategoryDtoToCabCategory(cabCategoryDto)));
+        }
+        logger.error(HelloCabsConstants.CAB_CATEGORY_NOT_FOUND);
+        throw new HelloCabsException(HelloCabsConstants.CAB_CATEGORY_NOT_FOUND);
+    }
+
+    /**
+     * <p>
+     * This method is to update cab category Details by getting and converting the cab category
+     * dto into cab category entity and saves into the cab category repository and returns
+     * updated cab category as dto only if the given id is already exits otherwise
+     * it throws exception.
+     * </p>
+     *
+     * @param cabCategoryDto {@link CabCategoryDto} for which the cab category to be updated is given
+     * @return {@link CabCategoryDto} updated cab category is returned
+     */
     public CabCategoryDto updateCabCategory(CabCategoryDto cabCategoryDto) {
 
         /* checks whether the cab id exits already */
@@ -116,7 +139,6 @@ public class CabCategoryServiceImpl implements CabCategoryService {
         }
         logger.error(HelloCabsConstants.CAB_CATEGORY_NOT_FOUND);
         throw new HelloCabsException(HelloCabsConstants.CAB_CATEGORY_NOT_FOUND);
-
     }
 
     /**

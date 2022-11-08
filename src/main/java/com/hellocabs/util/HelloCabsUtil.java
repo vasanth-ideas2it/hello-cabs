@@ -94,7 +94,6 @@ public class HelloCabsUtil {
              *   peak hour fare together with base fare
              *   else adds the additional fare with base fare
              */
-
             if (HelloCabsConstants.MINIMUM_BOOKING_HOUR > (timeDifference)) {
                 return isPeakHour ? (price[0] + price[2]) : price[0];
             } else if (HelloCabsConstants.MINIMUM_BOOKING_HOUR < (timeDifference)) {

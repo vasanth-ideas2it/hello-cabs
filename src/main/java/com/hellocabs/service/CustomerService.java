@@ -28,10 +28,10 @@ public interface CustomerService {
      * </p>
      *
      * @param customerDto {@link CustomerDto} for which the customer to be added is given
-     * @return {@link String} inserted customer id is returned with message
+     * @return {@link CustomerDto} inserted customer id is returned with message
      *
      */
-    Customer createCustomerDetails(CustomerDto customerDto);
+    CustomerDto createCustomer(CustomerDto customerDto);
 
     /**
      * <p>

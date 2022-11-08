@@ -54,7 +54,7 @@ public class CabServiceImpl implements CabService {
      *
      */
     @Override
-    public String createCab(CabDto cabDto) {
+    public CabDto createCab(CabDto cabDto) {
 
         if (HelloCabsValidation.isValidMobileNumber(cabDto.getMobileNumber())
                 && !cabRepository.existsByMobileNumberOrEmail(
@@ -62,10 +62,11 @@ public class CabServiceImpl implements CabService {
             cabDto.setPassword(passwordEncoder.encode(cabDto.getPassword()));
             Cab cab = cabRepository.save(CabMapper.convertCabDtoToCab(cabDto));
             logger.info(HelloCabsConstants.CAB_CREATED + cab.getId());
-            return (HelloCabsConstants.CAB_CREATED + " " + cab.getId());
+            return CabMapper.convertCabToCabDto(cab);
         }
         logger.info(HelloCabsConstants.CAB_NOT_CREATED);
-        return HelloCabsConstants.CAB_NOT_CREATED + HelloCabsConstants.CUSTOMER_ALREADY_EXIST;
+        throw new HelloCabsException(HelloCabsConstants.CAB_NOT_CREATED
+                + HelloCabsConstants.CUSTOMER_ALREADY_EXIST);
     }
 
     /**
@@ -99,17 +100,41 @@ public class CabServiceImpl implements CabService {
      * @return {@link String}returns status of the cab details
      *
      */
-    @Override
-    public String updateCabDetailsById(Integer id, CabDto cabDto) {
+
+    public CabDto updateCabById(Integer id, CabDto cabDto) {
 
         if (HelloCabsValidation.isValidMobileNumber(cabDto.getMobileNumber())
                 && cabRepository.existsById(id)) {
             Cab cab = cabRepository.save(CabMapper.convertCabDtoToCab(cabDto));
             logger.info(HelloCabsConstants.CAB_UPDATED + cab.getId());
-            return HelloCabsConstants.CAB_UPDATED;
+            return CabMapper.convertCabToCabDto(cab);
         }
         logger.info(HelloCabsConstants.CAB_NOT_UPDATED);
-        return HelloCabsConstants.CAB_NOT_UPDATED;
+        throw new HelloCabsException(HelloCabsConstants.CAB_NOT_FOUND);
+    }
+
+    /**
+     * <p>
+     * This method is to update cab details by getting and converting the cab
+     * dto to cab entity and saves into the cab repository and returns
+     * status message only if the given id is already exits otherwise
+     * it throws exception.
+     * </p>
+     *
+     * @param cabDto {@link CabDto} for which the cab to be updated is given
+     * @return {@link CabDto} updated cabDto
+     */
+    @Override
+    public CabDto updateCab(CabDto cabDto) {
+
+        if (HelloCabsValidation.isValidMobileNumber(cabDto.getMobileNumber())
+                && cabRepository.existsById(cabDto.getId())) {
+            Cab cab = cabRepository.save(CabMapper.convertCabDtoToCab(cabDto));
+            logger.info(HelloCabsConstants.CAB_UPDATED + cab.getId());
+            return CabMapper.convertCabToCabDto(cab);
+        }
+        logger.info(HelloCabsConstants.CAB_NOT_UPDATED);
+        throw new HelloCabsException(HelloCabsConstants.CAB_NOT_FOUND);
     }
 
     /**
@@ -124,9 +149,9 @@ public class CabServiceImpl implements CabService {
      */
     @Override
     public CabDto displayCabDetailsById(Integer id) {
+        Cab cab = cabRepository.findByIdAndIsActive(id,true);
 
-        if (cabRepository.existsById(id)) {
-            Cab cab = cabRepository.findByIdAndIsActive(id,false);
+        if (null != cab) {
             logger.info(HelloCabsConstants.CAB_FOUND + cab);
             return CabMapper.convertCabToCabDto(cab);
         }
@@ -144,9 +169,10 @@ public class CabServiceImpl implements CabService {
      *
      */
     public Cab searchCabById(Integer id) {
+        Cab cab = cabRepository.findByIdAndIsActive(id,true);
 
-        if (cabRepository.existsById(id)) {
-            return cabRepository.findByIdAndIsActive(id,false);
+        if (null != cab) {
+            return cab;
         }
         throw new HelloCabsException(HelloCabsConstants.CAB_NOT_FOUND);
     }
@@ -163,10 +189,10 @@ public class CabServiceImpl implements CabService {
      */
     @Override
     public String deleteCabDetailsById(Integer id) {
+        Cab cab = cabRepository.findByIdAndIsActive(id,true);
 
-        if (cabRepository.existsById(id)) {
-            Cab cab = cabRepository.findByIdAndIsActive(id,false);
-            cab.setActive(true);
+        if (null != cab) {
+            cab.setActive(false);
             cabRepository.save(cab);
             logger.info(HelloCabsConstants.CAB_DELETED + cab.getId());
             return HelloCabsConstants.CAB_DELETED;
@@ -186,7 +212,8 @@ public class CabServiceImpl implements CabService {
      */
     @Override
     public List<CabDto> showAllCabDetails() {
-         return cabRepository.findAllByIsActive(false).stream().map(CabMapper :: convertCabToCabDto).collect(Collectors.toList());
+         return cabRepository.findAllByIsActive(true).stream()
+                 .map(CabMapper :: convertCabToCabDto).collect(Collectors.toList());
     }
 
     /**

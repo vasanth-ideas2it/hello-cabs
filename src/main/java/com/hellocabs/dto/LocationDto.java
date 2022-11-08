@@ -9,6 +9,7 @@ package com.hellocabs.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import com.hellocabs.constants.HelloCabsConstants;
+import javax.persistence.Column;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -41,10 +42,16 @@ public class LocationDto {
 
     private Integer id;
 
+    private String landmark;
+
     @NotBlank(message = HelloCabsConstants.LOCATION_NOT_BLANK)
     @Size(min = HelloCabsConstants.NAME_SIZE_MIN, message = HelloCabsConstants.LOCATION_NAME_SIZE)
     @Pattern(regexp = (HelloCabsConstants.LOCATION_NAME_REGEX), message = HelloCabsConstants.INVALID_LOCATION_NAME)
     private String locationName;
+
+    private String addressType;
+
+    private Integer postalCode;
 
     @JsonIgnore
     private boolean isDeleted;

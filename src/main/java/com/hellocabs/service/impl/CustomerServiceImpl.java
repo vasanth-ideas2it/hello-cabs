@@ -49,13 +49,13 @@ public class CustomerServiceImpl implements CustomerService {
      *
      */
     @Override
-    public Customer createCustomerDetails(CustomerDto customerDto) {
+    public CustomerDto createCustomer(CustomerDto customerDto) {
 
         if (HelloCabsValidation.isValidMobileNumber(customerDto.getCustomerMobileNumber())
                 && !customerRepository.existsByCustomerMobileNumberOrCustomerEmail(
                 customerDto.getCustomerMobileNumber(), customerDto.getCustomerEmail())) {
             customerDto.setPassword(passwordEncoder.encode(customerDto.getPassword()));
-            return customerRepository.save(CustomerMapper.convertCustomerDtoToCustomer(customerDto));
+            return CustomerMapper.convertCustomerToCustomerDto(customerRepository.save(CustomerMapper.convertCustomerDtoToCustomer(customerDto)));
         }
         throw new HelloCabsException(HelloCabsConstants.CUSTOMER_ALREADY_EXIST);
     }

@@ -3,6 +3,7 @@
  *   Copyright (c) All rights reserved Ideas2IT
  * </p>
  */
+
 package com.hellocabs.service;
 
 import com.hellocabs.dto.CabCategoryDto;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Service
 public interface CabCategoryService {
+
     /**
      * <p>
      *   This method is to add cab category Details by getting and converting the cab category
@@ -21,10 +23,26 @@ public interface CabCategoryService {
      * </p>
      *
      * @param cabCategoryDto {@link CabCategoryDto} for which the cab category to be added is given
-     * @return {@link String} inserted cab category id is returned with message
+     * @return {@link CabCategoryDto} inserted cab category id is returned with message
      *
      */
-    String createCabCategory(CabCategoryDto cabCategoryDto);
+    CabCategoryDto createCabCategory(CabCategoryDto cabCategoryDto);
+
+    /**
+     * <p>
+     *   This method is to update specific cab category details by getting category id,
+     *   find cabcategory and converting the cab category dto into cab category entity
+     *   and save only the specific details into the cab category repository and returns
+     *   updated cab category as dto only if the given id is already exits otherwise
+     *   it throws exception.
+     * </p>
+     *
+     * @param cabCategoryDto {@link CabCategoryDto} for which the cab category to be updated is given
+     * @param id {@link Integer} id to be searched and updated
+     * @return {@link CabCategoryDto} updated cab category is returned
+     *
+     */
+    CabCategoryDto updateCabCategoryById(CabCategoryDto cabCategoryDto, Integer id);
 
     /**
      * <p>

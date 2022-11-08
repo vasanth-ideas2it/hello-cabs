@@ -11,6 +11,7 @@ import com.hellocabs.dto.CabDto;
 import com.hellocabs.response.HelloCabsResponseHandler;
 import com.hellocabs.service.CabService;
 
+import java.util.List;
 import javax.validation.Valid;
 
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,7 +41,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("cab")
+@RequestMapping("cabs")
 public class CabController {
 
     private final CabService cabService;
@@ -51,13 +53,29 @@ public class CabController {
      * </p>
      *
      * @param cabDto {@link RequestBody CabDto}valid object with required details
-     * @return {@link ResponseEntity<Object>} the status of the given details if valid
+     * @return {@link ResponseEntity<CabDto>} the status of the given details if valid
      *
      */
-    @PostMapping("create")
-    private ResponseEntity<Object> addCabDetails(@Valid @RequestBody CabDto cabDto) {
-        return  HelloCabsResponseHandler
-                .generateResponse(cabService.createCab(cabDto), HttpStatus.CREATED);
+    @PostMapping
+    private ResponseEntity<?> createCab(@Valid @RequestBody CabDto cabDto) {
+        return  HelloCabsResponseHandler.generateResponse(HelloCabsConstants.CAB_CREATED,
+                HttpStatus.CREATED, cabService.createCab(cabDto));
+    }
+
+    /**
+     * <p>
+     *   Method used to put or update Cab details by using PutMapping with valid
+     *   cabDto object and pass to cab Service to update
+     * </p>
+     *
+     * @param cabDto {@link CabDto}valid object with updated details
+     * @return {@link ResponseEntity<CabDto>}returns the status of the given details
+     *
+     */
+    @PutMapping
+    private ResponseEntity<?> updateCab(@Valid @RequestBody CabDto cabDto) {
+        return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.CAB_UPDATED,
+                HttpStatus.OK, cabService.updateCab(cabDto));
     }
 
     /**
@@ -67,13 +85,13 @@ public class CabController {
      * </p>
      *
      * @param cabDto {@link @RequestBody CabDto}valid object with updated details
-     * @return {@link ResponseEntity<Object>}returns the status of the given details
+     * @return {@link ResponseEntity<CabDto>}returns the status of the given details
      *
      */
-    @PutMapping("updateCab")
-    private ResponseEntity<Object> updateCabDetails(@Valid @RequestBody CabDto cabDto) {
-        return HelloCabsResponseHandler
-                .generateResponse(cabService.updateCabDetailsById(cabDto.getId(),cabDto), HttpStatus.OK);
+    @PatchMapping
+    private ResponseEntity<?> updateCabById(@Valid @RequestBody CabDto cabDto) {
+        return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.CAB_UPDATED,
+                HttpStatus.OK, cabService.updateCabById(cabDto.getId(),cabDto));
     }
 
     /**
@@ -82,11 +100,11 @@ public class CabController {
      *   using GetMapping annotation
      * </p>
      *
-     * @return {@link ResponseEntity<Object>}returns all the trainee details
+     * @return {@link ResponseEntity<List>}returns all the trainee details
      *
      */
-    @GetMapping("cabs")
-    private ResponseEntity<Object> getAllCabsDetails()  {
+    @GetMapping
+    private ResponseEntity<?> getAllCabsDetails()  {
         return HelloCabsResponseHandler
                 .generateResponse(HelloCabsConstants.CAB_AVAILABLE,
                         HttpStatus.FOUND, cabService.showAllCabDetails());
@@ -101,13 +119,12 @@ public class CabController {
      * </p>
      *
      * @param id {@link Integer}to check the respective Cab Object or not
-     * @return {@link ResponseEntity<Object>}returns respective cab details
+     * @return {@link ResponseEntity<CabDto>}returns respective cab details
      *
      */
-    @GetMapping("search/{id}")
-    private ResponseEntity<Object> getCabDetailsById(@PathVariable Integer id)  {
-        return HelloCabsResponseHandler
-                .generateResponse(HelloCabsConstants.CAB_AVAILABLE,
+    @GetMapping("{id}")
+    private ResponseEntity<?> getCabDetailsById(@PathVariable Integer id)  {
+        return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.CAB_AVAILABLE,
                         HttpStatus.FOUND, cabService.displayCabDetailsById(id));
 
     }
@@ -119,12 +136,12 @@ public class CabController {
      * </p>
      *
      * @param id {@link Integer} cab id to be deleted
-     * @return {@link ResponseEntity<Object>>}returns Status of Cab details
+     * @return {@link ResponseEntity<CabDto>>}returns Status of Cab details
      *
      */
-    @DeleteMapping("delete/{id}")
-    private ResponseEntity<Object> deleteCabDetailsById(@PathVariable Integer id)  {
-        return HelloCabsResponseHandler
-                .generateResponse(cabService.deleteCabDetailsById(id), HttpStatus.OK);
+    @DeleteMapping("{id}")
+    private ResponseEntity<?> deleteCabDetailsById(@PathVariable Integer id)  {
+        return HelloCabsResponseHandler.generateResponse(cabService.deleteCabDetailsById(id),
+                HttpStatus.OK);
     }
 }

@@ -8,12 +8,14 @@ package com.hellocabs.controller;
 
 import com.hellocabs.response.HelloCabsResponseHandler;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -34,12 +36,11 @@ import com.hellocabs.service.CabCategoryService;
  * </p>
  *
  * @author  Divya
- *
  * @version 1.0 Oct-26-2022
  *
  */
 @RestController
-@RequestMapping("/cabcategory")
+@RequestMapping("cabcategories")
 @RequiredArgsConstructor
 public class CabCategoryController {
 
@@ -51,16 +52,17 @@ public class CabCategoryController {
      *   location is not already exist
      * </p>
      *
-     * @param cabCategoryDto {@link CabCategoryDto}
-     *        for which the cab category to be added is given
-     * @return {@link ResponseEntity<Object>}
-     *         inserted cab category id is returned as message with http status
+     * @param cabCategoryDto {@link CabCategoryDto} for which the
+     *                            cab category to be added is given
+     * @return {@link ResponseEntity<CabCategoryDto>} inserted cab category id is
+     *                            returned as message with http status
      *
      */
-    @PostMapping("/create")
-    private ResponseEntity<Object> addCabCategory(@Valid @RequestBody CabCategoryDto cabCategoryDto) {
-        return HelloCabsResponseHandler.generateResponse(cabCategoryService
-                .createCabCategory(cabCategoryDto), HttpStatus.OK);
+    @PostMapping
+    private ResponseEntity<?> addCabCategory(@Valid @RequestBody
+            CabCategoryDto cabCategoryDto) {
+        return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.CAB_CATEGORY_CREATED,
+                HttpStatus.OK, cabCategoryService.createCabCategory(cabCategoryDto));
     }
 
     /**
@@ -68,17 +70,32 @@ public class CabCategoryController {
      *   This method is get the cab category Details if the given id exits
      * </p>
      *
-     * @param id {@link Integer}
-     *        for which the id of the cab category need to
+     * @param id {@link Integer} for which the id of the cab category need to
      *        be searched is given
-     * @return {@link ResponseEntity<Object>}
-     *         searched cab category is returned
+     * @return {@link ResponseEntity<CabCategoryDto>} searched cab category is returned
      *
      */
-    @GetMapping("/search/{id}")
-    private ResponseEntity<Object> searchCabCategoryById(@PathVariable Integer id) {
-        return HelloCabsResponseHandler.generateResponse(HelloCabsConstants
-                .CAB_CATEGORY_FOUND, HttpStatus.FOUND, cabCategoryService.getCabCategoryById(id));
+    @GetMapping("{id}")
+    private ResponseEntity<?> searchCabCategoryById(@PathVariable Integer id) {
+        return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.CAB_CATEGORY_FOUND,
+                HttpStatus.FOUND, cabCategoryService.getCabCategoryById(id));
+    }
+
+    /**
+     * <p>
+     *   This method is to update specific cab category Details if the given id exits
+     * </p>
+     *
+     * @param cabCategoryDto {@link CabCategoryDto} for which the cab category field
+     *                                            to be updated is given
+     * @param id {@link Integer} id to be searched and updated
+     * @return {@link ResponseEntity<CabCategoryDto>} updated cab category is returned
+     */
+    @PatchMapping("{id}")
+    private ResponseEntity<?> updateCabCategory(@Valid @RequestBody CabCategoryDto cabCategoryDto,
+                                             @PathVariable Integer id) {
+        return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.CAB_CATEGORY_UPDATED,
+                HttpStatus.OK, cabCategoryService.updateCabCategoryById(cabCategoryDto, id));
     }
 
     /**
@@ -86,13 +103,12 @@ public class CabCategoryController {
      *   This method is to update cab category Details if the given id exits
      * </p>
      *
-     * @param cabCategoryDto {@link CabCategoryDto}
-     *        for which the cab category to be updated is given
-     * @return {@link ResponseEntity<Object>}
-     *         updated cab category is returned
+     * @param cabCategoryDto {@link CabCategoryDto} for which the cab category field
+     *                                            to be updated is given
+     * @return {@link ResponseEntity<CabCategoryDto>} updated cab category is returned
      */
-    @PutMapping("/update")
-    private ResponseEntity<Object> updateCabCategory( @Valid @RequestBody CabCategoryDto cabCategoryDto) {
+    @PutMapping
+    private ResponseEntity<?> updateCabCategory(@Valid @RequestBody CabCategoryDto cabCategoryDto) {
         return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.CAB_CATEGORY_UPDATED,
                 HttpStatus.OK, cabCategoryService.updateCabCategory(cabCategoryDto));
     }
@@ -104,12 +120,13 @@ public class CabCategoryController {
      *
      * @param id {@link Integer} for which the id of the cab category need to
      *        be deleted is given
-     * @return {@link ResponseEntity<Object>} gets the message whether the
+     * @return {@link ResponseEntity<String>} gets the message whether the
      *         cab category is deleted or not
      */
-    @DeleteMapping("/delete/{id}")
-    private ResponseEntity<Object> deleteCabCategoryById(@PathVariable Integer id) {
-            return HelloCabsResponseHandler.generateResponse(cabCategoryService.deleteCabCategoryById(id), HttpStatus.OK);
+    @DeleteMapping("{id}")
+    private ResponseEntity<?> deleteCabCategoryById(@PathVariable Integer id) {
+            return HelloCabsResponseHandler.generateResponse(cabCategoryService
+                    .deleteCabCategoryById(id), HttpStatus.OK);
     }
 
     /**
@@ -117,10 +134,10 @@ public class CabCategoryController {
      *   This method is to display all cab category Details.
      * </p>
      *
-     * @return {@link ResponseEntity<Object>} retrieves all the cab categories
+     * @return {@link ResponseEntity<List>} retrieves all the cab categories
      */
-    @GetMapping("/cabcategories")
-    private ResponseEntity<Object> getAllCabCategories() {
+    @GetMapping()
+    private ResponseEntity<?> getAllCabCategories() {
         return HelloCabsResponseHandler.generateResponse(HelloCabsConstants
                 .CAB_CATEGORY_FOUND, HttpStatus.OK, cabCategoryService.retrieveAllCabCategories());
     }

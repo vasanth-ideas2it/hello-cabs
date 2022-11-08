@@ -11,12 +11,14 @@ import com.hellocabs.dto.LocationDto;
 import com.hellocabs.response.HelloCabsResponseHandler;
 import com.hellocabs.service.LocationService;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -49,15 +51,13 @@ public class LocationController {
      *   This method is to add location Details.
      * </p>
      *
-     * @param locationDto {@link LocationDto}
-     *        for which the location to be added is given
-     * @return {@link ResponseEntity<Object>} returned
-     *         created location id
+     * @param locationDto {@link LocationDto} for which the location to be added is given
+     * @return {@link ResponseEntity<LocationDto>} returned created location
      */
-    @PostMapping("/create")
-    private ResponseEntity<Object> addLocation(@Valid @RequestBody LocationDto locationDto) {
-        return HelloCabsResponseHandler.generateResponse(locationService.createLocation(locationDto),
-                HttpStatus.OK);
+    @PostMapping
+    private ResponseEntity<?> addLocation(@Valid @RequestBody LocationDto locationDto) {
+        return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.LOCATION_CREATED,
+                HttpStatus.CREATED, locationService.createLocation(locationDto));
     }
 
     /**
@@ -65,15 +65,13 @@ public class LocationController {
      *   This method is to search location Details.
      * </p>
      *
-     * @param id {@link Integer}
-     *        for which the id of the location need to
+     * @param id {@link Integer} for which the id of the location need to
      *        be searched is given
-     * @return {@link ResponseEntity<Object>}
-     *         searched location is returned
+     * @return {@link ResponseEntity<LocationDto>} searched location is returned
      *
      */
-    @GetMapping("/search/{id}")
-    private ResponseEntity<Object> searchLocationById(@PathVariable Integer id) {
+    @GetMapping("{id}")
+    private ResponseEntity<?> searchLocationById(@PathVariable Integer id) {
         return HelloCabsResponseHandler.generateResponse(HelloCabsConstants
                 .LOCATION_FOUND, HttpStatus.FOUND, locationService.getLocationById(id));
     }
@@ -83,16 +81,31 @@ public class LocationController {
      *   This method is to update location Details.
      * </p>
      *
-     * @param locationDto {@link LocationDto}
-     *        for which the location to be updated is given
-     * @return {@link ResponseEntity<Object>}
-     *         updated location is returned
+     * @param locationDto {@link LocationDto} for which the location to be updated is given
+     * @return {@link ResponseEntity<LocationDto>} updated location is returned
      *
      */
-    @PutMapping("/update")
-    private ResponseEntity<Object> updateLocation( @Valid @RequestBody LocationDto locationDto) {
+    @PutMapping
+    private ResponseEntity<?> updateLocation( @Valid @RequestBody LocationDto locationDto) {
         return HelloCabsResponseHandler.generateResponse(HelloCabsConstants
                     .LOCATION_UPDATED, HttpStatus.OK, locationService.updateLocation(locationDto));
+    }
+
+    /**
+     * <p>
+     *   This method is to update location Details.
+     * </p>
+     *
+     * @param locationDto {@link LocationDto} for which the location to be updated is given
+     * @param id {@link Integer} id to be updated
+     * @return {@link ResponseEntity<LocationDto>} updated location is returned
+     *
+     */
+    @PatchMapping
+    private ResponseEntity<?> updateLocationById( @Valid @RequestBody
+            LocationDto locationDto, @PathVariable Integer id) {
+        return HelloCabsResponseHandler.generateResponse(HelloCabsConstants
+                .LOCATION_UPDATED, HttpStatus.OK, locationService.updateLocation(locationDto));
     }
 
     /**
@@ -100,17 +113,16 @@ public class LocationController {
      * This method is to delete location Details.
      * </p>
      *
-     * @param id {@link Integer}
-     *        for which the id of the location need to
+     * @param id {@link Integer} for which the id of the location need to
      *        be deleted is given
-     * @return {@link ResponseEntity<Object>}
-     *         gets the message whether the location is
+     * @return {@link ResponseEntity<String>} gets the message whether the location is
      *         deleted or not
      *
      */
-    @DeleteMapping("/delete/{id}")
-    private ResponseEntity<Object> deleteLocationById(@PathVariable Integer id) {
-        return HelloCabsResponseHandler.generateResponse(locationService.deleteLocationById(id), HttpStatus.OK);
+    @DeleteMapping("{id}")
+    private ResponseEntity<?> deleteLocationById(@PathVariable Integer id) {
+        return HelloCabsResponseHandler.generateResponse(locationService.deleteLocationById(id),
+                HttpStatus.OK);
     }
 
     /**
@@ -118,14 +130,12 @@ public class LocationController {
      * This method is to display all location Details.
      * </p>
      *
-     * @return {@link ResponseEntity<Object>}
-     *         retrieves all the locations
+     * @return {@link ResponseEntity<List>} retrieves all the locations
      *
      */
-    @GetMapping("/locations")
-    private ResponseEntity<Object> getAllLocations() {
-        return HelloCabsResponseHandler.generateResponse(HelloCabsConstants
-                .LOCATION_FOUND, HttpStatus.OK, locationService
-                .retrieveAllLocations());
+    @GetMapping
+    private ResponseEntity<?> getAllLocations() {
+        return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.LOCATION_FOUND,
+                HttpStatus.OK, locationService.retrieveAllLocations());
     }
 }

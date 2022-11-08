@@ -6,10 +6,8 @@
 package com.hellocabs.service;
 
 import com.hellocabs.dto.CabDto;
-import com.hellocabs.dto.CustomerDto;
 import com.hellocabs.model.Cab;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 /**
@@ -38,7 +36,7 @@ public interface CabService {
      * @return {@link String}returns cab details object
      *
      */
-    String createCab(CabDto cabDto);
+    CabDto createCab(CabDto cabDto);
 
     /**
      * <p>
@@ -57,7 +55,7 @@ public interface CabService {
 
     /**
      * <p>
-     *   This method is to update cab Details by getting and converting the cab
+     *   This method is to update specific cab details by getting and converting the cab
      *   dto to cab entity and saves into the cab repository and returns
      *   status message only if the given id is already exits otherwise
      *   it throws exception.
@@ -65,10 +63,24 @@ public interface CabService {
      *
      * @param id {@link Integer} for which the id of the cab to be updated
      * @param cabDto {@link CabDto} for which the cab to be updated is given
-     * @return {@link String} status message of updated customer is returned
+     * @return {@link CabDto} updated cabDto
      *
      */
-    String updateCabDetailsById(Integer id, CabDto cabDto);
+    CabDto updateCabById(Integer id, CabDto cabDto);
+
+    /**
+     * <p>
+     *   This method is to update cab details by getting and converting the cab
+     *   dto to cab entity and saves into the cab repository and returns
+     *   status message only if the given id is already exits otherwise
+     *   it throws exception.
+     * </p>
+     *
+     * @param cabDto {@link CabDto} for which the cab to be updated is given
+     * @return {@link CabDto} updated cabDto
+     *
+     */
+    CabDto updateCab(CabDto cabDto);
 
     /**
      * <p>

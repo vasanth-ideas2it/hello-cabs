@@ -9,6 +9,7 @@ import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.LoginDto;
 import com.hellocabs.exception.HelloCabsException;
 
+import com.hellocabs.response.HelloCabsResponseHandler;
 import lombok.RequiredArgsConstructor;
 
 import org.apache.log4j.Logger;
@@ -53,11 +54,11 @@ public class AuthenticationController {
      * </p>
      *
      * @param loginDto {@link LoginDto}loginDto contains mobileNumber and password.
-     * @return {@link String} returns login status.
+     * @return {@link ResponseEntity} returns login status.
      *
      */
     @PostMapping("/login")
-    private ResponseEntity<String> authenticateUser(@RequestBody LoginDto loginDto) {
+    private ResponseEntity<?> authenticateUser(@RequestBody LoginDto loginDto) {
         Authentication authentication;
 
         try {
@@ -73,6 +74,7 @@ public class AuthenticationController {
                 .loadUserByUsername(Long.toString(loginDto.getMobileNumber()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         logger.info(HelloCabsConstants.LOGIN_SUCCESSFUL);
-        return new ResponseEntity<>(HelloCabsConstants.LOGIN_SUCCESSFUL, HttpStatus.OK);
+        return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.LOGIN_SUCCESSFUL,
+                HttpStatus.OK);
     }
 }

@@ -206,10 +206,10 @@ public class RideServiceImpl implements RideService {
      * </p>
      *
      * @param bookDto {@link BookDto} ride details of a customer
-     * @return {@link String} booking id
+     * @return {@link RideDto} booking id
      *
      */
-    public String bookRide(BookDto bookDto) {
+    public RideDto bookRide(BookDto bookDto) {
         RideDto rideDto = new RideDto();
         rideDto.setPassengerMobileNumber(bookDto.getPassengerMobileNumber());
         rideDto.setPickupLocation(new LocationDto(bookDto.getPickupLocation()));
@@ -217,8 +217,7 @@ public class RideServiceImpl implements RideService {
         rideDto.setCustomerDto(new CustomerDto((bookDto.getCustomerId())));
         rideDto.setRideStatus(HelloCabsConstants.RIDE_BOOKED);
         rideDto.setRideBookedTime(LocalDateTime.now());
-        return HelloCabsConstants.RIDE_CREATED + createRide(rideDto).getId()
-                + HelloCabsConstants.WAITING_STATUS;
+        return RideMapper.convertRideIntoRideDto(createRide(rideDto));
     }
 
     /**
@@ -346,10 +345,10 @@ public class RideServiceImpl implements RideService {
      * @param rideId {@link Integer} rating for the ride
      * @param ratingDto {@link RatingDto} get the feedback and
      *      rating for the ride when finished
-     * @return {@link String} ride's feedback
+     * @return {@link RideDto} ride's feedback
      *
      */
-    public String submitFeedBack(Integer rideId, RatingDto ratingDto) {
+    public RideDto submitFeedBack(Integer rideId, RatingDto ratingDto) {
         Ride ride = fetchRideById(rideId);
         Cab cab = ride.getCab();
 
@@ -359,12 +358,10 @@ public class RideServiceImpl implements RideService {
             ride.setFeedback(ratingDto.getFeedback());
             cabService.updateCabDetailsById(cab.getId(), (
                     HelloCabsUtil.calculateAverageRating(cab, ratingDto)));
-            rideRepository.save(ride);
-            return HelloCabsConstants.FEEDBACK_ADDED;
+            return RideMapper.convertRideIntoRideDto(rideRepository.save(ride));
         }
         /*throws exception stated that customer is not dropped yet*/
-        throw new HelloCabsException(HelloCabsConstants
-                .CUSTOMER_NOT_DROPPED);
+        throw new HelloCabsException(HelloCabsConstants.CUSTOMER_NOT_DROPPED);
     }
 
     /**
@@ -377,7 +374,7 @@ public class RideServiceImpl implements RideService {
      * </p>
      *
      * @param rideId {@link Integer}
-     * @return ride {@link Ride} updated rideDto
+     * @return ride {@link String} updated rideDto
      *
      */
     public String waitingToConfirmRide(Integer rideId) {
