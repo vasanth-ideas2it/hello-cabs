@@ -77,4 +77,20 @@ public interface CabRepository  extends JpaRepository<Cab, Integer> {
      * @return {@link List<Cab>} returns list of cab that are available
      */
     List<Cab> findAllByIsActive(boolean flag);
+
+    /**
+     * <p>
+     *   An abstract method used to check if the given id with active
+     *   exists or not, if exists returns true otherwise false.
+     *   This method used to avoid if an user who entered id
+     *   that are already exists or not
+     * </p>
+     *
+     * @param id {@link Integer} to check respective id exist or not
+     * @param flag {@link Boolean} to check if it is active or not
+     * @return {@link Boolean} returns true if id is Active exists
+     *      else returns false
+     *
+     */
+    boolean existsByIdAndIsActive(Integer id, boolean flag);
 }

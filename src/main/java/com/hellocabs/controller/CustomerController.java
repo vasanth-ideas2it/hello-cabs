@@ -8,7 +8,6 @@ import com.hellocabs.configuration.LoggerConfiguration;
 import com.hellocabs.constants.HelloCabsConstants;
 import com.hellocabs.dto.CustomerDto;
 import com.hellocabs.exception.HelloCabsException;
-import com.hellocabs.model.Customer;
 import com.hellocabs.response.HelloCabsResponseHandler;
 import com.hellocabs.service.CustomerService;
 
@@ -57,15 +56,9 @@ public class CustomerController {
      *
      */
     @PostMapping
-    private ResponseEntity<?> createCustomerDetails(@Valid @RequestBody CustomerDto customerDto) {
-
-        if (null != customerDto) {
-            CustomerDto customerDto1 = customerService.createCustomer(customerDto);
-            logger.info(HelloCabsConstants.CUSTOMER_REGISTERED + customerDto1.getCustomerId());
-            return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.
-                    CUSTOMER_REGISTERED + customerDto1.getCustomerId() ,HttpStatus.CREATED);
-        }
-        throw new HelloCabsException(HelloCabsConstants.CUSTOMER_ALREADY_EXIST);
+    private ResponseEntity<?> createCustomer(@Valid @RequestBody CustomerDto customerDto) {
+        return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.CUSTOMER_REGISTERED,
+                            HttpStatus.CREATED, customerService.createCustomer(customerDto));
     }
 
     /**
@@ -80,14 +73,8 @@ public class CustomerController {
      */
     @GetMapping("{customerId}")
     private ResponseEntity<?> viewCustomerById(@PathVariable Integer customerId) {
-        CustomerDto customerDto = customerService.viewCustomerById(customerId);
-        if (null != customerDto) {
-            logger.info(HelloCabsConstants.CUSTOMER_FOUND);
-            return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.CUSTOMER_FOUND,
-                    HttpStatus.OK, customerDto);
-        }
-        logger.error(HelloCabsConstants.CUSTOMER_NOT_FOUND);
-        throw new HelloCabsException(HelloCabsConstants.CUSTOMER_NOT_FOUND);
+        return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.CUSTOMER_FOUND,
+                    HttpStatus.OK, customerService.viewCustomerById(customerId));
     }
 
     /**
@@ -101,15 +88,8 @@ public class CustomerController {
      */
     @PutMapping
     private ResponseEntity<?> updateCustomer(@Valid @RequestBody CustomerDto customerDto) {
-
-        if (null != customerDto.getCustomerId()) {
-            customerService.updateCustomer(customerDto);
-            logger.info(HelloCabsConstants.CUSTOMER_UPDATED);
-            return HelloCabsResponseHandler
-                    .generateResponse(HelloCabsConstants.CUSTOMER_UPDATED,HttpStatus.OK);
-        }
-        logger.error(HelloCabsConstants.CUSTOMER_NOT_UPDATED);
-        throw new HelloCabsException(HelloCabsConstants.CUSTOMER_NOT_UPDATED);
+        return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.CUSTOMER_UPDATED,
+                HttpStatus.OK, customerService.updateCustomer(customerDto));
     }
 
     /**
@@ -125,14 +105,8 @@ public class CustomerController {
     @PatchMapping("{id}")
     private ResponseEntity<?> updateCustomerById(@Valid @RequestBody CustomerDto customerDto,
             @PathVariable Integer id) {
-
-        if (null != customerDto.getCustomerId()) {
-            logger.info(HelloCabsConstants.CUSTOMER_UPDATED);
             return HelloCabsResponseHandler.generateResponse(HelloCabsConstants.CUSTOMER_UPDATED,
                     HttpStatus.OK, customerService.updateCustomer(customerDto));
-        }
-        logger.error(HelloCabsConstants.CUSTOMER_NOT_UPDATED);
-        throw new HelloCabsException(HelloCabsConstants.CUSTOMER_NOT_UPDATED);
     }
 
     /**

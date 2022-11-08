@@ -72,7 +72,7 @@ public interface CustomerService {
      * @return {@link String} returns the message if the customer is deleted
      *
      */
-    boolean deleteCustomerById(Integer customerId);
+    String deleteCustomerById(Integer customerId);
 
     /**
      * <p>

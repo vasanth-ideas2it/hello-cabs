@@ -35,8 +35,11 @@ public class Customer {
     @Column(name = "id")
     private Integer customerId;
 
-    @Column(name = "name",length = 30)
-    private String customerName;
+    @Column(name = "first_name",length = 30)
+    private String firstName;
+
+    @Column(name = "last_name",length = 30)
+    private String lastName;
 
     @Column(name = "mobile_number",unique = true)
     private Long customerMobileNumber;

@@ -32,10 +32,10 @@ public interface LocationService {
      * </p>
      *
      * @param locationDto {@link LocationDto} for which the location to be added is given
-     * @return {@link String} inserted location id is returned with message
+     * @return {@link LocationDto} inserted location id is returned with message
      *
      */
-    String createLocation(LocationDto locationDto);
+    LocationDto createLocation(LocationDto locationDto);
 
     /**
      * <p>

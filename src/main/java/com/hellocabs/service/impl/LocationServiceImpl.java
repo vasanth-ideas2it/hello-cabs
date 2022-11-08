@@ -49,17 +49,16 @@ public class LocationServiceImpl implements LocationService {
      *
      * @param locationDto {@link LocationDto} for which the location
      *                                      to be added is given
-     * @return {@link String} created location id
+     * @return {@link LocationDto} created location id
      *
      */
-    public String createLocation(LocationDto locationDto) {
+    public LocationDto createLocation(LocationDto locationDto) {
         Location location = LocationMapper.locationDtoToLocation(locationDto);
 
         /* checks whether the location name already exits */
         if (!locationRepository.existsByLocationName(location.getLocationName())) {
-            Integer id = LocationMapper.locationToLocationDto(locationRepository.save(location)).getId();
-            logger.info(HelloCabsConstants.LOCATION_CREATED + id);
-            return HelloCabsConstants.LOCATION_CREATED + id;
+                         logger.info(HelloCabsConstants.LOCATION_CREATED );
+            return LocationMapper.locationToLocationDto(locationRepository.save(location));
         }
         logger.error(HelloCabsConstants.LOCATION_ALREADY_EXISTS);
         throw new HelloCabsException(HelloCabsConstants.LOCATION_ALREADY_EXISTS);

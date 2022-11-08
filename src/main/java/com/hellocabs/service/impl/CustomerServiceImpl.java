@@ -13,7 +13,6 @@ import com.hellocabs.repository.CustomerRepository;
 import com.hellocabs.service.CustomerService;
 import com.hellocabs.validation.HelloCabsValidation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -45,10 +44,9 @@ public class CustomerServiceImpl implements CustomerService {
      * </p>
      *
      * @param customerDto {@link CustomerDto} contains customer details.
-     * @return  {@link Customer}returns createdCustomer.
+     * @return  {@link CustomerDto}returns createdCustomer.
      *
      */
-    @Override
     public CustomerDto createCustomer(CustomerDto customerDto) {
 
         if (HelloCabsValidation.isValidMobileNumber(customerDto.getCustomerMobileNumber())
@@ -107,19 +105,19 @@ public class CustomerServiceImpl implements CustomerService {
      * </p>
      *
      * @param customerId {@link Integer} id to be deleted.
-     * @return {@link ResponseEntity<String>}returns true or false.
+     * @return {@link String}returns true or false.
      *
      */
     @Override
-    public boolean deleteCustomerById(Integer customerId) {
+    public String deleteCustomerById(Integer customerId) {
         Customer customer = customerRepository.findById(customerId).orElse(null);
 
         if(null != customer) {
             customer.setIsDeleted(true);
             customerRepository.save(customer);
-            return true;
+            return HelloCabsConstants.CUSTOMER_DELETED;
         }
-        return false;
+        throw new HelloCabsException(HelloCabsConstants.CUSTOMER_NOT_DELETED);
     }
 
     /**

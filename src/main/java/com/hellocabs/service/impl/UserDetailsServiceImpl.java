@@ -58,10 +58,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Customer customer = customerService.findByCustomerMobileNumber(Long.parseLong(mobileNumber));
         Cab cab = cabService.findCabByMobileNumber(Long.parseLong(mobileNumber));
 
-        if (customer != null) {
+        if (null != customer ) {
             String userName = Long.toString(customer.getCustomerMobileNumber());
             return new User(userName, customer.getPassword(), new ArrayList<>());
-        } else if (cab != null) {
+        } else if (null != cab) {
             String userName = Long.toString(cab.getMobileNumber());
             return new User(userName, cab.getPassword(), new ArrayList<>());
         }

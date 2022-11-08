@@ -34,7 +34,7 @@ public class HelloCabsConstants {
     public static final String PEAK_HOUR_REGEX = "0?[8-9]|1[089]|2[0-1]";
     public static final String RIDE_STATUS_REGEX = "Booked|Accepted|Picked|Dropped|Cancelled";
     public static final String LOCATION_NAME_REGEX = "([a-zA-Z0-9.\\s]{3,})";
-    public static final String NAME = "([a-zA-Z.\\s]{3,})";
+    public static final String NAME = "([a-zA-Z.\\s]{1,})";
     public static final String CAB_TYPE_REGEX = "([a-zA-Z\\s]{3,})";
     public static final String CAB_NUMBER = ("([A-Z]{2}[ -][0-9]{1,2}[ -][A-Z]{1,2}[ -][0-9]{4})");
     public static final String VALID_GENDER = ("male|female|m|f|others");

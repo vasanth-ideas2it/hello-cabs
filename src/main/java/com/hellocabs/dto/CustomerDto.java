@@ -41,7 +41,11 @@ public class CustomerDto {
 
     @NotBlank(message = HelloCabsConstants.CUSTOMER_NAME_NOT_BLANK)
     @Pattern(regexp = HelloCabsConstants.NAME)
-    private String customerName;
+    private String firstName;
+
+    @NotBlank(message = HelloCabsConstants.CUSTOMER_NAME_NOT_BLANK)
+    @Pattern(regexp = HelloCabsConstants.NAME)
+    private String lastName;
 
     @NotNull(message = HelloCabsConstants.MOBILE_NUMBER_NOT_BLANK)
     @Range(min = 10, message = HelloCabsConstants.VALID_PHONE_NUMBER)

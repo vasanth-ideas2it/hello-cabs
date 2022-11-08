@@ -40,8 +40,8 @@ public class HelloCabsResponseHandler {
      * @return {@link ResponseEntity<Object>} response object
      *
      */
-    public static ResponseEntity<?> generateResponse(
-            String message, HttpStatus httpStatus, Object object) {
+    public static ResponseEntity<?> generateResponse(String message, HttpStatus httpStatus,
+                                                     Object object) {
         Map<String, Object> map = new HashMap<>();
         map.put("time", LocalDateTime.now());
         map.put("message", message);
@@ -61,8 +61,7 @@ public class HelloCabsResponseHandler {
      * @return {@link ResponseEntity<Object>} response object
      *
      */
-    public static ResponseEntity<?> generateResponse(
-            String message, HttpStatus httpStatus) {
+    public static ResponseEntity<?> generateResponse(String message, HttpStatus httpStatus) {
         Map<String, Object> map = new HashMap<>();
         map.put("time", LocalDateTime.now());
         map.put("message", message);
@@ -83,8 +82,7 @@ public class HelloCabsResponseHandler {
      * @return {@link ResponseEntity<Object>} response object
      *
      */
-    public static ResponseEntity<?> generateResponse(
-            String message, HttpStatus httpStatus,
+    public static ResponseEntity<?> generateResponse(String message, HttpStatus httpStatus,
             Collection<Object> collections) {
         Map<String, Object> map = new HashMap<>();
         map.put("time", LocalDateTime.now());

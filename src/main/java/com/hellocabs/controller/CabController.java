@@ -52,7 +52,7 @@ public class CabController {
      *   a cabDto object and pass to cabService and return status to user
      * </p>
      *
-     * @param cabDto {@link RequestBody CabDto}valid object with required details
+     * @param cabDto {@link CabDto}valid object with required details
      * @return {@link ResponseEntity<CabDto>} the status of the given details if valid
      *
      */

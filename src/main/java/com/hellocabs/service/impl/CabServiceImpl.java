@@ -82,7 +82,7 @@ public class CabServiceImpl implements CabService {
      */
     public Cab updateCabDetailsById(Integer id, Cab cab) {
 
-        if (cabRepository.existsById(id)) {
+        if (cabRepository.existsByIdAndIsActive(id, true)) {
             return cabRepository.save(cab);
         }
         logger.info(HelloCabsConstants.CAB_NOT_UPDATED);
@@ -104,7 +104,7 @@ public class CabServiceImpl implements CabService {
     public CabDto updateCabById(Integer id, CabDto cabDto) {
 
         if (HelloCabsValidation.isValidMobileNumber(cabDto.getMobileNumber())
-                && cabRepository.existsById(id)) {
+                && cabRepository.existsByIdAndIsActive(id, true)) {
             Cab cab = cabRepository.save(CabMapper.convertCabDtoToCab(cabDto));
             logger.info(HelloCabsConstants.CAB_UPDATED + cab.getId());
             return CabMapper.convertCabToCabDto(cab);
@@ -212,8 +212,8 @@ public class CabServiceImpl implements CabService {
      */
     @Override
     public List<CabDto> showAllCabDetails() {
-         return cabRepository.findAllByIsActive(true).stream()
-                 .map(CabMapper :: convertCabToCabDto).collect(Collectors.toList());
+        return cabRepository.findAllByIsActive(true).stream()
+                .map(CabMapper :: convertCabToCabDto).collect(Collectors.toList());
     }
 
     /**
