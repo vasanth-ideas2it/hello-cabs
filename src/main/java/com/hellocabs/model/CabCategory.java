@@ -37,7 +37,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "cab_category")
-public class CabCategory {
+public class CabCategory extends Auditable<String> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

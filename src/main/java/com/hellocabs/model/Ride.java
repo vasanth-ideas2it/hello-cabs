@@ -35,7 +35,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-public class Ride {
+public class Ride extends Auditable<String> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

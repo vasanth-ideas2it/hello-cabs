@@ -28,7 +28,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "customer")
-public class Customer {
+public class Customer extends Auditable<String> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

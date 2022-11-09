@@ -36,7 +36,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Table(name = "cab")
-public class Cab {
+public class Cab extends Auditable<String> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

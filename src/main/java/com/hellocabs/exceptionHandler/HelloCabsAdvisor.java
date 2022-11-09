@@ -51,7 +51,6 @@ public class HelloCabsAdvisor {
         Map<String,Object> errors = new HashMap<>();
         methodArgNotValidException.getBindingResult().getFieldErrors().forEach(error -> {
             errors.put(HelloCabsConstants.TIME_STAMP, LocalDateTime.now());
-            errors.put(HelloCabsConstants.MESSAGE, methodArgNotValidException.getMessage());
             errors.put(error.getField(), error.getDefaultMessage());
         });
         return errors;

@@ -32,7 +32,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Table(name = "location")
-public class Location {
+public class Location extends Auditable<String> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

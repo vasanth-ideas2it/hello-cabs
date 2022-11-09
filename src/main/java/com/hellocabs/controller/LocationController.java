@@ -41,7 +41,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/location")
+@RequestMapping("/locations")
 public class LocationController {
 
     private final LocationService locationService;
